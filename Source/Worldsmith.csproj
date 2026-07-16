@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>Worldsmith</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<Nullable>disable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Deterministic>true</Deterministic>
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+
+		<!-- Compiled DLL drops straight into the mod's Assemblies/ folder. -->
+		<OutputPath>..\Assemblies\</OutputPath>
+		<!-- Don't drag RimWorld/Unity/Harmony DLLs into the mod folder. -->
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<!--
+		Paths to RimWorld's managed DLLs and Harmony. Defaults point at this
+		machine's install; override on the command line with:
+			dotnet build -p:RimWorldManagedDir=... -p:HarmonyDir=...
+	-->
+	<PropertyGroup>
+		<RimWorldManagedDir Condition="'$(RimWorldManagedDir)' == ''">S:\SteamLibrary\steamapps\common\RimWorld\RimWorldWin64_Data\Managed</RimWorldManagedDir>
+		<HarmonyDir Condition="'$(HarmonyDir)' == ''">S:\SteamLibrary\steamapps\workshop\content\294100\2009463077\Current\Assemblies</HarmonyDir>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- net48 reference assemblies without needing Visual Studio installed. -->
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>$(RimWorldManagedDir)\Assembly-CSharp.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>$(RimWorldManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.IMGUIModule">
+			<HintPath>$(RimWorldManagedDir)\UnityEngine.IMGUIModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.TextRenderingModule">
+			<HintPath>$(RimWorldManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>$(HarmonyDir)\0Harmony.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+</Project>
