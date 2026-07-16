@@ -31,10 +31,13 @@ namespace Worldsmith
 			listing.Begin(inRect);
 			listing.Label("Worldsmith");
 			listing.Gap(6f);
-			listing.Label("World-generation options will appear here as features are added.");
+			listing.CheckboxLabeled(
+				"Enable climate & biome overhaul",
+				ref Settings.enableClimateOverhaul,
+				"When on, Worldsmith recomputes each tile's temperature, rainfall, and biome from its own climate model during world generation. When off, worlds generate as vanilla.");
+			listing.Gap(6f);
+			listing.Label("More world-generation options will appear here as features are added.");
 			listing.End();
-
-			base.DoSettingsWindowContents(inRect);
 		}
 	}
 }
