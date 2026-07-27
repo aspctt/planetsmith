@@ -22,17 +22,22 @@ namespace Worldsmith.Gen.Passes
 		private const float PoleHalfSwing = 22f;
 		// Extra swing in deep interiors relative to the coast.
 		private const float ContinentalityBoost = 0.6f;
+		// Residual swing on a world with no tilt, from its elliptical orbit alone.
+		private const float MinTiltFactor = 0.12f;
 
 		public void Run(GenContext ctx)
 		{
 			PlanetLayer layer = ctx.Layer;
 			var tiles = layer.Tiles;
 			int count = tiles.Count;
+			// Seasons exist because the planet is tilted, so the whole swing scales with
+			// it: an upright world has near-constant temperatures year round.
+			float tiltScale = Mathf.Max(MinTiltFactor, ctx.TiltFactor);
 			for (int i = 0; i < count; i++)
 			{
 				float latFrac = Mathf.Clamp01(Mathf.Abs(layer.LongLatOf(i).y) / 90f);
 				float baseSwing = Mathf.Lerp(EquatorHalfSwing, PoleHalfSwing, latFrac);
-				float swing = baseSwing * (1f + ContinentalityBoost * ctx.Continentality[i]);
+				float swing = baseSwing * tiltScale * (1f + ContinentalityBoost * ctx.Continentality[i]);
 
 				float mean = tiles[i].temperature;
 				ctx.WinterMinTemp[i] = mean - swing;

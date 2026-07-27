@@ -18,6 +18,7 @@ namespace Worldsmith.Gen
 	{
 		private static readonly List<IGenPass> Passes = new List<IGenPass>
 		{
+			new SeaLevelPass(),
 			new ClimatePass(),
 			new OrographyPass(),
 			new MoistureAdvectionPass(),

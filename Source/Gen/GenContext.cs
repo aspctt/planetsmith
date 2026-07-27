@@ -40,6 +40,12 @@ namespace Worldsmith.Gen
 		public readonly ModuleBase TemperatureNoise;
 		public readonly ModuleBase RainfallNoise;
 
+		/// <summary>Planet's axial tilt in degrees.</summary>
+		public readonly float AxialTilt;
+
+		/// <summary>Axial tilt relative to Earth's 23.4 degrees. 1 = Earth-like, 0 = no seasons.</summary>
+		public readonly float TiltFactor;
+
 		public GenContext(PlanetLayer layer)
 		{
 			Layer = layer;
@@ -59,9 +65,15 @@ namespace Worldsmith.Gen
 
 			// Both settings are 7-step enums (index 3 == Normal). Anchor the model to
 			// an Earth-like planet at Normal and shift the whole globe per step.
+			AxialTilt = Mathf.Clamp(WorldsmithMod.Settings?.axialTilt ?? 23.4f, 0f, 90f);
+			TiltFactor = AxialTilt / 23.4f;
+
 			int tempIdx = Mathf.Clamp((int)Find.World.info.overallTemperature, 0, 6);
 			EquatorMeanTemp = 30f + (tempIdx - 3) * 7f;
-			PoleMeanTemp = -45f + (tempIdx - 3) * 10f;
+			// A steeper tilt swings the poles through long summers as well as long
+			// nights, so over a whole year they collect more sunlight and the
+			// equator-to-pole gradient flattens. No tilt leaves them permanently dark.
+			PoleMeanTemp = -45f + (tempIdx - 3) * 10f + (AxialTilt - 23.4f) * 0.6f;
 
 			int rainIdx = Mathf.Clamp((int)Find.World.info.overallRainfall, 0, 6);
 			RainfallMultiplier = (rainIdx + 1) / 4f;
