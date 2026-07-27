@@ -25,6 +25,10 @@ namespace Worldsmith.Gen.Passes
 		private const float SubtropicalDryLatitude = 25f;
 		private const float MidLatitudeWetLatitude = 50f;
 
+		// Strength of the coherent noise that dapples the otherwise-smooth bands.
+		private const float TemperatureNoiseAmplitude = 4f; // deg C
+		private const float RainfallNoiseAmplitude = 0.35f; // fraction of local rainfall
+
 		public void Run(GenContext ctx)
 		{
 			PlanetLayer layer = ctx.Layer;
@@ -33,8 +37,13 @@ namespace Worldsmith.Gen.Passes
 			{
 				Tile tile = tiles[i];
 				float lat = layer.LongLatOf(i).y;
-				tile.temperature = Temperature(ctx, lat, tile.elevation);
-				tile.rainfall = Mathf.Max(0f, Rainfall(ctx, lat, tile.elevation));
+				Vector3 center = layer.GetTileCenter(i);
+
+				float tempOffset = ctx.TemperatureNoise.GetValue(center) * TemperatureNoiseAmplitude;
+				float rainFactor = 1f + Mathf.Clamp(ctx.RainfallNoise.GetValue(center), -1f, 1f) * RainfallNoiseAmplitude;
+
+				tile.temperature = Temperature(ctx, lat, tile.elevation) + tempOffset;
+				tile.rainfall = Mathf.Max(0f, Rainfall(ctx, lat, tile.elevation) * rainFactor);
 			}
 		}
 

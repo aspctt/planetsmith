@@ -34,5 +34,17 @@ namespace Worldsmith.Overlay
 		{
 			WorldsmithOverlay.SetMode(OverlayMode.Swampiness);
 		}
+
+		[DebugAction("Worldsmith", "Climate overlay: continentality", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayContinentality()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.Continentality);
+		}
+
+		[DebugAction("Worldsmith", "Climate overlay: winter temperature", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayWinterTemperature()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.WinterTemperature);
+		}
 	}
 }

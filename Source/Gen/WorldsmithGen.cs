@@ -41,6 +41,9 @@ namespace Worldsmith.Gen
 					Log.Error($"[Worldsmith] Generation pass '{pass.Name}' failed: {e}");
 				}
 			}
+
+			// Keep the derived climate fields around for the debug overlays.
+			WorldsmithClimateCache.Store(ctx);
 		}
 	}
 }

@@ -3,6 +3,7 @@
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Verse.Noise;
 
 namespace Worldsmith.Gen
 {
@@ -35,6 +36,10 @@ namespace Worldsmith.Gen
 		/// <summary>Per-tile warmest-of-year temperature (deg C). Filled by SeasonalityPass.</summary>
 		public readonly float[] SummerMaxTemp;
 
+		/// <summary>Low-frequency coherent noise that breaks up the latitude bands. Seeded from the world.</summary>
+		public readonly ModuleBase TemperatureNoise;
+		public readonly ModuleBase RainfallNoise;
+
 		public GenContext(PlanetLayer layer)
 		{
 			Layer = layer;
@@ -60,6 +65,11 @@ namespace Worldsmith.Gen
 
 			int rainIdx = Mathf.Clamp((int)Find.World.info.overallRainfall, 0, 6);
 			RainfallMultiplier = (rainIdx + 1) / 4f;
+
+			// Continent-scale coherent noise, independent seeds so temperature and
+			// rainfall patches don't line up. Low frequency = large, gentle patches.
+			TemperatureNoise = new Perlin(0.022, 2.0, 0.5, 3, Seed, QualityMode.Medium);
+			RainfallNoise = new Perlin(0.028, 2.0, 0.5, 3, Seed ^ 0x51EED, QualityMode.Medium);
 		}
 	}
 }

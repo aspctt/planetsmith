@@ -3,6 +3,7 @@
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Worldsmith.Gen;
 
 namespace Worldsmith.Overlay
 {
@@ -12,6 +13,8 @@ namespace Worldsmith.Overlay
 		Temperature,
 		Rainfall,
 		Swampiness,
+		Continentality,
+		WinterTemperature,
 	}
 
 	/// <summary>
@@ -66,6 +69,14 @@ namespace Worldsmith.Overlay
 			new Stop(1f, new Color(0.10f, 0.35f, 0.40f)),
 		};
 
+		// Maritime -> continental, continentality 0..1.
+		private static readonly Stop[] ContinentalityStops =
+		{
+			new Stop(0f, new Color(0.20f, 0.60f, 0.75f)),
+			new Stop(0.5f, new Color(0.85f, 0.80f, 0.50f)),
+			new Stop(1f, new Color(0.70f, 0.35f, 0.20f)),
+		};
+
 		public static void SetMode(OverlayMode mode)
 		{
 			Mode = mode;
@@ -84,12 +95,14 @@ namespace Worldsmith.Overlay
 				OverlayMode.None => OverlayMode.Temperature,
 				OverlayMode.Temperature => OverlayMode.Rainfall,
 				OverlayMode.Rainfall => OverlayMode.Swampiness,
+				OverlayMode.Swampiness => OverlayMode.Continentality,
+				OverlayMode.Continentality => OverlayMode.WinterTemperature,
 				_ => OverlayMode.None,
 			};
 			SetMode(next);
 		}
 
-		public static Color32 ColorFor(Tile tile)
+		public static Color32 ColorFor(int tileIndex, Tile tile)
 		{
 			switch (Mode)
 			{
@@ -99,9 +112,22 @@ namespace Worldsmith.Overlay
 					return Evaluate(RainfallStops, tile.rainfall);
 				case OverlayMode.Swampiness:
 					return Evaluate(SwampinessStops, tile.swampiness);
+				case OverlayMode.Continentality:
+					return CachedColor(ContinentalityStops, WorldsmithClimateCache.Continentality, tileIndex);
+				case OverlayMode.WinterTemperature:
+					return CachedColor(TemperatureStops, WorldsmithClimateCache.WinterMinTemp, tileIndex);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}
+		}
+
+		private static Color32 CachedColor(Stop[] stops, float[] field, int tileIndex)
+		{
+			if (!WorldsmithClimateCache.Valid || field == null || tileIndex < 0 || tileIndex >= field.Length)
+			{
+				return new Color32(0, 0, 0, 0);
+			}
+			return Evaluate(stops, field[tileIndex]);
 		}
 
 		private static Color Evaluate(Stop[] stops, float value)

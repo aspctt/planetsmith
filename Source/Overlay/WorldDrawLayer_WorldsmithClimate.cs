@@ -50,7 +50,7 @@ namespace Worldsmith.Overlay
 
 			for (int i = 0; i < tileCount; i++)
 			{
-				Color32 color = WorldsmithOverlay.ColorFor(tiles[i]);
+				Color32 color = WorldsmithOverlay.ColorFor(i, tiles[i]);
 				LayerSubMesh subMesh = GetSubMesh(material, out _);
 				int baseVert = subMesh.verts.Count;
 				int local = 0;
