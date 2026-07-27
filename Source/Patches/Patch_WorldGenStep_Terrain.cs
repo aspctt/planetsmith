@@ -4,6 +4,7 @@ using System;
 using HarmonyLib;
 using RimWorld.Planet;
 using Verse;
+using Worldsmith.Compat;
 using Worldsmith.Gen;
 
 namespace Worldsmith.Patches
@@ -26,6 +27,11 @@ namespace Worldsmith.Patches
 			}
 			if (layer == null || !layer.IsRootSurface)
 			{
+				return;
+			}
+			if (ModCompat.AlienWorldsCustomPlanetActive())
+			{
+				Log.Message("[Worldsmith] An AlienWorlds planet type is active; deferring climate overhaul to it.");
 				return;
 			}
 			try
