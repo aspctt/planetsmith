@@ -26,11 +26,31 @@ namespace Worldsmith.Gen
 		/// <summary>Global rainfall scale from the world rainfall setting (1.0 = Normal).</summary>
 		public readonly float RainfallMultiplier;
 
+		/// <summary>Per-tile continentality (0 = maritime, 1 = deep interior). Filled by MoistureAdvectionPass.</summary>
+		public readonly float[] Continentality;
+
+		/// <summary>Per-tile coldest-of-year temperature (deg C). Filled by SeasonalityPass.</summary>
+		public readonly float[] WinterMinTemp;
+
+		/// <summary>Per-tile warmest-of-year temperature (deg C). Filled by SeasonalityPass.</summary>
+		public readonly float[] SummerMaxTemp;
+
 		public GenContext(PlanetLayer layer)
 		{
 			Layer = layer;
 			TileCount = layer.Tiles.Count;
 			Seed = Find.World.info.Seed;
+
+			Continentality = new float[TileCount];
+			WinterMinTemp = new float[TileCount];
+			SummerMaxTemp = new float[TileCount];
+			// Default to "no seasonal swing" so a tile the seasonality pass never
+			// touches cannot accidentally trip a frost gate.
+			for (int i = 0; i < TileCount; i++)
+			{
+				WinterMinTemp[i] = 999f;
+				SummerMaxTemp[i] = 999f;
+			}
 
 			// Both settings are 7-step enums (index 3 == Normal). Anchor the model to
 			// an Earth-like planet at Normal and shift the whole globe per step.

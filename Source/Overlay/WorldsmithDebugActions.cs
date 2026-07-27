@@ -28,5 +28,11 @@ namespace Worldsmith.Overlay
 		{
 			WorldsmithOverlay.SetMode(OverlayMode.Rainfall);
 		}
+
+		[DebugAction("Worldsmith", "Climate overlay: swampiness", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlaySwampiness()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.Swampiness);
+		}
 	}
 }

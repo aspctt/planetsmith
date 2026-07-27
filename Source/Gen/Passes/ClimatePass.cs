@@ -21,7 +21,7 @@ namespace Worldsmith.Gen.Passes
 		private const float MaxLapseReduction = 45f;
 
 		// Latitude of, and spread around, each rainfall band (degrees).
-		private const float BandSpread = 12f;
+		private const float BandSpread = 17f;
 		private const float SubtropicalDryLatitude = 25f;
 		private const float MidLatitudeWetLatitude = 50f;
 
@@ -61,7 +61,7 @@ namespace Worldsmith.Gen.Passes
 			float equatorial = 2600f * Gaussian(a, 0f, BandSpread);
 			float subtropicalDry = 900f * Gaussian(a, SubtropicalDryLatitude, BandSpread);
 			float midLatitude = 1000f * Gaussian(a, MidLatitudeWetLatitude, BandSpread);
-			float rain = 250f + equatorial - subtropicalDry + midLatitude;
+			float rain = 400f + equatorial - subtropicalDry + midLatitude;
 
 			rain *= ctx.RainfallMultiplier;
 

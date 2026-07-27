@@ -19,7 +19,7 @@ namespace Worldsmith.Gen.Passes
 		// Metres of rise (or drop) to the upwind neighbour for the full effect.
 		private const float SlopeScale = 800f;
 		private const float WindwardBoost = 0.8f;
-		private const float LeewardShadow = 0.6f;
+		private const float LeewardShadow = 0.4f;
 
 		public void Run(GenContext ctx)
 		{

@@ -11,6 +11,7 @@ namespace Worldsmith.Overlay
 		None,
 		Temperature,
 		Rainfall,
+		Swampiness,
 	}
 
 	/// <summary>
@@ -56,6 +57,15 @@ namespace Worldsmith.Overlay
 			new Stop(5000f, new Color(0.10f, 0.20f, 0.80f)),
 		};
 
+		// Dry -> waterlogged, swampiness 0..1.
+		private static readonly Stop[] SwampinessStops =
+		{
+			new Stop(0f, new Color(0.80f, 0.72f, 0.50f)),
+			new Stop(0.5f, new Color(0.55f, 0.65f, 0.35f)),
+			new Stop(0.75f, new Color(0.25f, 0.50f, 0.35f)),
+			new Stop(1f, new Color(0.10f, 0.35f, 0.40f)),
+		};
+
 		public static void SetMode(OverlayMode mode)
 		{
 			Mode = mode;
@@ -73,6 +83,7 @@ namespace Worldsmith.Overlay
 			{
 				OverlayMode.None => OverlayMode.Temperature,
 				OverlayMode.Temperature => OverlayMode.Rainfall,
+				OverlayMode.Rainfall => OverlayMode.Swampiness,
 				_ => OverlayMode.None,
 			};
 			SetMode(next);
@@ -86,6 +97,8 @@ namespace Worldsmith.Overlay
 					return Evaluate(TemperatureStops, tile.temperature);
 				case OverlayMode.Rainfall:
 					return Evaluate(RainfallStops, tile.rainfall);
+				case OverlayMode.Swampiness:
+					return Evaluate(SwampinessStops, tile.swampiness);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}

@@ -1,0 +1,77 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2026 aspctt
+using System.Collections.Generic;
+using RimWorld;
+using RimWorld.Planet;
+using Verse;
+
+namespace Worldsmith.Gen
+{
+	/// <summary>
+	/// Learns a biome's climate niche by probing its own worker, so Worldsmith can
+	/// reason about biomes it has no hardcoded knowledge of, including modded ones.
+	/// Currently derives the cold tolerance: the lowest temperature at which the
+	/// biome scores positively for any rainfall. Frost-intolerant biomes (tropical
+	/// and friends) have a high cold tolerance, which the biome pass gates against
+	/// the winter minimum rather than the annual mean.
+	///
+	/// Results are cached per biome for the session; workers are deterministic in the
+	/// temperature/rainfall inputs we vary, so one probe is enough.
+	/// </summary>
+	public static class BiomeProfiler
+	{
+		/// <summary>Sentinel for biomes that never score positive in the probe (e.g. water biomes on a land tile).</summary>
+		public const float NoColdTolerance = -999f;
+
+		private static readonly Dictionary<BiomeDef, float> coldToleranceCache = new Dictionary<BiomeDef, float>();
+
+		public static float ColdTolerance(BiomeDef biome)
+		{
+			if (coldToleranceCache.TryGetValue(biome, out float cached))
+			{
+				return cached;
+			}
+			float value = ProbeColdTolerance(biome);
+			coldToleranceCache[biome] = value;
+			return value;
+		}
+
+		private static float ProbeColdTolerance(BiomeDef biome)
+		{
+			BiomeWorker worker = biome?.Worker;
+			if (worker == null)
+			{
+				return NoColdTolerance;
+			}
+
+			// A bare land tile: WaterCovered is false, and we sweep temperature and
+			// rainfall directly. Sweep temperature from cold to warm and return the
+			// first temperature that scores positively for some rainfall.
+			var probe = new Tile { elevation = 100f };
+			for (float temperature = -60f; temperature <= 50f; temperature += 5f)
+			{
+				for (float rainfall = 0f; rainfall <= 6000f; rainfall += 500f)
+				{
+					probe.temperature = temperature;
+					probe.rainfall = rainfall;
+					float score;
+					try
+					{
+						score = worker.GetScore(biome, probe, PlanetTile.Invalid);
+					}
+					catch
+					{
+						// Worker relies on real tile geometry we can't synthesise; give
+						// up on profiling it and let it use its unmodified vanilla score.
+						return NoColdTolerance;
+					}
+					if (score > 0f)
+					{
+						return temperature;
+					}
+				}
+			}
+			return NoColdTolerance;
+		}
+	}
+}

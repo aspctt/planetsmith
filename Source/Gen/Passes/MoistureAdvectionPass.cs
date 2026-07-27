@@ -23,11 +23,11 @@ namespace Worldsmith.Gen.Passes
 	public sealed class MoistureAdvectionPass : IGenPass
 	{
 		// Fraction of moisture retained per land tile of fetch.
-		private const float LandRetention = 0.92f;
+		private const float LandRetention = 0.94f;
 		// Furthest inland fetch resolved, in tiles.
 		private const int PropagationSteps = 64;
 		// Rainfall multiplier where no ocean moisture reaches (fully dry interior).
-		private const float DriestRainfallFactor = 0.1f;
+		private const float DriestRainfallFactor = 0.45f;
 
 		public string Name => "MoistureAdvection";
 
@@ -78,10 +78,14 @@ namespace Worldsmith.Gen.Passes
 			{
 				if (!isLand[i])
 				{
+					ctx.Continentality[i] = 0f; // ocean is maritime by definition
 					continue;
 				}
 				float factor = Mathf.Lerp(DriestRainfallFactor, 1f, Mathf.Clamp01(moisture[i]));
 				tiles[i].rainfall = Mathf.Max(0f, tiles[i].rainfall * factor);
+				// Dry-because-far-from-the-sea is exactly continentality; share it for
+				// downstream passes (seasonality) rather than recomputing.
+				ctx.Continentality[i] = Mathf.Clamp01(1f - moisture[i]);
 			}
 		}
 
