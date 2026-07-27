@@ -42,5 +42,6 @@ desktop.ini
 # redistributed with this GPL mod. They are kept locally for reference and are
 # never committed. Remove an entry only if you deliberately intend to publish it.
 ###############################################################################
+context-files/
 other-mods/
 NOTES.md

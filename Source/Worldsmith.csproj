@@ -12,8 +12,8 @@
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 
-		<!-- Compiled DLL drops straight into the mod's Assemblies/ folder. -->
-		<OutputPath>..\Assemblies\</OutputPath>
+		<!-- Compiled DLL drops straight into the mod's versioned Assemblies folder. -->
+		<OutputPath>..\1.6\Assemblies\</OutputPath>
 		<!-- Don't drag RimWorld/Unity/Harmony DLLs into the mod folder. -->
 		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
