@@ -78,14 +78,10 @@ namespace Worldsmith.Gen.Passes
 			{
 				if (!isLand[i])
 				{
-					ctx.Continentality[i] = 0f; // ocean is maritime by definition
 					continue;
 				}
 				float factor = Mathf.Lerp(DriestRainfallFactor, 1f, Mathf.Clamp01(moisture[i]));
 				tiles[i].rainfall = Mathf.Max(0f, tiles[i].rainfall * factor);
-				// Dry-because-far-from-the-sea is exactly continentality; share it for
-				// downstream passes (seasonality) rather than recomputing.
-				ctx.Continentality[i] = Mathf.Clamp01(1f - moisture[i]);
 			}
 		}
 
