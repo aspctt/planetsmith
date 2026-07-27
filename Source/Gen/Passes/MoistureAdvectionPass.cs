@@ -76,6 +76,10 @@ namespace Worldsmith.Gen.Passes
 
 			for (int i = 0; i < count; i++)
 			{
+				// Share the settled field: it doubles as an onshore/offshore wind measure
+				// for the coastal passes, and it is far smoother than tracing a single
+				// upwind path across a hex grid.
+				ctx.OceanicMoisture[i] = Mathf.Clamp01(moisture[i]);
 				if (!isLand[i])
 				{
 					continue;

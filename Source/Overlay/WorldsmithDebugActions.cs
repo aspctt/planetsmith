@@ -46,5 +46,11 @@ namespace Worldsmith.Overlay
 		{
 			WorldsmithOverlay.SetMode(OverlayMode.WinterTemperature);
 		}
+
+		[DebugAction("Worldsmith", "Climate overlay: ocean currents", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayOceanCurrents()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.OceanCurrents);
+		}
 	}
 }

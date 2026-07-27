@@ -71,6 +71,7 @@ namespace Worldsmith.Gen.Passes
 				}
 				// distance < 0 would mean a landmass with no sea path at all; treat as fully continental.
 				int d = distance[i] < 0 ? (int)DistanceScale : distance[i];
+				ctx.CoastDistance[i] = d;
 				ctx.Continentality[i] = Mathf.Clamp01(d / DistanceScale);
 			}
 		}

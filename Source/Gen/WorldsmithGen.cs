@@ -23,6 +23,7 @@ namespace Worldsmith.Gen
 			new OrographyPass(),
 			new MoistureAdvectionPass(),
 			new ContinentalityPass(),
+			new OceanCurrentPass(),
 			new SeasonalityPass(),
 			new SwampinessPass(),
 			new BiomePass(),

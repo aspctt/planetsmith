@@ -15,6 +15,7 @@ namespace Worldsmith.Overlay
 		Swampiness,
 		Continentality,
 		WinterTemperature,
+		OceanCurrents,
 	}
 
 	/// <summary>
@@ -69,6 +70,17 @@ namespace Worldsmith.Overlay
 			new Stop(1f, new Color(0.10f, 0.35f, 0.40f)),
 		};
 
+		// Cold upwelling (-1) -> none (0) -> mild maritime (+1). Grey marks tiles the
+		// ocean-current pass left alone, so the affected coasts stand out on their own.
+		private static readonly Stop[] CoastalAnomalyStops =
+		{
+			new Stop(-1f, new Color(0.75f, 0.25f, 0.15f)),
+			new Stop(-0.05f, new Color(0.90f, 0.70f, 0.55f)),
+			new Stop(0f, new Color(0.28f, 0.28f, 0.30f)),
+			new Stop(0.05f, new Color(0.55f, 0.85f, 0.75f)),
+			new Stop(1f, new Color(0.10f, 0.45f, 0.85f)),
+		};
+
 		// Maritime -> continental, continentality 0..1.
 		private static readonly Stop[] ContinentalityStops =
 		{
@@ -97,6 +109,7 @@ namespace Worldsmith.Overlay
 				OverlayMode.Rainfall => OverlayMode.Swampiness,
 				OverlayMode.Swampiness => OverlayMode.Continentality,
 				OverlayMode.Continentality => OverlayMode.WinterTemperature,
+				OverlayMode.WinterTemperature => OverlayMode.OceanCurrents,
 				_ => OverlayMode.None,
 			};
 			SetMode(next);
@@ -116,6 +129,8 @@ namespace Worldsmith.Overlay
 					return CachedColor(ContinentalityStops, WorldsmithClimateCache.Continentality, tileIndex);
 				case OverlayMode.WinterTemperature:
 					return CachedColor(TemperatureStops, WorldsmithClimateCache.WinterMinTemp, tileIndex);
+				case OverlayMode.OceanCurrents:
+					return CachedColor(CoastalAnomalyStops, WorldsmithClimateCache.CoastalAnomaly, tileIndex);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}

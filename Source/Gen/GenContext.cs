@@ -27,8 +27,26 @@ namespace Worldsmith.Gen
 		/// <summary>Global rainfall scale from the world rainfall setting (1.0 = Normal).</summary>
 		public readonly float RainfallMultiplier;
 
-		/// <summary>Per-tile continentality (0 = maritime, 1 = deep interior). Filled by MoistureAdvectionPass.</summary>
+		/// <summary>Per-tile continentality (0 = maritime, 1 = deep interior). Filled by ContinentalityPass.</summary>
 		public readonly float[] Continentality;
+
+		/// <summary>Per-tile distance in tiles to the nearest ocean (0 for ocean itself). Filled by ContinentalityPass.</summary>
+		public readonly int[] CoastDistance;
+
+		/// <summary>
+		/// Per-tile share of ocean-sourced moisture still carried by the wind (1 at sea,
+		/// falling with each land tile crossed). A high value means the air reaching this
+		/// tile came off the water recently, so it doubles as a smooth, direction-aware
+		/// measure of onshore versus offshore wind. Filled by MoistureAdvectionPass.
+		/// </summary>
+		public readonly float[] OceanicMoisture;
+
+		/// <summary>
+		/// Signed strength of the coastal ocean-current effect: positive where onshore
+		/// wind brings mild damp maritime air, negative over cold subtropical upwelling,
+		/// zero where no current anomaly applies. Filled by OceanCurrentPass.
+		/// </summary>
+		public readonly float[] CoastalAnomaly;
 
 		/// <summary>Per-tile coldest-of-year temperature (deg C). Filled by SeasonalityPass.</summary>
 		public readonly float[] WinterMinTemp;
@@ -53,6 +71,9 @@ namespace Worldsmith.Gen
 			Seed = Find.World.info.Seed;
 
 			Continentality = new float[TileCount];
+			CoastDistance = new int[TileCount];
+			CoastalAnomaly = new float[TileCount];
+			OceanicMoisture = new float[TileCount];
 			WinterMinTemp = new float[TileCount];
 			SummerMaxTemp = new float[TileCount];
 			// Default to "no seasonal swing" so a tile the seasonality pass never
