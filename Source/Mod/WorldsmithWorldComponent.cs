@@ -2,6 +2,7 @@
 // Copyright (C) 2026 aspctt
 using RimWorld.Planet;
 using Verse;
+using Worldsmith.UI;
 
 namespace Worldsmith
 {
@@ -20,6 +21,12 @@ namespace Worldsmith
 		public WorldsmithWorldComponent(World world) : base(world)
 		{
 			settings = WorldsmithWorldParams.Pending.Clone();
+		}
+
+		public override void WorldComponentOnGUI()
+		{
+			base.WorldComponentOnGUI();
+			WorldsmithMapModeBar.DoGUI();
 		}
 
 		public override void ExposeData()

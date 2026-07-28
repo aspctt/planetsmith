@@ -46,6 +46,12 @@ namespace Worldsmith
 				Settings.targetLandFraction = listing.Slider(Settings.targetLandFraction, 0.05f, 0.95f);
 			}
 			listing.Gap(12f);
+			listing.CheckboxLabeled(
+				"Show map-mode button on the planet view",
+				ref Settings.showMapModeButton,
+				"Adds a button to the planet view for shading the world by temperature, rainfall and Worldsmith's other climate layers.");
+
+			listing.Gap(12f);
 			listing.Label($"Axial tilt: {Settings.axialTilt:F1}°  ({TiltDescription(Settings.axialTilt)})");
 			Settings.axialTilt = listing.Slider(Settings.axialTilt, 0f, 90f);
 			listing.Gap(6f);

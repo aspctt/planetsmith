@@ -125,6 +125,39 @@ namespace Worldsmith.Overlay
 			}
 		}
 
+		/// <summary>Player-facing name for a map mode.</summary>
+		public static string Label(OverlayMode mode)
+		{
+			switch (mode)
+			{
+				case OverlayMode.Temperature: return "Temperature";
+				case OverlayMode.Rainfall: return "Rainfall";
+				case OverlayMode.Swampiness: return "Wetlands";
+				case OverlayMode.Continentality: return "Distance from sea";
+				case OverlayMode.WinterTemperature: return "Winter temperature";
+				case OverlayMode.OceanCurrents: return "Coastal currents";
+				case OverlayMode.Aridity: return "Effective moisture";
+				case OverlayMode.Monsoon: return "Monsoon";
+				default: return "Off";
+			}
+		}
+
+		/// <summary>Modes that need generated data Worldsmith only has for the current world.</summary>
+		public static bool RequiresGeneratedData(OverlayMode mode)
+		{
+			switch (mode)
+			{
+				case OverlayMode.Continentality:
+				case OverlayMode.WinterTemperature:
+				case OverlayMode.OceanCurrents:
+				case OverlayMode.Aridity:
+				case OverlayMode.Monsoon:
+					return true;
+				default:
+					return false;
+			}
+		}
+
 		public static void Cycle()
 		{
 			OverlayMode next = Mode switch

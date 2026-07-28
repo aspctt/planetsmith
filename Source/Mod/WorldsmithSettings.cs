@@ -22,6 +22,9 @@ namespace Worldsmith
 		/// <summary>Planet's axial tilt in degrees. Earth is 23.4; 0 means no seasons.</summary>
 		public float axialTilt = 23.4f;
 
+		/// <summary>Show the map-mode button on the planet view.</summary>
+		public bool showMapModeButton = true;
+
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -29,6 +32,7 @@ namespace Worldsmith
 			Scribe_Values.Look(ref enableSeaLevelControl, "enableSeaLevelControl", defaultValue: false);
 			Scribe_Values.Look(ref targetLandFraction, "targetLandFraction", 0.4f);
 			Scribe_Values.Look(ref axialTilt, "axialTilt", 23.4f);
+			Scribe_Values.Look(ref showMapModeButton, "showMapModeButton", defaultValue: true);
 		}
 	}
 }
