@@ -31,6 +31,7 @@ namespace Worldsmith.Gen
 			new AridityPass(),
 			// Drainage needs the final rainfall, and swampiness needs the drainage.
 			new DrainagePass(),
+			new BasinLakePass(),
 			new SwampinessPass(),
 			new BiomePass(),
 		};

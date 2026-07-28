@@ -25,19 +25,26 @@ namespace Worldsmith.UI
 		private const float EdgeMargin = 10f;
 		private const float TopOffset = 200f;
 
-		private static readonly OverlayMode[] Modes =
+		/// <summary>
+		/// Every mode, listed alphabetically by the name the player sees. Sorted once at
+		/// startup rather than written out in order, so a mode added later cannot end up
+		/// out of place. Off stays pinned at the top: it turns the shading off rather than
+		/// being a view of its own, and sorting it into the middle of the list would hide
+		/// it among them.
+		/// </summary>
+		private static readonly OverlayMode[] Modes = BuildModeOrder();
+
+		private static OverlayMode[] BuildModeOrder()
 		{
-			OverlayMode.None,
-			OverlayMode.Temperature,
-			OverlayMode.Rainfall,
-			OverlayMode.Swampiness,
-			OverlayMode.Drainage,
-			OverlayMode.Aridity,
-			OverlayMode.Monsoon,
-			OverlayMode.WinterTemperature,
-			OverlayMode.Continentality,
-			OverlayMode.OceanCurrents,
-		};
+			var modes = new List<OverlayMode>((OverlayMode[])Enum.GetValues(typeof(OverlayMode)));
+			modes.Remove(OverlayMode.None);
+			modes.Sort((a, b) => string.Compare(
+				WorldsmithOverlay.Label(a),
+				WorldsmithOverlay.Label(b),
+				StringComparison.CurrentCultureIgnoreCase));
+			modes.Insert(0, OverlayMode.None);
+			return modes.ToArray();
+		}
 
 		public static void DoGUI()
 		{
