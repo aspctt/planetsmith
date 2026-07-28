@@ -42,6 +42,13 @@ namespace Worldsmith.Gen
 		public readonly float[] OceanicMoisture;
 
 		/// <summary>
+		/// Per-tile share of the landscape's runoff passing through, on a logarithmic
+		/// scale: near 0 on ridges, near 1 where a major river would run. Filled by
+		/// DrainagePass.
+		/// </summary>
+		public readonly float[] FlowAccumulation;
+
+		/// <summary>
 		/// Per-tile monsoon strength, 0 where the seasonal rains never reach and 1 where
 		/// they are at their fiercest. Filled by MonsoonPass.
 		/// </summary>
@@ -88,6 +95,7 @@ namespace Worldsmith.Gen
 			OceanicMoisture = new float[TileCount];
 			AridityIndex = new float[TileCount];
 			MonsoonStrength = new float[TileCount];
+			FlowAccumulation = new float[TileCount];
 			WinterMinTemp = new float[TileCount];
 			SummerMaxTemp = new float[TileCount];
 			// Default to "no seasonal swing" so a tile the seasonality pass never

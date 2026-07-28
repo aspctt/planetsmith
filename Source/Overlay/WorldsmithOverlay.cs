@@ -18,6 +18,7 @@ namespace Worldsmith.Overlay
 		OceanCurrents,
 		Aridity,
 		Monsoon,
+		Drainage,
 	}
 
 	/// <summary>
@@ -106,6 +107,16 @@ namespace Worldsmith.Overlay
 			new Stop(1f, new Color(0.35f, 0.20f, 0.75f)),
 		};
 
+		// Ridges (dry, pale) through to the valleys whole watersheds drain along.
+		private static readonly Stop[] DrainageStops =
+		{
+			new Stop(0f, new Color(0.82f, 0.78f, 0.62f)),
+			new Stop(0.35f, new Color(0.55f, 0.72f, 0.45f)),
+			new Stop(0.6f, new Color(0.25f, 0.60f, 0.60f)),
+			new Stop(0.8f, new Color(0.12f, 0.40f, 0.80f)),
+			new Stop(1f, new Color(0.05f, 0.15f, 0.55f)),
+		};
+
 		// Maritime -> continental, continentality 0..1.
 		private static readonly Stop[] ContinentalityStops =
 		{
@@ -138,6 +149,7 @@ namespace Worldsmith.Overlay
 				case OverlayMode.OceanCurrents: return "Coastal currents";
 				case OverlayMode.Aridity: return "Effective moisture";
 				case OverlayMode.Monsoon: return "Monsoon";
+				case OverlayMode.Drainage: return "Water flow";
 				default: return "Off";
 			}
 		}
@@ -152,6 +164,7 @@ namespace Worldsmith.Overlay
 				case OverlayMode.OceanCurrents:
 				case OverlayMode.Aridity:
 				case OverlayMode.Monsoon:
+				case OverlayMode.Drainage:
 					return true;
 				default:
 					return false;
@@ -170,6 +183,7 @@ namespace Worldsmith.Overlay
 				OverlayMode.WinterTemperature => OverlayMode.OceanCurrents,
 				OverlayMode.OceanCurrents => OverlayMode.Aridity,
 				OverlayMode.Aridity => OverlayMode.Monsoon,
+				OverlayMode.Monsoon => OverlayMode.Drainage,
 				_ => OverlayMode.None,
 			};
 			SetMode(next);
@@ -195,6 +209,13 @@ namespace Worldsmith.Overlay
 					return CachedColor(AridityStops, WorldsmithClimateCache.AridityIndex, tileIndex);
 				case OverlayMode.Monsoon:
 					return CachedColor(MonsoonStops, WorldsmithClimateCache.MonsoonStrength, tileIndex);
+				case OverlayMode.Drainage:
+					// Water carries no runoff of its own, and shading it would make the
+					// sea look like the driest ground there is. Leave it showing through
+					// so the drainage networks read against a real coastline.
+					return tile.WaterCovered
+						? new Color32(0, 0, 0, 0)
+						: CachedColor(DrainageStops, WorldsmithClimateCache.FlowAccumulation, tileIndex);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}

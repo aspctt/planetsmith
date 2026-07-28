@@ -29,6 +29,8 @@ namespace Worldsmith.Gen
 			new SeasonalityPass(),
 			new MonsoonPass(),
 			new AridityPass(),
+			// Drainage needs the final rainfall, and swampiness needs the drainage.
+			new DrainagePass(),
 			new SwampinessPass(),
 			new BiomePass(),
 		};

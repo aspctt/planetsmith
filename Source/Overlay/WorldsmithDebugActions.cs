@@ -64,5 +64,11 @@ namespace Worldsmith.Overlay
 		{
 			WorldsmithOverlay.SetMode(OverlayMode.Monsoon);
 		}
+
+		[DebugAction("Worldsmith", "Climate overlay: water flow", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayDrainage()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.Drainage);
+		}
 	}
 }

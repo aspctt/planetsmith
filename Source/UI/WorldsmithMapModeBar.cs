@@ -31,6 +31,7 @@ namespace Worldsmith.UI
 			OverlayMode.Temperature,
 			OverlayMode.Rainfall,
 			OverlayMode.Swampiness,
+			OverlayMode.Drainage,
 			OverlayMode.Aridity,
 			OverlayMode.Monsoon,
 			OverlayMode.WinterTemperature,

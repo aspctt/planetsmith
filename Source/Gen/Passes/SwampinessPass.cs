@@ -22,8 +22,12 @@ namespace Worldsmith.Gen.Passes
 		private const float RainfallFull = 1600f;
 		// Metres a tile must sit below its neighbours to count as a full basin.
 		private const float BasinDepthScale = 150f;
-		// Floor on the basin term so flat wet plains still hold some water.
+		// Floor on the collection term so flat wet plains still hold some water.
 		private const float BasinFloor = 0.35f;
+		// How much of the collection term the upstream catchment can account for, as
+		// opposed to the tile simply sitting in a dip. Floodplains along a big river are
+		// waterlogged even where the ground barely dips at all.
+		private const float FlowShare = 0.6f;
 
 		private static readonly List<PlanetTile> neighbors = new List<PlanetTile>();
 
@@ -49,8 +53,13 @@ namespace Worldsmith.Gen.Passes
 					continue;
 				}
 
+				// Water collects here either because the ground dips, or because a whole
+				// catchment drains through; take whichever is the stronger claim.
 				float basin = BasinFactor(layer, tiles, i, tile.elevation, count);
-				float swampiness = rainFactor * flatFactor * (BasinFloor + (1f - BasinFloor) * basin);
+				float catchment = ctx.FlowAccumulation[i];
+				float collects = Mathf.Max(basin, catchment * FlowShare);
+
+				float swampiness = rainFactor * flatFactor * (BasinFloor + (1f - BasinFloor) * collects);
 				tile.swampiness = Mathf.Clamp01(swampiness);
 			}
 		}

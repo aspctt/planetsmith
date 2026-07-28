@@ -19,6 +19,7 @@ namespace Worldsmith.Gen
 		public static float[] CoastalAnomaly { get; private set; }
 		public static float[] AridityIndex { get; private set; }
 		public static float[] MonsoonStrength { get; private set; }
+		public static float[] FlowAccumulation { get; private set; }
 
 		public static void Store(GenContext ctx)
 		{
@@ -29,6 +30,7 @@ namespace Worldsmith.Gen
 			CoastalAnomaly = ctx.CoastalAnomaly;
 			AridityIndex = ctx.AridityIndex;
 			MonsoonStrength = ctx.MonsoonStrength;
+			FlowAccumulation = ctx.FlowAccumulation;
 			Valid = true;
 		}
 	}
