@@ -171,24 +171,6 @@ namespace Worldsmith.Overlay
 			}
 		}
 
-		public static void Cycle()
-		{
-			OverlayMode next = Mode switch
-			{
-				OverlayMode.None => OverlayMode.Temperature,
-				OverlayMode.Temperature => OverlayMode.Rainfall,
-				OverlayMode.Rainfall => OverlayMode.Swampiness,
-				OverlayMode.Swampiness => OverlayMode.Continentality,
-				OverlayMode.Continentality => OverlayMode.WinterTemperature,
-				OverlayMode.WinterTemperature => OverlayMode.OceanCurrents,
-				OverlayMode.OceanCurrents => OverlayMode.Aridity,
-				OverlayMode.Aridity => OverlayMode.Monsoon,
-				OverlayMode.Monsoon => OverlayMode.Drainage,
-				_ => OverlayMode.None,
-			};
-			SetMode(next);
-		}
-
 		public static Color32 ColorFor(int tileIndex, Tile tile)
 		{
 			switch (Mode)

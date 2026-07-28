@@ -59,6 +59,13 @@ namespace Worldsmith.UI
 			}
 
 			OverlayMode current = WorldsmithOverlay.Mode;
+			if (WorldsmithOverlay.RequiresGeneratedData(current) && !WorldsmithClimateCache.Valid)
+			{
+				// Loading a save leaves a generated layer selected but with nothing behind
+				// it. Fall back rather than naming a view that cannot be drawn.
+				WorldsmithOverlay.SetMode(OverlayMode.None);
+				current = OverlayMode.None;
+			}
 			string label = current == OverlayMode.None
 				? "Worldsmith\nMap modes"
 				: "Map mode:\n" + WorldsmithOverlay.Label(current);

@@ -21,6 +21,25 @@ namespace Worldsmith.Gen
 		public static float[] MonsoonStrength { get; private set; }
 		public static float[] FlowAccumulation { get; private set; }
 
+		/// <summary>
+		/// Forgets the last world's fields. Called as each world is built, including one
+		/// being loaded from a save, because these layers are only worked out while a
+		/// world is generated. Without this the overlays would happily paint one planet's
+		/// climate onto another of the same size.
+		/// </summary>
+		public static void Invalidate()
+		{
+			Valid = false;
+			TileCount = 0;
+			Continentality = null;
+			WinterMinTemp = null;
+			SummerMaxTemp = null;
+			CoastalAnomaly = null;
+			AridityIndex = null;
+			MonsoonStrength = null;
+			FlowAccumulation = null;
+		}
+
 		public static void Store(GenContext ctx)
 		{
 			TileCount = ctx.TileCount;

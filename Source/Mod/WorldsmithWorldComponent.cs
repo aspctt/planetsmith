@@ -21,6 +21,12 @@ namespace Worldsmith
 		public WorldsmithWorldComponent(World world) : base(world)
 		{
 			settings = WorldsmithWorldParams.Pending.Clone();
+
+			// A new world is being built or loaded, so anything the overlays were holding
+			// belongs to the previous one. RimWorld builds components before the
+			// generation steps run, so a world we are about to generate refills this
+			// immediately, while one loaded from a save correctly leaves it empty.
+			Gen.WorldsmithClimateCache.Invalidate();
 		}
 
 		public override void WorldComponentOnGUI()
