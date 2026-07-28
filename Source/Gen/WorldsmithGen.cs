@@ -24,8 +24,11 @@ namespace Worldsmith.Gen
 			new MoistureAdvectionPass(),
 			new ContinentalityPass(),
 			new OceanCurrentPass(),
-			new AridityPass(),
+			// Seasonality precedes the monsoon, which needs its summer-to-winter swing,
+			// and aridity comes after both so it weighs the final rainfall.
 			new SeasonalityPass(),
+			new MonsoonPass(),
+			new AridityPass(),
 			new SwampinessPass(),
 			new BiomePass(),
 		};

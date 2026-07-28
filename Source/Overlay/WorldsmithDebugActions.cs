@@ -58,5 +58,11 @@ namespace Worldsmith.Overlay
 		{
 			WorldsmithOverlay.SetMode(OverlayMode.Aridity);
 		}
+
+		[DebugAction("Worldsmith", "Climate overlay: monsoon", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayMonsoon()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.Monsoon);
+		}
 	}
 }

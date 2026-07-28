@@ -42,6 +42,12 @@ namespace Worldsmith.Gen
 		public readonly float[] OceanicMoisture;
 
 		/// <summary>
+		/// Per-tile monsoon strength, 0 where the seasonal rains never reach and 1 where
+		/// they are at their fiercest. Filled by MonsoonPass.
+		/// </summary>
+		public readonly float[] MonsoonStrength;
+
+		/// <summary>
 		/// Per-tile effective moisture: rainfall divided by how much this climate could
 		/// evaporate. Below 0.2 is arid, 0.65 and above humid. Filled by AridityPass.
 		/// </summary>
@@ -81,6 +87,7 @@ namespace Worldsmith.Gen
 			CoastalAnomaly = new float[TileCount];
 			OceanicMoisture = new float[TileCount];
 			AridityIndex = new float[TileCount];
+			MonsoonStrength = new float[TileCount];
 			WinterMinTemp = new float[TileCount];
 			SummerMaxTemp = new float[TileCount];
 			// Default to "no seasonal swing" so a tile the seasonality pass never

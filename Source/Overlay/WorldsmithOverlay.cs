@@ -17,6 +17,7 @@ namespace Worldsmith.Overlay
 		WinterTemperature,
 		OceanCurrents,
 		Aridity,
+		Monsoon,
 	}
 
 	/// <summary>
@@ -94,6 +95,17 @@ namespace Worldsmith.Overlay
 			new Stop(3f, new Color(0.10f, 0.35f, 0.65f)),
 		};
 
+		// No monsoon (grey) through to a drenching one. Grey marks tiles the seasonal
+		// rains never reach, so the monsoon belt stands out on its own.
+		private static readonly Stop[] MonsoonStops =
+		{
+			new Stop(0f, new Color(0.28f, 0.28f, 0.30f)),
+			new Stop(0.05f, new Color(0.70f, 0.75f, 0.45f)),
+			new Stop(0.4f, new Color(0.35f, 0.70f, 0.45f)),
+			new Stop(0.7f, new Color(0.15f, 0.55f, 0.70f)),
+			new Stop(1f, new Color(0.35f, 0.20f, 0.75f)),
+		};
+
 		// Maritime -> continental, continentality 0..1.
 		private static readonly Stop[] ContinentalityStops =
 		{
@@ -124,6 +136,7 @@ namespace Worldsmith.Overlay
 				OverlayMode.Continentality => OverlayMode.WinterTemperature,
 				OverlayMode.WinterTemperature => OverlayMode.OceanCurrents,
 				OverlayMode.OceanCurrents => OverlayMode.Aridity,
+				OverlayMode.Aridity => OverlayMode.Monsoon,
 				_ => OverlayMode.None,
 			};
 			SetMode(next);
@@ -147,6 +160,8 @@ namespace Worldsmith.Overlay
 					return CachedColor(CoastalAnomalyStops, WorldsmithClimateCache.CoastalAnomaly, tileIndex);
 				case OverlayMode.Aridity:
 					return CachedColor(AridityStops, WorldsmithClimateCache.AridityIndex, tileIndex);
+				case OverlayMode.Monsoon:
+					return CachedColor(MonsoonStops, WorldsmithClimateCache.MonsoonStrength, tileIndex);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}

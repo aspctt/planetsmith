@@ -18,6 +18,7 @@ namespace Worldsmith.Gen
 		public static float[] SummerMaxTemp { get; private set; }
 		public static float[] CoastalAnomaly { get; private set; }
 		public static float[] AridityIndex { get; private set; }
+		public static float[] MonsoonStrength { get; private set; }
 
 		public static void Store(GenContext ctx)
 		{
@@ -27,6 +28,7 @@ namespace Worldsmith.Gen
 			SummerMaxTemp = ctx.SummerMaxTemp;
 			CoastalAnomaly = ctx.CoastalAnomaly;
 			AridityIndex = ctx.AridityIndex;
+			MonsoonStrength = ctx.MonsoonStrength;
 			Valid = true;
 		}
 	}
