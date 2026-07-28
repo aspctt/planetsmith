@@ -28,7 +28,7 @@ namespace Worldsmith.Gen.Passes
 
 		public void Run(GenContext ctx)
 		{
-			WorldsmithSettings settings = WorldsmithMod.Settings;
+			WorldsmithWorldSettings settings = WorldsmithWorldParams.Active;
 			if (settings == null || !settings.enableSeaLevelControl)
 			{
 				return;

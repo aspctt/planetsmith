@@ -49,11 +49,11 @@ namespace Worldsmith
 			listing.Label($"Axial tilt: {Settings.axialTilt:F1}°  ({TiltDescription(Settings.axialTilt)})");
 			Settings.axialTilt = listing.Slider(Settings.axialTilt, 0f, 90f);
 			listing.Gap(6f);
-			listing.Label("More world-generation options will appear here as features are added.");
+			listing.Label("These are the defaults new planets start from. To shape one planet, use the Worldsmith button on the world creation page.");
 			listing.End();
 		}
 
-		private static string TiltDescription(float tilt)
+		public static string TiltDescription(float tilt)
 		{
 			if (tilt < 5f)
 			{

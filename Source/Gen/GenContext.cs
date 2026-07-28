@@ -86,7 +86,7 @@ namespace Worldsmith.Gen
 
 			// Both settings are 7-step enums (index 3 == Normal). Anchor the model to
 			// an Earth-like planet at Normal and shift the whole globe per step.
-			AxialTilt = Mathf.Clamp(WorldsmithMod.Settings?.axialTilt ?? 23.4f, 0f, 90f);
+			AxialTilt = Mathf.Clamp(WorldsmithWorldParams.Active?.axialTilt ?? 23.4f, 0f, 90f);
 			TiltFactor = AxialTilt / 23.4f;
 
 			int tempIdx = Mathf.Clamp((int)Find.World.info.overallTemperature, 0, 6);
