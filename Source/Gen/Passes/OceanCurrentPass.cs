@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Coastal climate anomalies from the sea and its currents. Which coast of a

@@ -3,9 +3,9 @@
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
-using Worldsmith.Gen;
+using Planetsmith.Gen;
 
-namespace Worldsmith.Overlay
+namespace Planetsmith.Overlay
 {
 	public enum OverlayMode
 	{
@@ -22,11 +22,11 @@ namespace Worldsmith.Overlay
 	}
 
 	/// <summary>
-	/// Debug map-mode state and colour mapping for visualising Worldsmith's
+	/// Debug map-mode state and colour mapping for visualising Planetsmith's
 	/// generated climate. Switching mode marks the climate draw layer dirty so it
 	/// regenerates on the next frame.
 	/// </summary>
-	public static class WorldsmithOverlay
+	public static class PlanetsmithOverlay
 	{
 		public static OverlayMode Mode { get; private set; } = OverlayMode.None;
 
@@ -132,7 +132,7 @@ namespace Worldsmith.Overlay
 			PlanetLayer surface = Find.WorldGrid?.Surface;
 			if (world?.renderer != null && surface != null)
 			{
-				world.renderer.SetDirty<WorldDrawLayer_WorldsmithClimate>(surface);
+				world.renderer.SetDirty<WorldDrawLayer_PlanetsmithClimate>(surface);
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace Worldsmith.Overlay
 			}
 		}
 
-		/// <summary>Modes that need generated data Worldsmith only has for the current world.</summary>
+		/// <summary>Modes that need generated data Planetsmith only has for the current world.</summary>
 		public static bool RequiresGeneratedData(OverlayMode mode)
 		{
 			switch (mode)
@@ -182,22 +182,22 @@ namespace Worldsmith.Overlay
 				case OverlayMode.Swampiness:
 					return Evaluate(SwampinessStops, tile.swampiness);
 				case OverlayMode.Continentality:
-					return CachedColor(ContinentalityStops, WorldsmithClimateCache.Continentality, tileIndex);
+					return CachedColor(ContinentalityStops, PlanetsmithClimateCache.Continentality, tileIndex);
 				case OverlayMode.WinterTemperature:
-					return CachedColor(TemperatureStops, WorldsmithClimateCache.WinterMinTemp, tileIndex);
+					return CachedColor(TemperatureStops, PlanetsmithClimateCache.WinterMinTemp, tileIndex);
 				case OverlayMode.OceanCurrents:
-					return CachedColor(CoastalAnomalyStops, WorldsmithClimateCache.CoastalAnomaly, tileIndex);
+					return CachedColor(CoastalAnomalyStops, PlanetsmithClimateCache.CoastalAnomaly, tileIndex);
 				case OverlayMode.Aridity:
-					return CachedColor(AridityStops, WorldsmithClimateCache.AridityIndex, tileIndex);
+					return CachedColor(AridityStops, PlanetsmithClimateCache.AridityIndex, tileIndex);
 				case OverlayMode.Monsoon:
-					return CachedColor(MonsoonStops, WorldsmithClimateCache.MonsoonStrength, tileIndex);
+					return CachedColor(MonsoonStops, PlanetsmithClimateCache.MonsoonStrength, tileIndex);
 				case OverlayMode.Drainage:
 					// Water carries no runoff of its own, and shading it would make the
 					// sea look like the driest ground there is. Leave it showing through
 					// so the drainage networks read against a real coastline.
 					return tile.WaterCovered
 						? new Color32(0, 0, 0, 0)
-						: CachedColor(DrainageStops, WorldsmithClimateCache.FlowAccumulation, tileIndex);
+						: CachedColor(DrainageStops, PlanetsmithClimateCache.FlowAccumulation, tileIndex);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}
@@ -205,7 +205,7 @@ namespace Worldsmith.Overlay
 
 		private static Color32 CachedColor(Stop[] stops, float[] field, int tileIndex)
 		{
-			if (!WorldsmithClimateCache.Valid || field == null || tileIndex < 0 || tileIndex >= field.Length)
+			if (!PlanetsmithClimateCache.Valid || field == null || tileIndex < 0 || tileIndex >= field.Length)
 			{
 				return new Color32(0, 0, 0, 0);
 			}

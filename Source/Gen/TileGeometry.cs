@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
 	/// Shared per-tile geometry helpers for generation passes. Single-threaded

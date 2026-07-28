@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Drainage-aware swampiness. Wetlands form where water arrives and cannot leave:

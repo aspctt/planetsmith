@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.6.11819.183 stable
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worldsmith", "Worldsmith.csproj", "{26A7165C-8E07-9BE0-A53A-DB268D0BD7F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planetsmith", "Planetsmith.csproj", "{26A7165C-8E07-9BE0-A53A-DB268D0BD7F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Assigns each tile an annual mean temperature and rainfall from a compact

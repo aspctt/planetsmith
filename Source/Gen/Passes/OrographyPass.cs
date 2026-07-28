@@ -3,7 +3,7 @@
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Terrain-driven rainfall adjustment. Where the prevailing wind climbs into

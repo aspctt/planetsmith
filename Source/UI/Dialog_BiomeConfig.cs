@@ -6,7 +6,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.UI
+namespace Planetsmith.UI
 {
 	/// <summary>
 	/// Per-biome controls for the planet being generated: whether a biome may appear at
@@ -46,11 +46,11 @@ namespace Worldsmith.UI
 
 		public override void DoWindowContents(Rect inRect)
 		{
-			WorldsmithWorldSettings world = WorldsmithWorldParams.Pending;
+			PlanetsmithWorldSettings world = PlanetsmithWorldParams.Pending;
 
 			float y = inRect.y;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(new Rect(inRect.x, y, inRect.width, 36f), "Worldsmith: biomes");
+			Widgets.Label(new Rect(inRect.x, y, inRect.width, 36f), "Planetsmith: biomes");
 			Text.Font = GameFont.Small;
 			y += 40f;
 
@@ -92,7 +92,7 @@ namespace Worldsmith.UI
 			GUI.color = Color.white;
 		}
 
-		private static void DrawBiomeRow(Rect rect, BiomeDef biome, WorldsmithWorldSettings world)
+		private static void DrawBiomeRow(Rect rect, BiomeDef biome, PlanetsmithWorldSettings world)
 		{
 			if (Mouse.IsOver(rect))
 			{

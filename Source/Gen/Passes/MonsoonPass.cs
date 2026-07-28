@@ -3,7 +3,7 @@
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Monsoon rains. Land gains and loses heat far faster than the sea, so a big

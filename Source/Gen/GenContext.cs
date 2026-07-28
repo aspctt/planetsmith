@@ -5,7 +5,7 @@ using UnityEngine;
 using Verse;
 using Verse.Noise;
 
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
 	/// Shared state threaded through the generation passes for a single layer.
@@ -111,7 +111,7 @@ namespace Worldsmith.Gen
 
 			// Both settings are 7-step enums (index 3 == Normal). Anchor the model to
 			// an Earth-like planet at Normal and shift the whole globe per step.
-			WorldsmithWorldSettings world = WorldsmithWorldParams.Active;
+			PlanetsmithWorldSettings world = PlanetsmithWorldParams.Active;
 			Tuning = world?.tuning ?? new ClimateTuning();
 			AxialTilt = Mathf.Clamp(world?.axialTilt ?? 23.4f, 0f, 90f);
 			TiltFactor = AxialTilt / 23.4f;

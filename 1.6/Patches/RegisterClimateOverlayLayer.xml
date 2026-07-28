@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-	<!-- Register Worldsmith's debug climate overlay as a draw layer on the surface planet layer. -->
+	<!-- Register Planetsmith's debug climate overlay as a draw layer on the surface planet layer. -->
 	<Operation Class="PatchOperationAdd">
 		<xpath>/Defs/PlanetLayerDef[defName="Surface"]/worldDrawLayers</xpath>
 		<value>
-			<li>Worldsmith.Overlay.WorldDrawLayer_WorldsmithClimate</li>
+			<li>Planetsmith.Overlay.WorldDrawLayer_PlanetsmithClimate</li>
 		</value>
 	</Operation>
 </Patch>

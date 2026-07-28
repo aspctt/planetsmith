@@ -5,10 +5,10 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
-	/// Learns a biome's climate niche by probing its own worker, so Worldsmith can
+	/// Learns a biome's climate niche by probing its own worker, so Planetsmith can
 	/// reason about biomes it has no hardcoded knowledge of, including modded ones.
 	/// Currently derives the cold tolerance: the lowest temperature at which the
 	/// biome scores positively for any rainfall. Frost-intolerant biomes (tropical

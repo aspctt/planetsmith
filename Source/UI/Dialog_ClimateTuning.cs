@@ -3,12 +3,12 @@
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.UI
+namespace Planetsmith.UI
 {
 	/// <summary>
 	/// Dials on the climate model for the planet being generated. Every one of these
 	/// nudges a part of the simulation rather than setting a value outright, so leaving
-	/// them alone produces the world Worldsmith would have built anyway.
+	/// them alone produces the world Planetsmith would have built anyway.
 	/// </summary>
 	public class Dialog_ClimateTuning : Window
 	{
@@ -24,13 +24,13 @@ namespace Worldsmith.UI
 
 		public override void DoWindowContents(Rect inRect)
 		{
-			ClimateTuning tuning = WorldsmithWorldParams.Pending.tuning;
+			ClimateTuning tuning = PlanetsmithWorldParams.Pending.tuning;
 
 			var listing = new Listing_Standard();
 			listing.Begin(inRect);
 
 			Text.Font = GameFont.Medium;
-			listing.Label("Worldsmith: climate tuning");
+			listing.Label("Planetsmith: climate tuning");
 			Text.Font = GameFont.Small;
 			listing.Gap(4f);
 			listing.Label("These adjust the simulation for the world you are about to generate. Left at their defaults they change nothing.");

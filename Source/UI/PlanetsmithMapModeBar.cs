@@ -5,18 +5,18 @@ using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
-using Worldsmith.Gen;
-using Worldsmith.Overlay;
+using Planetsmith.Gen;
+using Planetsmith.Overlay;
 
-namespace Worldsmith.UI
+namespace Planetsmith.UI
 {
 	/// <summary>
-	/// A button on the planet view for switching Worldsmith's map modes, so the climate
+	/// A button on the planet view for switching Planetsmith's map modes, so the climate
 	/// behind a world can be read without turning on development mode. Sits against the
 	/// empty left edge of the screen, clear of the tile inspector, the page buttons and
 	/// the compass.
 	/// </summary>
-	public static class WorldsmithMapModeBar
+	public static class PlanetsmithMapModeBar
 	{
 		// Two lines tall, so the mode name sits under its heading rather than being
 		// squeezed onto one long line beside it.
@@ -39,8 +39,8 @@ namespace Worldsmith.UI
 			var modes = new List<OverlayMode>((OverlayMode[])Enum.GetValues(typeof(OverlayMode)));
 			modes.Remove(OverlayMode.None);
 			modes.Sort((a, b) => string.Compare(
-				WorldsmithOverlay.Label(a),
-				WorldsmithOverlay.Label(b),
+				PlanetsmithOverlay.Label(a),
+				PlanetsmithOverlay.Label(b),
 				StringComparison.CurrentCultureIgnoreCase));
 			modes.Insert(0, OverlayMode.None);
 			return modes.ToArray();
@@ -48,7 +48,7 @@ namespace Worldsmith.UI
 
 		public static void DoGUI()
 		{
-			WorldsmithSettings settings = WorldsmithMod.Settings;
+			PlanetsmithSettings settings = PlanetsmithMod.Settings;
 			if (settings == null || !settings.showMapModeButton)
 			{
 				return;
@@ -58,35 +58,35 @@ namespace Worldsmith.UI
 				return;
 			}
 
-			OverlayMode current = WorldsmithOverlay.Mode;
-			if (WorldsmithOverlay.RequiresGeneratedData(current) && !WorldsmithClimateCache.Valid)
+			OverlayMode current = PlanetsmithOverlay.Mode;
+			if (PlanetsmithOverlay.RequiresGeneratedData(current) && !PlanetsmithClimateCache.Valid)
 			{
 				// Loading a save leaves a generated layer selected but with nothing behind
 				// it. Fall back rather than naming a view that cannot be drawn.
-				WorldsmithOverlay.SetMode(OverlayMode.None);
+				PlanetsmithOverlay.SetMode(OverlayMode.None);
 				current = OverlayMode.None;
 			}
 			string label = current == OverlayMode.None
-				? "Worldsmith\nMap modes"
-				: "Map mode:\n" + WorldsmithOverlay.Label(current);
+				? "Planetsmith\nMap modes"
+				: "Map mode:\n" + PlanetsmithOverlay.Label(current);
 
 			var rect = new Rect(EdgeMargin, TopOffset, ButtonWidth, ButtonHeight);
 			if (Widgets.ButtonText(rect, label))
 			{
 				Find.WindowStack.Add(new FloatMenu(BuildOptions()));
 			}
-			TooltipHandler.TipRegion(rect, "Shade the planet by the climate Worldsmith generated for it.");
+			TooltipHandler.TipRegion(rect, "Shade the planet by the climate Planetsmith generated for it.");
 		}
 
 		private static List<FloatMenuOption> BuildOptions()
 		{
 			var options = new List<FloatMenuOption>();
-			bool haveData = WorldsmithClimateCache.Valid;
+			bool haveData = PlanetsmithClimateCache.Valid;
 			for (int i = 0; i < Modes.Length; i++)
 			{
 				OverlayMode mode = Modes[i];
-				string label = WorldsmithOverlay.Label(mode);
-				if (WorldsmithOverlay.RequiresGeneratedData(mode) && !haveData)
+				string label = PlanetsmithOverlay.Label(mode);
+				if (PlanetsmithOverlay.RequiresGeneratedData(mode) && !haveData)
 				{
 					// These layers are worked out while a world is generated and are not
 					// kept in the save, so after a reload there is nothing to show.
@@ -94,7 +94,7 @@ namespace Worldsmith.UI
 					continue;
 				}
 				OverlayMode captured = mode;
-				options.Add(new FloatMenuOption(label, (Action)(() => WorldsmithOverlay.SetMode(captured))));
+				options.Add(new FloatMenuOption(label, (Action)(() => PlanetsmithOverlay.SetMode(captured))));
 			}
 			return options;
 		}

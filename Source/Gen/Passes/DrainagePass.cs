@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Traces where the rain goes once it lands. Water runs downhill, so each patch of

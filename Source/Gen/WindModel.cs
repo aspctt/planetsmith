@@ -2,7 +2,7 @@
 // Copyright (C) 2026 aspctt
 using UnityEngine;
 
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
 	/// Prevailing surface wind as a function of latitude: the three classic zonal

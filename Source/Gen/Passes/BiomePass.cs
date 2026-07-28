@@ -6,13 +6,13 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Re-selects every tile's biome against the freshly computed climate. It runs
 	/// each biome's own worker in a competitive best-score selection (the shape
-	/// vanilla uses), driven by Worldsmith's temperature and rainfall, and then layers
-	/// Worldsmith's own adjustments on top of that base score. The first adjustment is
+	/// vanilla uses), driven by Planetsmith's temperature and rainfall, and then layers
+	/// Planetsmith's own adjustments on top of that base score. The first adjustment is
 	/// a frost gate: a frost-intolerant biome (learned from its worker via
 	/// <see cref="BiomeProfiler"/>) is penalised where the winter minimum falls below
 	/// its cold tolerance, so a warm annual mean with a lethal winter no longer reads
@@ -42,7 +42,7 @@ namespace Worldsmith.Gen.Passes
 		{
 			PlanetLayer layer = ctx.Layer;
 			List<BiomeDef> biomes = DefDatabase<BiomeDef>.AllDefsListForReading;
-			WorldsmithWorldSettings world = WorldsmithWorldParams.Active;
+			PlanetsmithWorldSettings world = PlanetsmithWorldParams.Active;
 			var tiles = layer.Tiles;
 			for (int i = 0; i < tiles.Count; i++)
 			{
@@ -55,7 +55,7 @@ namespace Worldsmith.Gen.Passes
 			}
 		}
 
-		private static BiomeDef SelectBiome(List<BiomeDef> biomes, Tile tile, PlanetLayer layer, float winterMin, float aridityIndex, WorldsmithWorldSettings world)
+		private static BiomeDef SelectBiome(List<BiomeDef> biomes, Tile tile, PlanetLayer layer, float winterMin, float aridityIndex, PlanetsmithWorldSettings world)
 		{
 			BiomeDef best = null;
 			float bestScore = 0f;
@@ -90,7 +90,7 @@ namespace Worldsmith.Gen.Passes
 				}
 				catch (Exception e)
 				{
-					Log.ErrorOnce($"[Worldsmith] Biome worker '{biome.defName}' failed during selection: {e.Message}", biome.shortHash ^ 0x570B10);
+					Log.ErrorOnce($"[Planetsmith] Biome worker '{biome.defName}' failed during selection: {e.Message}", biome.shortHash ^ 0x570B10);
 				}
 			}
 			return best;

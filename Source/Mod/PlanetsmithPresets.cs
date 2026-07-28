@@ -6,23 +6,23 @@ using System.IO;
 using System.Linq;
 using Verse;
 
-namespace Worldsmith
+namespace Planetsmith
 {
 	/// <summary>
 	/// Named sets of planet parameters, kept as individual files beside RimWorld's own
 	/// saves so they outlive any one world and can be shared. A preset stores everything
 	/// the world creation dialog can change, biome adjustments included.
 	/// </summary>
-	public static class WorldsmithPresets
+	public static class PlanetsmithPresets
 	{
 		private const string FileExtension = ".xml";
-		private const string DocumentRoot = "worldsmithPreset";
+		private const string DocumentRoot = "planetsmithPreset";
 
 		public static string FolderPath
 		{
 			get
 			{
-				string path = Path.Combine(GenFilePaths.SaveDataFolderPath, "Worldsmith", "Presets");
+				string path = Path.Combine(GenFilePaths.SaveDataFolderPath, "Planetsmith", "Presets");
 				Directory.CreateDirectory(path);
 				return path;
 			}
@@ -41,7 +41,7 @@ namespace Worldsmith
 			}
 			catch (Exception e)
 			{
-				Log.Error($"[Worldsmith] Could not list presets: {e}");
+				Log.Error($"[Planetsmith] Could not list presets: {e}");
 				return new List<string>();
 			}
 		}
@@ -51,7 +51,7 @@ namespace Worldsmith
 			return File.Exists(PathFor(name));
 		}
 
-		public static bool Save(string name, WorldsmithWorldSettings settings)
+		public static bool Save(string name, PlanetsmithWorldSettings settings)
 		{
 			if (name.NullOrEmpty() || settings == null)
 			{
@@ -59,7 +59,7 @@ namespace Worldsmith
 			}
 			try
 			{
-				WorldsmithWorldSettings copy = settings.Clone();
+				PlanetsmithWorldSettings copy = settings.Clone();
 				Scribe.saver.InitSaving(PathFor(name), DocumentRoot);
 				try
 				{
@@ -73,20 +73,20 @@ namespace Worldsmith
 			}
 			catch (Exception e)
 			{
-				Log.Error($"[Worldsmith] Could not save preset '{name}': {e}");
+				Log.Error($"[Planetsmith] Could not save preset '{name}': {e}");
 				Scribe.ForceStop();
 				return false;
 			}
 		}
 
-		public static WorldsmithWorldSettings Load(string name)
+		public static PlanetsmithWorldSettings Load(string name)
 		{
 			string path = PathFor(name);
 			if (!File.Exists(path))
 			{
 				return null;
 			}
-			WorldsmithWorldSettings loaded = null;
+			PlanetsmithWorldSettings loaded = null;
 			try
 			{
 				Scribe.loader.InitLoading(path);
@@ -101,7 +101,7 @@ namespace Worldsmith
 			}
 			catch (Exception e)
 			{
-				Log.Error($"[Worldsmith] Could not load preset '{name}': {e}");
+				Log.Error($"[Planetsmith] Could not load preset '{name}': {e}");
 				Scribe.ForceStop();
 				return null;
 			}
@@ -122,7 +122,7 @@ namespace Worldsmith
 			}
 			catch (Exception e)
 			{
-				Log.Error($"[Worldsmith] Could not delete preset '{name}': {e}");
+				Log.Error($"[Planetsmith] Could not delete preset '{name}': {e}");
 				return false;
 			}
 		}

@@ -3,14 +3,14 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace Worldsmith
+namespace Planetsmith
 {
 	/// <summary>
 	/// The generation parameters belonging to one particular planet, as opposed to the
 	/// mod-wide preferences that seed them. These travel with the world: they are chosen
 	/// on the world creation page, used while generating, and saved into the game.
 	/// </summary>
-	public class WorldsmithWorldSettings : IExposable
+	public class PlanetsmithWorldSettings : IExposable
 	{
 		public bool enableSeaLevelControl;
 		public float targetLandFraction;
@@ -62,12 +62,12 @@ namespace Worldsmith
 			}
 		}
 
-		public WorldsmithWorldSettings()
+		public PlanetsmithWorldSettings()
 		{
-			CopyFrom(WorldsmithMod.Settings);
+			CopyFrom(PlanetsmithMod.Settings);
 		}
 
-		public void CopyFrom(WorldsmithSettings defaults)
+		public void CopyFrom(PlanetsmithSettings defaults)
 		{
 			if (defaults == null)
 			{
@@ -81,9 +81,9 @@ namespace Worldsmith
 			axialTilt = defaults.axialTilt;
 		}
 
-		public WorldsmithWorldSettings Clone()
+		public PlanetsmithWorldSettings Clone()
 		{
-			var clone = new WorldsmithWorldSettings
+			var clone = new PlanetsmithWorldSettings
 			{
 				enableSeaLevelControl = enableSeaLevelControl,
 				targetLandFraction = targetLandFraction,
@@ -120,18 +120,18 @@ namespace Worldsmith
 	/// Generation reads these, and the world component copies them so they persist with
 	/// the finished planet.
 	/// </summary>
-	public static class WorldsmithWorldParams
+	public static class PlanetsmithWorldParams
 	{
-		private static WorldsmithWorldSettings pending;
+		private static PlanetsmithWorldSettings pending;
 
 		/// <summary>Parameters for the world about to be created; seeded from the mod defaults.</summary>
-		public static WorldsmithWorldSettings Pending
+		public static PlanetsmithWorldSettings Pending
 		{
 			get
 			{
 				if (pending == null)
 				{
-					pending = new WorldsmithWorldSettings();
+					pending = new PlanetsmithWorldSettings();
 				}
 				return pending;
 			}
@@ -141,18 +141,18 @@ namespace Worldsmith
 		/// <summary>Re-seed the pending parameters from the mod-wide defaults.</summary>
 		public static void ResetToDefaults()
 		{
-			pending = new WorldsmithWorldSettings();
+			pending = new PlanetsmithWorldSettings();
 		}
 
 		/// <summary>
 		/// The parameters generation should obey: the current world's own settings when
 		/// it has them, otherwise whatever is pending for the world being made.
 		/// </summary>
-		public static WorldsmithWorldSettings Active
+		public static PlanetsmithWorldSettings Active
 		{
 			get
 			{
-				WorldsmithWorldSettings stored = Find.World?.GetComponent<WorldsmithWorldComponent>()?.Settings;
+				PlanetsmithWorldSettings stored = Find.World?.GetComponent<PlanetsmithWorldComponent>()?.Settings;
 				return stored ?? Pending;
 			}
 		}

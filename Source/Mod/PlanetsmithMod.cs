@@ -3,43 +3,43 @@
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith
+namespace Planetsmith
 {
 	/// <summary>
 	/// Mod entry point. RimWorld instantiates this once at startup and uses it to
 	/// surface the settings window. The heavy world-generation machinery lives
 	/// elsewhere; this class only owns configuration and the settings UI.
 	/// </summary>
-	public class WorldsmithMod : Verse.Mod
+	public class PlanetsmithMod : Verse.Mod
 	{
-		public const string PackageId = "aspctt.worldsmith";
+		public const string PackageId = "aspctt.planetsmith";
 
-		public static WorldsmithMod Instance { get; private set; }
-		public static WorldsmithSettings Settings { get; private set; }
+		public static PlanetsmithMod Instance { get; private set; }
+		public static PlanetsmithSettings Settings { get; private set; }
 
-		public WorldsmithMod(ModContentPack content) : base(content)
+		public PlanetsmithMod(ModContentPack content) : base(content)
 		{
 			Instance = this;
-			Settings = GetSettings<WorldsmithSettings>();
+			Settings = GetSettings<PlanetsmithSettings>();
 		}
 
-		public override string SettingsCategory() => "Worldsmith";
+		public override string SettingsCategory() => "Planetsmith";
 
 		public override void DoSettingsWindowContents(Rect inRect)
 		{
 			var listing = new Listing_Standard();
 			listing.Begin(inRect);
-			listing.Label("Worldsmith");
+			listing.Label("Planetsmith");
 			listing.Gap(6f);
 			listing.CheckboxLabeled(
 				"Enable climate & biome overhaul",
 				ref Settings.enableClimateOverhaul,
-				"When on, Worldsmith recomputes each tile's temperature, rainfall, and biome from its own climate model during world generation. When off, worlds generate as vanilla.");
+				"When on, Planetsmith recomputes each tile's temperature, rainfall, and biome from its own climate model during world generation. When off, worlds generate as vanilla.");
 			listing.Gap(12f);
 			listing.CheckboxLabeled(
 				"Control sea level",
 				ref Settings.enableSeaLevelControl,
-				"When on, Worldsmith raises or lowers sea level during world generation until the planet has the land fraction set below. Leave off to let vanilla, or another mod, decide the coastline.");
+				"When on, Planetsmith raises or lowers sea level during world generation until the planet has the land fraction set below. Leave off to let vanilla, or another mod, decide the coastline.");
 			if (Settings.enableSeaLevelControl)
 			{
 				listing.Label($"Land: {Settings.targetLandFraction:P0} of the planet's surface");
@@ -49,13 +49,13 @@ namespace Worldsmith
 			listing.CheckboxLabeled(
 				"Show map-mode button on the planet view",
 				ref Settings.showMapModeButton,
-				"Adds a button to the planet view for shading the world by temperature, rainfall and Worldsmith's other climate layers.");
+				"Adds a button to the planet view for shading the world by temperature, rainfall and Planetsmith's other climate layers.");
 
 			listing.Gap(12f);
 			listing.Label($"Axial tilt: {Settings.axialTilt:F1}°  ({TiltDescription(Settings.axialTilt)})");
 			Settings.axialTilt = listing.Slider(Settings.axialTilt, 0f, 90f);
 			listing.Gap(6f);
-			listing.Label("These are the defaults new planets start from. To shape one planet, use the Worldsmith button on the world creation page.");
+			listing.Label("These are the defaults new planets start from. To shape one planet, use the Planetsmith button on the world creation page.");
 			listing.End();
 		}
 

@@ -4,10 +4,10 @@ using System;
 using System.Reflection;
 using Verse;
 
-namespace Worldsmith.Compat
+namespace Planetsmith.Compat
 {
 	/// <summary>
-	/// Soft (reflection-only) detection of other mods Worldsmith needs to cooperate
+	/// Soft (reflection-only) detection of other mods Planetsmith needs to cooperate
 	/// with. No hard assembly references: everything is probed by type name so the
 	/// mod loads and runs whether or not these are present.
 	///
@@ -67,7 +67,7 @@ namespace Worldsmith.Compat
 
 		/// <summary>
 		/// True when a Worldbuilder preset that carries its own saved terrain is being
-		/// loaded, in which case Worldsmith leaves the planet alone.
+		/// loaded, in which case Planetsmith leaves the planet alone.
 		/// </summary>
 		public static bool WorldbuilderTerrainPresetActive()
 		{
@@ -83,14 +83,14 @@ namespace Worldsmith.Compat
 			}
 			catch (Exception e)
 			{
-				Log.WarningOnce($"[Worldsmith] Worldbuilder compatibility probe failed: {e.Message}", 0x5701A2);
+				Log.WarningOnce($"[Planetsmith] Worldbuilder compatibility probe failed: {e.Message}", 0x5701A2);
 				return false;
 			}
 		}
 
 		/// <summary>
 		/// True when AlienWorlds is present and a non-default planet type is active,
-		/// in which case Worldsmith defers its climate overhaul to AlienWorlds.
+		/// in which case Planetsmith defers its climate overhaul to AlienWorlds.
 		/// </summary>
 		public static bool AlienWorldsCustomPlanetActive()
 		{
@@ -106,7 +106,7 @@ namespace Worldsmith.Compat
 			}
 			catch (Exception e)
 			{
-				Log.WarningOnce($"[Worldsmith] AlienWorlds compatibility probe failed: {e.Message}", 0x5701A1);
+				Log.WarningOnce($"[Planetsmith] AlienWorlds compatibility probe failed: {e.Message}", 0x5701A1);
 				return false;
 			}
 		}

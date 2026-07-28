@@ -5,7 +5,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Fills the hollows that rivers run into but never out of. Drainage has already
@@ -75,7 +75,7 @@ namespace Worldsmith.Gen.Passes
 
 			if (lakes > 0)
 			{
-				Log.Message($"[Worldsmith] Filled {lakes} inland basins with water, covering {lakeTiles} tiles.");
+				Log.Message($"[Planetsmith] Filled {lakes} inland basins with water, covering {lakeTiles} tiles.");
 			}
 		}
 

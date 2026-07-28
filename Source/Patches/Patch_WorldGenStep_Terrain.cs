@@ -4,13 +4,13 @@ using System;
 using HarmonyLib;
 using RimWorld.Planet;
 using Verse;
-using Worldsmith.Compat;
-using Worldsmith.Gen;
+using Planetsmith.Compat;
+using Planetsmith.Gen;
 
-namespace Worldsmith.Patches
+namespace Planetsmith.Patches
 {
 	/// <summary>
-	/// After vanilla builds the surface terrain, hand the layer to Worldsmith so it
+	/// After vanilla builds the surface terrain, hand the layer to Planetsmith so it
 	/// can re-derive climate and biomes. Runs only on the root surface layer and
 	/// only when the overhaul is enabled; any failure is logged and vanilla's
 	/// already-generated result is left untouched.
@@ -18,7 +18,7 @@ namespace Worldsmith.Patches
 	/// Deliberately first among the postfixes on this method. Other mods hook the same
 	/// point to derive data from the finished tiles, most notably Geological Landforms,
 	/// which walks the map comparing neighbouring biomes to work out where one gives way
-	/// to another. Anything like that has to see Worldsmith's biomes rather than
+	/// to another. Anything like that has to see Planetsmith's biomes rather than
 	/// vanilla's, or it caches conclusions this pass is about to invalidate.
 	/// </summary>
 	[HarmonyPatch(typeof(WorldGenStep_Terrain), nameof(WorldGenStep_Terrain.GenerateFresh))]
@@ -27,7 +27,7 @@ namespace Worldsmith.Patches
 		[HarmonyPriority(Priority.First)]
 		public static void Postfix(PlanetLayer layer)
 		{
-			var settings = WorldsmithMod.Settings;
+			var settings = PlanetsmithMod.Settings;
 			if (settings == null || !settings.enableClimateOverhaul)
 			{
 				return;
@@ -38,21 +38,21 @@ namespace Worldsmith.Patches
 			}
 			if (ModCompat.AlienWorldsCustomPlanetActive())
 			{
-				Log.Message("[Worldsmith] An AlienWorlds planet type is active; deferring climate overhaul to it.");
+				Log.Message("[Planetsmith] An AlienWorlds planet type is active; deferring climate overhaul to it.");
 				return;
 			}
 			if (ModCompat.WorldbuilderTerrainPresetActive())
 			{
-				Log.Message("[Worldsmith] A Worldbuilder preset with saved terrain is loading; leaving the planet as stored.");
+				Log.Message("[Planetsmith] A Worldbuilder preset with saved terrain is loading; leaving the planet as stored.");
 				return;
 			}
 			try
 			{
-				WorldsmithGen.RunPostTerrain(layer);
+				PlanetsmithGen.RunPostTerrain(layer);
 			}
 			catch (Exception e)
 			{
-				Log.Error($"[Worldsmith] World generation override failed; keeping vanilla result. {e}");
+				Log.Error($"[Planetsmith] World generation override failed; keeping vanilla result. {e}");
 			}
 		}
 	}

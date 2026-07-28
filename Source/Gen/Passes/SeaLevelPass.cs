@@ -5,7 +5,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Raises or lowers sea level until the planet has the requested fraction of land.
@@ -16,7 +16,7 @@ namespace Worldsmith.Gen.Passes
 	/// and the land/ocean split.
 	///
 	/// Off by default so vanilla (and mods that shape the coastline themselves) keep
-	/// control; enabling it makes Worldsmith the authority on the land fraction.
+	/// control; enabling it makes Planetsmith the authority on the land fraction.
 	/// </summary>
 	public sealed class SeaLevelPass : IGenPass
 	{
@@ -28,7 +28,7 @@ namespace Worldsmith.Gen.Passes
 
 		public void Run(GenContext ctx)
 		{
-			WorldsmithWorldSettings settings = WorldsmithWorldParams.Active;
+			PlanetsmithWorldSettings settings = PlanetsmithWorldParams.Active;
 			if (settings == null || !settings.enableSeaLevelControl)
 			{
 				return;
@@ -76,7 +76,7 @@ namespace Worldsmith.Gen.Passes
 				}
 			}
 
-			Log.Message($"[Worldsmith] Sea level adjusted to {targetLand:P0} land (shoreline shifted by {newShoreline:F0}m).");
+			Log.Message($"[Planetsmith] Sea level adjusted to {targetLand:P0} land (shoreline shifted by {newShoreline:F0}m).");
 		}
 	}
 }

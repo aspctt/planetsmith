@@ -4,17 +4,17 @@ using System;
 using System.Collections.Generic;
 using RimWorld.Planet;
 using Verse;
-using Worldsmith.Gen.Passes;
+using Planetsmith.Gen.Passes;
 
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
-	/// Entry point for Worldsmith's world-generation work. Invoked after vanilla's
+	/// Entry point for Planetsmith's world-generation work. Invoked after vanilla's
 	/// terrain step has populated the surface layer; runs the ordered pass pipeline
-	/// to override climate and biome assignment with Worldsmith's own model. A
+	/// to override climate and biome assignment with Planetsmith's own model. A
 	/// failing pass is logged and skipped, leaving vanilla's result in place.
 	/// </summary>
-	public static class WorldsmithGen
+	public static class PlanetsmithGen
 	{
 		private static readonly List<IGenPass> Passes = new List<IGenPass>
 		{
@@ -57,16 +57,16 @@ namespace Worldsmith.Gen
 				catch (Exception e)
 				{
 					timer.Stop();
-					Log.Error($"[Worldsmith] Generation pass '{pass.Name}' failed: {e}");
+					Log.Error($"[Planetsmith] Generation pass '{pass.Name}' failed: {e}");
 				}
 			}
 
 			// World generation already takes a while, so it is worth being able to see at
-			// a glance whether Worldsmith is a meaningful part of the wait.
-			Log.Message($"[Worldsmith] Generated {ctx.TileCount} tiles in {total}ms ({timings.ToString().TrimEnd(' ', ',')}).");
+			// a glance whether Planetsmith is a meaningful part of the wait.
+			Log.Message($"[Planetsmith] Generated {ctx.TileCount} tiles in {total}ms ({timings.ToString().TrimEnd(' ', ',')}).");
 
 			// Keep the derived climate fields around for the debug overlays.
-			WorldsmithClimateCache.Store(ctx);
+			PlanetsmithClimateCache.Store(ctx);
 		}
 	}
 }

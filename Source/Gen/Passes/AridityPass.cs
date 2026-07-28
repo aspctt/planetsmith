@@ -3,7 +3,7 @@
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Effective moisture, which is what plants actually experience. Rainfall alone is

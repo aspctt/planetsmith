@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Worldsmith</name>
+	<name>Planetsmith</name>
 	<author>aspctt</author>
 	<modVersion>1.0.0</modVersion>
-	<packageId>aspctt.worldsmith</packageId>
+	<packageId>aspctt.planetsmith</packageId>
 	<supportedVersions>
 		<li>1.6</li>
 	</supportedVersions>
-	<description>Worldsmith is a world-generation overhaul: a physically-motivated climate simulation and a competitive biome-scoring system that replace vanilla's binary biome placement, plus per-world generation controls and presets.
+	<description>Planetsmith is a world-generation overhaul: a physically-motivated climate simulation and a competitive biome-scoring system that replace vanilla's binary biome placement, plus per-world generation controls and presets.
 
 This is an original, clean-room implementation. It does not include code from, or depend on, any other mod.</description>
 	<modDependencies>

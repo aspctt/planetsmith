@@ -2,7 +2,7 @@
 // Copyright (C) 2026 aspctt
 using Verse;
 
-namespace Worldsmith
+namespace Planetsmith
 {
 	/// <summary>
 	/// A player's adjustments to one biome on one planet: whether it may appear at all,

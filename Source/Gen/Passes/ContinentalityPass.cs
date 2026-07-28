@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Continentality as distance from the sea: a multi-source flood fill outward from

@@ -1,13 +1,13 @@
-# Worldsmith
+# Planetsmith
 - - -
 
 ## Description
 
-Worldsmith is a world-generation overhaul for RimWorld. It replaces vanilla's binary, threshold-based biome placement with a physically-motivated climate simulation and a competitive biome-scoring system, then hands the finished world back to the vanilla pipeline so rivers, lakes, roads, factions, and landmarks all continue to generate normally.
+Planetsmith is a world-generation overhaul for RimWorld. It replaces vanilla's binary, threshold-based biome placement with a physically-motivated climate simulation and a competitive biome-scoring system, then hands the finished world back to the vanilla pipeline so rivers, lakes, roads, factions, and landmarks all continue to generate normally.
 
 At its core is a chain of climate passes, each building on the last, so that every tile's conditions follow from what came before rather than from a lookup table. The result is planets whose deserts sit in rain shadows, whose forests follow the moisture, and whose ice caps and tropics fall where the physics put them.
 
-Worldsmith is an original, independent, clean-room implementation. It is **not** derived from, affiliated with, or endorsed by any other mod, and it shares no code with any other mod (see [NOTICE](./NOTICE)). Its *feature set* was inspired by the now-abandoned mod Realistic Planets 2; its *code* is entirely new.
+Planetsmith is an original, independent, clean-room implementation. It is **not** derived from, affiliated with, or endorsed by any other mod, and it shares no code with any other mod (see [NOTICE](./NOTICE)). Its *feature set* was inspired by the now-abandoned mod Realistic Planets 2; its *code* is entirely new.
 
 ## What it simulates
 
@@ -33,17 +33,17 @@ Worldsmith is an original, independent, clean-room implementation. It is **not**
 
 ## Compatibility
 
-Worldsmith scores biomes through their own workers, so biomes from other mods are included without any patching. It also stands aside where another mod has already decided the matter: it defers to Alien Worlds when one of its planet types is active, and to Worldbuilder presets that carry their own saved terrain. Where a mod covers the same ground as one of Worldsmith's own controls, the world creation dialog says so.
+Planetsmith scores biomes through their own workers, so biomes from other mods are included without any patching. It also stands aside where another mod has already decided the matter: it defers to Alien Worlds when one of its planet types is active, and to Worldbuilder presets that carry their own saved terrain. Where a mod covers the same ground as one of Planetsmith's own controls, the world creation dialog says so.
 
 ## Installation
 
-To install, place the `Worldsmith` folder inside your RimWorld `Mods` folder (e.g. `.../steamapps/common/RimWorld/Mods/Worldsmith`), then enable it in the in-game mod list below its dependencies.
+To install, place the `Planetsmith` folder inside your RimWorld `Mods` folder (e.g. `.../steamapps/common/RimWorld/Mods/Planetsmith`), then enable it in the in-game mod list below its dependencies.
 
 **REMOVE ANY OLD VERSIONS BEFORE INSTALLING.**
 
 ## Dependencies
 
-* [Harmony](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077) (`brrainz.harmony`): must load before Worldsmith.
+* [Harmony](https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077) (`brrainz.harmony`): must load before Planetsmith.
 
 ## Licensing
 
@@ -73,5 +73,5 @@ Please note the copyrights and trademarks in [NOTICE](./NOTICE).
 
 ### Acknowledgements
 
-* koth-87: author of Realistic Planets 2, whose feature set inspired Worldsmith's design. Worldsmith is a clean-room reimplementation and contains none of its code.
+* koth-87: author of Realistic Planets 2, whose feature set inspired Planetsmith's design. Planetsmith is a clean-room reimplementation and contains none of its code.
 * Ludeon Studios: for RimWorld and its modding support.

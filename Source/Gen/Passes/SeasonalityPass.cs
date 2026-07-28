@@ -3,7 +3,7 @@
 using RimWorld.Planet;
 using UnityEngine;
 
-namespace Worldsmith.Gen.Passes
+namespace Planetsmith.Gen.Passes
 {
 	/// <summary>
 	/// Derives each tile's seasonal temperature extremes (coldest and warmest of the
@@ -11,7 +11,7 @@ namespace Worldsmith.Gen.Passes
 	/// dark winters) and with continentality (the sea moderates coasts, so interiors
 	/// bake in summer and freeze in winter). These extremes feed the biome scoring
 	/// gates; vanilla biome workers only see the annual mean, so this is where
-	/// Worldsmith adds the "a warm average with a lethal winter isn't tropical" rule.
+	/// Planetsmith adds the "a warm average with a lethal winter isn't tropical" rule.
 	/// </summary>
 	public sealed class SeasonalityPass : IGenPass
 	{

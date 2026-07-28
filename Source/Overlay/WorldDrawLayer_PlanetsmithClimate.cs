@@ -6,20 +6,20 @@ using Unity.Collections;
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.Overlay
+namespace Planetsmith.Overlay
 {
 	/// <summary>
 	/// Colours every surface tile by its generated temperature or rainfall. Registered
-	/// on the Surface planet layer via a Def patch and driven by <see cref="WorldsmithOverlay"/>;
+	/// on the Surface planet layer via a Def patch and driven by <see cref="PlanetsmithOverlay"/>;
 	/// only draws when a mode is active. This is a debug/inspection tool, not a gameplay layer.
 	/// </summary>
-	public class WorldDrawLayer_WorldsmithClimate : WorldDrawLayer
+	public class WorldDrawLayer_PlanetsmithClimate : WorldDrawLayer
 	{
 		private const byte OverlayAlpha = 205;
 
 		private Material material;
 
-		public override bool Visible => base.Visible && WorldsmithOverlay.Mode != OverlayMode.None;
+		public override bool Visible => base.Visible && PlanetsmithOverlay.Mode != OverlayMode.None;
 
 		public override bool VisibleWhenLayerNotSelected => false;
 
@@ -32,7 +32,7 @@ namespace Worldsmith.Overlay
 				yield return item;
 			}
 
-			if (WorldsmithOverlay.Mode == OverlayMode.None)
+			if (PlanetsmithOverlay.Mode == OverlayMode.None)
 			{
 				FinalizeMesh(MeshParts.All);
 				yield break;
@@ -50,7 +50,7 @@ namespace Worldsmith.Overlay
 
 			for (int i = 0; i < tileCount; i++)
 			{
-				Color32 color = WorldsmithOverlay.ColorFor(i, tiles[i]);
+				Color32 color = PlanetsmithOverlay.ColorFor(i, tiles[i]);
 				LayerSubMesh subMesh = GetSubMesh(material, out _);
 				int baseVert = subMesh.verts.Count;
 				int local = 0;

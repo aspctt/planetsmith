@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 aspctt
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
 	/// One stage of the world-generation pipeline. Passes run in order, each

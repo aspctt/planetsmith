@@ -2,18 +2,18 @@
 // Copyright (C) 2026 aspctt
 using UnityEngine;
 using Verse;
-using Worldsmith.Compat;
+using Planetsmith.Compat;
 
-namespace Worldsmith.UI
+namespace Planetsmith.UI
 {
 	/// <summary>
 	/// Per-world generation parameters, opened from the world creation page so a planet
 	/// can be shaped without leaving for the mod options. Edits apply to the world about
 	/// to be generated; the mod settings remain the defaults new worlds start from.
 	/// </summary>
-	public class Dialog_WorldsmithWorldParams : Window
+	public class Dialog_PlanetsmithWorldParams : Window
 	{
-		public Dialog_WorldsmithWorldParams()
+		public Dialog_PlanetsmithWorldParams()
 		{
 			forcePause = true;
 			absorbInputAroundWindow = true;
@@ -25,14 +25,14 @@ namespace Worldsmith.UI
 
 		public override void DoWindowContents(Rect inRect)
 		{
-			WorldsmithWorldSettings world = WorldsmithWorldParams.Pending;
+			PlanetsmithWorldSettings world = PlanetsmithWorldParams.Pending;
 			ModCompat.EnsureInit();
 
 			var listing = new Listing_Standard();
 			listing.Begin(inRect);
 
 			Text.Font = GameFont.Medium;
-			listing.Label("Worldsmith: planet parameters");
+			listing.Label("Planetsmith: planet parameters");
 			Text.Font = GameFont.Small;
 			listing.Gap(4f);
 			listing.Label("These apply to the world you are about to generate.");
@@ -41,7 +41,7 @@ namespace Worldsmith.UI
 			listing.CheckboxLabeled(
 				"Control sea level",
 				ref world.enableSeaLevelControl,
-				"When on, Worldsmith raises or lowers sea level until the planet has the land fraction set below. Leave off to let vanilla, or another mod, decide the coastline.");
+				"When on, Planetsmith raises or lowers sea level until the planet has the land fraction set below. Leave off to let vanilla, or another mod, decide the coastline.");
 			if (world.enableSeaLevelControl)
 			{
 				listing.Label($"Land: {world.targetLandFraction:P0} of the planet's surface");
@@ -49,12 +49,12 @@ namespace Worldsmith.UI
 				string seaLevelRival = OtherSeaLevelMod();
 				if (seaLevelRival != null)
 				{
-					Note(listing, $"{seaLevelRival} also sets sea level. Worldsmith runs afterwards, so this setting wins; turn it off to leave the coastline to {seaLevelRival}.");
+					Note(listing, $"{seaLevelRival} also sets sea level. Planetsmith runs afterwards, so this setting wins; turn it off to leave the coastline to {seaLevelRival}.");
 				}
 			}
 
 			listing.Gap(12f);
-			listing.Label($"Axial tilt: {world.axialTilt:F1}°  ({WorldsmithMod.TiltDescription(world.axialTilt)})");
+			listing.Label($"Axial tilt: {world.axialTilt:F1}°  ({PlanetsmithMod.TiltDescription(world.axialTilt)})");
 			world.axialTilt = listing.Slider(world.axialTilt, 0f, 90f);
 			listing.Label("Tilt is why a planet has seasons. Upright worlds barely change through the year; steeply tilted ones swing between harsh summers and winters.");
 			if (ModCompat.WorldbuilderLoaded)
@@ -77,13 +77,13 @@ namespace Worldsmith.UI
 			listing.Gap(8f);
 			if (listing.ButtonText("Presets..."))
 			{
-				Find.WindowStack.Add(new Dialog_WorldsmithPresets());
+				Find.WindowStack.Add(new Dialog_PlanetsmithPresets());
 			}
 
 			listing.Gap(12f);
 			if (listing.ButtonText("Reset to mod defaults"))
 			{
-				WorldsmithWorldParams.ResetToDefaults();
+				PlanetsmithWorldParams.ResetToDefaults();
 			}
 
 			listing.End();

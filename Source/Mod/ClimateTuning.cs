@@ -2,12 +2,12 @@
 // Copyright (C) 2026 aspctt
 using Verse;
 
-namespace Worldsmith
+namespace Planetsmith
 {
 	/// <summary>
 	/// Dials on the climate model for one planet. Everything here is a multiplier or an
 	/// offset around the model's own behaviour, so the defaults leave a world exactly as
-	/// Worldsmith would have made it anyway, and nothing has to be understood before a
+	/// Planetsmith would have made it anyway, and nothing has to be understood before a
 	/// planet can be generated.
 	/// </summary>
 	public class ClimateTuning : IExposable

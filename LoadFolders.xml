@@ -3,8 +3,5 @@
 	<v1.6>
 		<li>/</li>
 		<li>1.6</li>
-	
-		<!-- Mod Compatibility -->
-		<!--li IfModActive="Xercaine.WallSleepAccelerator">Mods/Wall Sleep Accelerator</li-->
 	</v1.6>
 </loadFolders>

@@ -5,14 +5,14 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 
-namespace Worldsmith.UI
+namespace Planetsmith.UI
 {
 	/// <summary>
 	/// Saves the current planet parameters under a name, and brings saved ones back.
 	/// Presets live outside any world, so a favourite set of settings can be reused for
 	/// every planet you make afterwards.
 	/// </summary>
-	public class Dialog_WorldsmithPresets : Window
+	public class Dialog_PlanetsmithPresets : Window
 	{
 		private const float RowHeight = 34f;
 
@@ -20,7 +20,7 @@ namespace Worldsmith.UI
 		private Vector2 scrollPosition;
 		private List<string> presets;
 
-		public Dialog_WorldsmithPresets()
+		public Dialog_PlanetsmithPresets()
 		{
 			forcePause = true;
 			absorbInputAroundWindow = true;
@@ -38,7 +38,7 @@ namespace Worldsmith.UI
 
 		private void Refresh()
 		{
-			presets = WorldsmithPresets.AllNames();
+			presets = PlanetsmithPresets.AllNames();
 		}
 
 		public override void DoWindowContents(Rect inRect)
@@ -46,7 +46,7 @@ namespace Worldsmith.UI
 			float y = inRect.y;
 
 			Text.Font = GameFont.Medium;
-			Widgets.Label(new Rect(inRect.x, y, inRect.width, 36f), "Worldsmith: presets");
+			Widgets.Label(new Rect(inRect.x, y, inRect.width, 36f), "Planetsmith: presets");
 			Text.Font = GameFont.Small;
 			y += 44f;
 
@@ -54,15 +54,15 @@ namespace Worldsmith.UI
 			var fieldRect = new Rect(inRect.x, y, inRect.width - 130f, 30f);
 			nameBuffer = Widgets.TextField(fieldRect, nameBuffer);
 			var saveRect = new Rect(fieldRect.xMax + 10f, y, 120f, 30f);
-			string trimmed = WorldsmithPresets.SanitizeName(nameBuffer);
+			string trimmed = PlanetsmithPresets.SanitizeName(nameBuffer);
 			bool canSave = !trimmed.NullOrEmpty();
 			if (!canSave)
 			{
 				GUI.color = new Color(1f, 1f, 1f, 0.4f);
 			}
-			if (Widgets.ButtonText(saveRect, WorldsmithPresets.Exists(trimmed) ? "Overwrite" : "Save") && canSave)
+			if (Widgets.ButtonText(saveRect, PlanetsmithPresets.Exists(trimmed) ? "Overwrite" : "Save") && canSave)
 			{
-				if (WorldsmithPresets.Save(trimmed, WorldsmithWorldParams.Pending))
+				if (PlanetsmithPresets.Save(trimmed, PlanetsmithWorldParams.Pending))
 				{
 					Messages.Message($"Saved preset '{trimmed}'.", MessageTypeDefOf.TaskCompletion, historical: false);
 					nameBuffer = string.Empty;
@@ -103,10 +103,10 @@ namespace Worldsmith.UI
 				var loadRect = new Rect(rowRect.xMax - 185f, rowRect.y + 2f, 90f, 28f);
 				if (Widgets.ButtonText(loadRect, "Load"))
 				{
-					WorldsmithWorldSettings loaded = WorldsmithPresets.Load(preset);
+					PlanetsmithWorldSettings loaded = PlanetsmithPresets.Load(preset);
 					if (loaded != null)
 					{
-						WorldsmithWorldParams.Pending = loaded;
+						PlanetsmithWorldParams.Pending = loaded;
 						Messages.Message($"Loaded preset '{preset}'.", MessageTypeDefOf.TaskCompletion, historical: false);
 					}
 					else
@@ -132,7 +132,7 @@ namespace Worldsmith.UI
 					$"Delete the preset '{target}'?",
 					delegate
 					{
-						WorldsmithPresets.Delete(target);
+						PlanetsmithPresets.Delete(target);
 						Refresh();
 					},
 					destructive: true));

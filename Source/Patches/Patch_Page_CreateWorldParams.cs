@@ -4,12 +4,12 @@ using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
-using Worldsmith.UI;
+using Planetsmith.UI;
 
-namespace Worldsmith.Patches
+namespace Planetsmith.Patches
 {
 	/// <summary>
-	/// Adds a Worldsmith button to the world creation page, opening the per-world
+	/// Adds a Planetsmith button to the world creation page, opening the per-world
 	/// parameters dialog.
 	///
 	/// It goes on the bottom button row rather than into the page's two-column body,
@@ -36,9 +36,9 @@ namespace Worldsmith.Patches
 				width,
 				ButtonHeight);
 
-			if (Widgets.ButtonText(buttonRect, "Worldsmith..."))
+			if (Widgets.ButtonText(buttonRect, "Planetsmith..."))
 			{
-				Find.WindowStack.Add(new Dialog_WorldsmithWorldParams());
+				Find.WindowStack.Add(new Dialog_PlanetsmithWorldParams());
 			}
 		}
 	}
@@ -52,7 +52,7 @@ namespace Worldsmith.Patches
 	{
 		public static void Postfix()
 		{
-			WorldsmithWorldParams.ResetToDefaults();
+			PlanetsmithWorldParams.ResetToDefaults();
 		}
 	}
 }

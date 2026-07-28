@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 aspctt
-namespace Worldsmith.Gen
+namespace Planetsmith.Gen
 {
 	/// <summary>
 	/// Holds the last-generated derived climate fields (continentality and seasonal
@@ -9,7 +9,7 @@ namespace Worldsmith.Gen
 	/// is refreshed each time a world is generated and is empty after a reload until
 	/// the next generation.
 	/// </summary>
-	public static class WorldsmithClimateCache
+	public static class PlanetsmithClimateCache
 	{
 		public static bool Valid { get; private set; }
 		public static int TileCount { get; private set; }

@@ -4,20 +4,20 @@ using System.Reflection;
 using HarmonyLib;
 using Verse;
 
-namespace Worldsmith
+namespace Planetsmith
 {
 	/// <summary>
 	/// Runs once when RimWorld finishes loading assemblies. Applies all Harmony
 	/// patches declared in this assembly and confirms the mod is live.
 	/// </summary>
 	[StaticConstructorOnStartup]
-	public static class WorldsmithBootstrap
+	public static class PlanetsmithBootstrap
 	{
-		static WorldsmithBootstrap()
+		static PlanetsmithBootstrap()
 		{
-			var harmony = new Harmony(WorldsmithMod.PackageId);
+			var harmony = new Harmony(PlanetsmithMod.PackageId);
 			harmony.PatchAll(Assembly.GetExecutingAssembly());
-			Log.Message("[Worldsmith] Loaded and patched.");
+			Log.Message("[Planetsmith] Loaded and patched.");
 		}
 	}
 }
