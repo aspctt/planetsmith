@@ -27,13 +27,16 @@ namespace Worldsmith.Gen.Passes
 		public string Name => "BasinLakes";
 
 		// Share of the landscape's runoff a hollow must gather before it holds a lake.
-		private const float MinInflow = 0.55f;
+		// Read this against the logarithmic scale it is measured on, not as a plain
+		// fraction: because the flow field is compressed, even a middling-looking figure
+		// here amounts to barely one tile's rainfall, which every dip in the ground
+		// clears. This asks for something closer to a hundred tiles draining in.
+		private const float MinInflow = 0.855f;
 		// Most tiles one basin may flood, so a vast flat interior cannot become a sea.
-		private const int MaxLakeTiles = 60;
-		// How far above the deepest point the water may climb. This, rather than the tile
-		// cap, is what keeps a shallow dimple small and lets a genuinely deep hollow hold
-		// a broad lake.
-		private const float MaxBasinRelief = 120f;
+		private const int MaxLakeTiles = 25;
+		// How far above the deepest point the water may climb, which is what keeps a
+		// shallow dimple small and lets a genuinely deep hollow hold a broader lake.
+		private const float MaxBasinRelief = 50f;
 		// Metres of water left above the deepest point once the basin has filled.
 		private const float LakeDepth = 30f;
 
