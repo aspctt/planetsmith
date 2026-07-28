@@ -2,6 +2,7 @@
 // Copyright (C) 2026 aspctt
 using UnityEngine;
 using Verse;
+using Worldsmith.Compat;
 
 namespace Worldsmith.UI
 {
@@ -20,11 +21,12 @@ namespace Worldsmith.UI
 			closeOnClickedOutside = true;
 		}
 
-		public override Vector2 InitialSize => new Vector2(620f, 420f);
+		public override Vector2 InitialSize => new Vector2(640f, 600f);
 
 		public override void DoWindowContents(Rect inRect)
 		{
 			WorldsmithWorldSettings world = WorldsmithWorldParams.Pending;
+			ModCompat.EnsureInit();
 
 			var listing = new Listing_Standard();
 			listing.Begin(inRect);
@@ -44,12 +46,27 @@ namespace Worldsmith.UI
 			{
 				listing.Label($"Land: {world.targetLandFraction:P0} of the planet's surface");
 				world.targetLandFraction = listing.Slider(world.targetLandFraction, 0.05f, 0.95f);
+				string seaLevelRival = OtherSeaLevelMod();
+				if (seaLevelRival != null)
+				{
+					Note(listing, $"{seaLevelRival} also sets sea level. Worldsmith runs afterwards, so this setting wins; turn it off to leave the coastline to {seaLevelRival}.");
+				}
 			}
 
 			listing.Gap(12f);
 			listing.Label($"Axial tilt: {world.axialTilt:F1}°  ({WorldsmithMod.TiltDescription(world.axialTilt)})");
 			world.axialTilt = listing.Slider(world.axialTilt, 0f, 90f);
 			listing.Label("Tilt is why a planet has seasons. Upright worlds barely change through the year; steeply tilted ones swing between harsh summers and winters.");
+			if (ModCompat.WorldbuilderLoaded)
+			{
+				Note(listing, "Worldbuilder has its own axial tilt, which sets how far temperatures swing through the year once you are playing. This one decides how the seasons shape the planet's biomes while it is generated. They are separate, so set both the same way if you want the world to match how it plays.");
+			}
+
+			listing.GapLine(16f);
+			if (listing.ButtonText(world.AnyBiomeAdjusted ? "Biomes (adjusted)..." : "Biomes..."))
+			{
+				Find.WindowStack.Add(new Dialog_BiomeConfig());
+			}
 
 			listing.Gap(12f);
 			if (listing.ButtonText("Reset to mod defaults"))
@@ -58,6 +75,29 @@ namespace Worldsmith.UI
 			}
 
 			listing.End();
+		}
+
+		/// <summary>
+		/// A dimmed aside about another loaded mod that covers the same ground. Shown
+		/// only when that mod is actually present, so a plain install stays uncluttered.
+		/// </summary>
+		private static void Note(Listing_Standard listing, string text)
+		{
+			GUI.color = new Color(1f, 0.85f, 0.4f, 0.8f);
+			Text.Font = GameFont.Tiny;
+			listing.Label(text);
+			Text.Font = GameFont.Small;
+			GUI.color = Color.white;
+		}
+
+		/// <summary>Names whichever loaded mod is also deciding where the coastline sits.</summary>
+		private static string OtherSeaLevelMod()
+		{
+			if (ModCompat.WorldbuilderLoaded)
+			{
+				return "Worldbuilder";
+			}
+			return ModCompat.EarthLikePlanetLoaded ? "Earth-like planet" : null;
 		}
 	}
 }

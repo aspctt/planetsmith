@@ -29,6 +29,20 @@ namespace Worldsmith.Gen
 		private static readonly Dictionary<BiomeDef, float> coldToleranceCache = new Dictionary<BiomeDef, float>();
 		private static readonly Dictionary<BiomeDef, float> wetLimitCache = new Dictionary<BiomeDef, float>();
 
+		/// <summary>
+		/// A real tile reference to probe with. Some workers, including those other mods
+		/// configure through XML, build their context from the tile's id and would throw
+		/// on an invalid one, which would cost us the profile and litter the log.
+		/// </summary>
+		private static PlanetTile ProbeTile
+		{
+			get
+			{
+				PlanetLayer surface = Find.WorldGrid?.Surface;
+				return surface != null && surface.Tiles.Count > 0 ? new PlanetTile(0, surface) : PlanetTile.Invalid;
+			}
+		}
+
 		public static float ColdTolerance(BiomeDef biome)
 		{
 			if (coldToleranceCache.TryGetValue(biome, out float cached))
@@ -65,6 +79,7 @@ namespace Worldsmith.Gen
 			}
 
 			var probe = new Tile { elevation = 100f };
+			PlanetTile probeTile = ProbeTile;
 			float wettest = -1f;
 			for (float rainfall = 0f; rainfall <= 6000f; rainfall += 500f)
 			{
@@ -75,7 +90,7 @@ namespace Worldsmith.Gen
 					float score;
 					try
 					{
-						score = worker.GetScore(biome, probe, PlanetTile.Invalid);
+						score = worker.GetScore(biome, probe, probeTile);
 					}
 					catch
 					{
@@ -103,6 +118,7 @@ namespace Worldsmith.Gen
 			// rainfall directly. Sweep temperature from cold to warm and return the
 			// first temperature that scores positively for some rainfall.
 			var probe = new Tile { elevation = 100f };
+			PlanetTile probeTile = ProbeTile;
 			for (float temperature = -60f; temperature <= 50f; temperature += 5f)
 			{
 				for (float rainfall = 0f; rainfall <= 6000f; rainfall += 500f)
@@ -112,7 +128,7 @@ namespace Worldsmith.Gen
 					float score;
 					try
 					{
-						score = worker.GetScore(biome, probe, PlanetTile.Invalid);
+						score = worker.GetScore(biome, probe, probeTile);
 					}
 					catch
 					{

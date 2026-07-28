@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 aspctt
+using System.Collections.Generic;
 using Verse;
 
 namespace Worldsmith
@@ -14,6 +15,49 @@ namespace Worldsmith
 		public bool enableSeaLevelControl;
 		public float targetLandFraction;
 		public float axialTilt;
+
+		/// <summary>
+		/// Per-biome adjustments, keyed by defName. Only biomes the player has actually
+		/// touched are stored; everything absent behaves as its worker intends.
+		/// </summary>
+		private Dictionary<string, BiomeSettings> biomes = new Dictionary<string, BiomeSettings>();
+
+		/// <summary>Settings for a biome, creating a default entry the first time it is asked for.</summary>
+		public BiomeSettings ForBiome(string defName)
+		{
+			if (!biomes.TryGetValue(defName, out BiomeSettings settings))
+			{
+				settings = new BiomeSettings();
+				biomes[defName] = settings;
+			}
+			return settings;
+		}
+
+		/// <summary>Settings for a biome, or null when it has never been adjusted.</summary>
+		public BiomeSettings ForBiomeOrNull(string defName)
+		{
+			return biomes.TryGetValue(defName, out BiomeSettings settings) ? settings : null;
+		}
+
+		public void ResetAllBiomes()
+		{
+			biomes.Clear();
+		}
+
+		public bool AnyBiomeAdjusted
+		{
+			get
+			{
+				foreach (BiomeSettings settings in biomes.Values)
+				{
+					if (!settings.IsDefault)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
 
 		public WorldsmithWorldSettings()
 		{
@@ -36,12 +80,17 @@ namespace Worldsmith
 
 		public WorldsmithWorldSettings Clone()
 		{
-			return new WorldsmithWorldSettings
+			var clone = new WorldsmithWorldSettings
 			{
 				enableSeaLevelControl = enableSeaLevelControl,
 				targetLandFraction = targetLandFraction,
 				axialTilt = axialTilt,
 			};
+			foreach (var pair in biomes)
+			{
+				clone.biomes[pair.Key] = pair.Value.Clone();
+			}
+			return clone;
 		}
 
 		public void ExposeData()
@@ -49,6 +98,11 @@ namespace Worldsmith
 			Scribe_Values.Look(ref enableSeaLevelControl, "enableSeaLevelControl", defaultValue: false);
 			Scribe_Values.Look(ref targetLandFraction, "targetLandFraction", 0.4f);
 			Scribe_Values.Look(ref axialTilt, "axialTilt", 23.4f);
+			Scribe_Collections.Look(ref biomes, "biomes", LookMode.Value, LookMode.Deep);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && biomes == null)
+			{
+				biomes = new Dictionary<string, BiomeSettings>();
+			}
 		}
 	}
 

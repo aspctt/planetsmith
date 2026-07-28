@@ -42,11 +42,12 @@ namespace Worldsmith.Gen.Passes
 		{
 			PlanetLayer layer = ctx.Layer;
 			List<BiomeDef> biomes = DefDatabase<BiomeDef>.AllDefsListForReading;
+			WorldsmithWorldSettings world = WorldsmithWorldParams.Active;
 			var tiles = layer.Tiles;
 			for (int i = 0; i < tiles.Count; i++)
 			{
 				Tile tile = tiles[i];
-				BiomeDef best = SelectBiome(biomes, tile, layer, ctx.WinterMinTemp[i], ctx.AridityIndex[i]);
+				BiomeDef best = SelectBiome(biomes, tile, layer, ctx.WinterMinTemp[i], ctx.AridityIndex[i], world);
 				if (best != null)
 				{
 					tile.PrimaryBiome = best;
@@ -54,7 +55,7 @@ namespace Worldsmith.Gen.Passes
 			}
 		}
 
-		private static BiomeDef SelectBiome(List<BiomeDef> biomes, Tile tile, PlanetLayer layer, float winterMin, float aridityIndex)
+		private static BiomeDef SelectBiome(List<BiomeDef> biomes, Tile tile, PlanetLayer layer, float winterMin, float aridityIndex, WorldsmithWorldSettings world)
 		{
 			BiomeDef best = null;
 			float bestScore = 0f;
@@ -64,6 +65,11 @@ namespace Worldsmith.Gen.Passes
 				if (!biome.implemented || !biome.generatesNaturally)
 				{
 					continue;
+				}
+				BiomeSettings tuning = world?.ForBiomeOrNull(biome.defName);
+				if (tuning != null && !tuning.enabled)
+				{
+					continue; // the player has banished this biome from the planet
 				}
 				BiomeWorker worker = biome.Worker;
 				if (worker == null || !worker.CanPlaceOnLayer(biome, layer))
@@ -75,6 +81,7 @@ namespace Worldsmith.Gen.Passes
 					float score = worker.GetScore(biome, tile, tile.tile);
 					score = ApplyFrostGate(biome, score, winterMin);
 					score = ApplyAridityGate(biome, score, aridityIndex);
+					score = ApplyPlayerTuning(score, tuning);
 					if (best == null || score > bestScore)
 					{
 						best = biome;
@@ -105,6 +112,27 @@ namespace Worldsmith.Gen.Passes
 				return score; // winters stay above what the biome needs
 			}
 			return score - FrostPenaltyPerDegree * (coldTolerance - winterMin);
+		}
+
+		/// <summary>
+		/// Applies the player's own adjustments last, on top of everything the climate
+		/// decided. The offset shifts a biome across the line in places it would narrowly
+		/// win or lose; the commonality multiplier then stretches or shrinks the ground it
+		/// takes, and is applied only to a winning score so that scaling a biome up cannot
+		/// drag a negative score further down.
+		/// </summary>
+		private static float ApplyPlayerTuning(float score, BiomeSettings tuning)
+		{
+			if (tuning == null)
+			{
+				return score;
+			}
+			score += tuning.scoreOffset;
+			if (score > 0f)
+			{
+				score *= tuning.commonality;
+			}
+			return score;
 		}
 
 		/// <summary>
