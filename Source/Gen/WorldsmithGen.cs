@@ -39,18 +39,31 @@ namespace Worldsmith.Gen
 		public static void RunPostTerrain(PlanetLayer layer)
 		{
 			var ctx = new GenContext(layer);
+			var timer = new System.Diagnostics.Stopwatch();
+			var timings = new System.Text.StringBuilder();
+			long total = 0L;
+
 			for (int i = 0; i < Passes.Count; i++)
 			{
 				IGenPass pass = Passes[i];
 				try
 				{
+					timer.Restart();
 					pass.Run(ctx);
+					timer.Stop();
+					total += timer.ElapsedMilliseconds;
+					timings.Append($"{pass.Name} {timer.ElapsedMilliseconds}ms, ");
 				}
 				catch (Exception e)
 				{
+					timer.Stop();
 					Log.Error($"[Worldsmith] Generation pass '{pass.Name}' failed: {e}");
 				}
 			}
+
+			// World generation already takes a while, so it is worth being able to see at
+			// a glance whether Worldsmith is a meaningful part of the wait.
+			Log.Message($"[Worldsmith] Generated {ctx.TileCount} tiles in {total}ms ({timings.ToString().TrimEnd(' ', ',')}).");
 
 			// Keep the derived climate fields around for the debug overlays.
 			WorldsmithClimateCache.Store(ctx);
