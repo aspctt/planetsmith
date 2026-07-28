@@ -74,8 +74,9 @@ namespace Worldsmith.Gen.Passes
 
 				if (kind == Onshore)
 				{
-					tile.temperature += MaritimeWarming * coastal;
-					tile.rainfall *= 1f + MaritimeRainBoost * coastal;
+					float influence = ctx.Tuning.coastalInfluence;
+					tile.temperature += MaritimeWarming * coastal * influence;
+					tile.rainfall *= 1f + MaritimeRainBoost * coastal * influence;
 					ctx.CoastalAnomaly[i] = coastal;
 					continue;
 				}
@@ -87,8 +88,8 @@ namespace Worldsmith.Gen.Passes
 				float absLat = Mathf.Abs(layer.LongLatOf(i).y);
 				if (absLat >= UpwellingLatitudeMin && absLat <= UpwellingLatitudeMax)
 				{
-					tile.temperature -= UpwellingCooling * coastal;
-					tile.rainfall *= 1f - UpwellingRainSuppression * coastal;
+					tile.temperature -= UpwellingCooling * coastal * ctx.Tuning.coastalInfluence;
+					tile.rainfall *= 1f - UpwellingRainSuppression * coastal * ctx.Tuning.coastalInfluence;
 					ctx.CoastalAnomaly[i] = -coastal;
 				}
 			}

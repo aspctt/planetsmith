@@ -16,6 +16,9 @@ namespace Worldsmith
 		public float targetLandFraction;
 		public float axialTilt;
 
+		/// <summary>Dials on the climate model for this planet.</summary>
+		public ClimateTuning tuning = new ClimateTuning();
+
 		/// <summary>
 		/// Per-biome adjustments, keyed by defName. Only biomes the player has actually
 		/// touched are stored; everything absent behaves as its worker intends.
@@ -85,6 +88,7 @@ namespace Worldsmith
 				enableSeaLevelControl = enableSeaLevelControl,
 				targetLandFraction = targetLandFraction,
 				axialTilt = axialTilt,
+				tuning = tuning.Clone(),
 			};
 			foreach (var pair in biomes)
 			{
@@ -98,6 +102,11 @@ namespace Worldsmith
 			Scribe_Values.Look(ref enableSeaLevelControl, "enableSeaLevelControl", defaultValue: false);
 			Scribe_Values.Look(ref targetLandFraction, "targetLandFraction", 0.4f);
 			Scribe_Values.Look(ref axialTilt, "axialTilt", 23.4f);
+			Scribe_Deep.Look(ref tuning, "tuning");
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && tuning == null)
+			{
+				tuning = new ClimateTuning();
+			}
 			Scribe_Collections.Look(ref biomes, "biomes", LookMode.Value, LookMode.Deep);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit && biomes == null)
 			{

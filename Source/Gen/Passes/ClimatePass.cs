@@ -72,9 +72,9 @@ namespace Worldsmith.Gen.Passes
 			float lapse = 0f;
 			if (elevation > LapseStartAltitude)
 			{
-				lapse = Mathf.Min(MaxLapseReduction, (elevation - LapseStartAltitude) * LapseRatePerMetre);
+				lapse = Mathf.Min(MaxLapseReduction, (elevation - LapseStartAltitude) * LapseRatePerMetre * ctx.Tuning.elevationCooling);
 			}
-			return baseTemp - lapse;
+			return baseTemp - lapse + ctx.Tuning.temperatureOffset;
 		}
 
 		private static float Rainfall(GenContext ctx, float lat, float elevation)
@@ -87,7 +87,7 @@ namespace Worldsmith.Gen.Passes
 			float midLatitude = 1000f * Gaussian(a, MidLatitudeWetLatitude, BandSpread);
 			float rain = 400f + equatorial - subtropicalDry + midLatitude;
 
-			rain *= ctx.RainfallMultiplier;
+			rain *= ctx.RainfallMultiplier * ctx.Tuning.rainfallScale;
 
 			// Crude high-elevation drying, a stand-in until orographic rain shadows land.
 			if (elevation > 1000f)

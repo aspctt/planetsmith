@@ -21,7 +21,7 @@ namespace Worldsmith.UI
 			closeOnClickedOutside = true;
 		}
 
-		public override Vector2 InitialSize => new Vector2(640f, 600f);
+		public override Vector2 InitialSize => new Vector2(640f, 660f);
 
 		public override void DoWindowContents(Rect inRect)
 		{
@@ -63,6 +63,12 @@ namespace Worldsmith.UI
 			}
 
 			listing.GapLine(16f);
+			if (listing.ButtonText(world.tuning.IsDefault ? "Climate tuning..." : "Climate tuning (adjusted)..."))
+			{
+				Find.WindowStack.Add(new Dialog_ClimateTuning());
+			}
+
+			listing.Gap(8f);
 			if (listing.ButtonText(world.AnyBiomeAdjusted ? "Biomes (adjusted)..." : "Biomes..."))
 			{
 				Find.WindowStack.Add(new Dialog_BiomeConfig());

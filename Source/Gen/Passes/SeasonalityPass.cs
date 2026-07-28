@@ -32,7 +32,7 @@ namespace Worldsmith.Gen.Passes
 			int count = tiles.Count;
 			// Seasons exist because the planet is tilted, so the whole swing scales with
 			// it: an upright world has near-constant temperatures year round.
-			float tiltScale = Mathf.Max(MinTiltFactor, ctx.TiltFactor);
+			float tiltScale = Mathf.Max(MinTiltFactor, ctx.TiltFactor) * ctx.Tuning.seasonIntensity;
 			for (int i = 0; i < count; i++)
 			{
 				float latFrac = Mathf.Clamp01(Mathf.Abs(layer.LongLatOf(i).y) / 90f);

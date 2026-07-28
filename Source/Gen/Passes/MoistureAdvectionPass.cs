@@ -45,6 +45,7 @@ namespace Worldsmith.Gen.Passes
 
 			BuildUpwindGraph(layer, tiles, count, isLand, upwindTiles, upwindWeights, moisture);
 
+			float retention = Mathf.Clamp(1f - (1f - LandRetention) / Mathf.Max(0.01f, ctx.Tuning.moistureReach), 0.5f, 0.995f);
 			for (int step = 0; step < PropagationSteps; step++)
 			{
 				for (int i = 0; i < count; i++)
@@ -66,7 +67,7 @@ namespace Worldsmith.Gen.Passes
 					{
 						acc += weights[k] * moisture[sources[k]];
 					}
-					next[i] = acc * LandRetention;
+					next[i] = acc * retention;
 				}
 
 				float[] swap = moisture;

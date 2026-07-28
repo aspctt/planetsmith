@@ -48,7 +48,7 @@ namespace Worldsmith.Gen.Passes
 
 				float factor = rise >= 0f
 					? 1f + WindwardBoost * Mathf.Clamp01(rise / SlopeScale)
-					: 1f - LeewardShadow * Mathf.Clamp01(-rise / SlopeScale);
+					: 1f - LeewardShadow * ctx.Tuning.rainShadow * Mathf.Clamp01(-rise / SlopeScale);
 
 				tile.rainfall = Mathf.Max(0f, tile.rainfall * factor);
 			}

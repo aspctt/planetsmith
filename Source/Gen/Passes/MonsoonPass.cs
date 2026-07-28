@@ -76,7 +76,7 @@ namespace Worldsmith.Gen.Passes
 				}
 
 				ctx.MonsoonStrength[i] = strength;
-				tile.rainfall += MonsoonRainfall * strength;
+				tile.rainfall += MonsoonRainfall * strength * ctx.Tuning.monsoonStrength;
 			}
 		}
 

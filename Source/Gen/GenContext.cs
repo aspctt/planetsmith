@@ -77,6 +77,9 @@ namespace Worldsmith.Gen
 		public readonly ModuleBase TemperatureNoise;
 		public readonly ModuleBase RainfallNoise;
 
+		/// <summary>Player adjustments to the climate model for this planet.</summary>
+		public readonly ClimateTuning Tuning;
+
 		/// <summary>Planet's axial tilt in degrees.</summary>
 		public readonly float AxialTilt;
 
@@ -108,7 +111,9 @@ namespace Worldsmith.Gen
 
 			// Both settings are 7-step enums (index 3 == Normal). Anchor the model to
 			// an Earth-like planet at Normal and shift the whole globe per step.
-			AxialTilt = Mathf.Clamp(WorldsmithWorldParams.Active?.axialTilt ?? 23.4f, 0f, 90f);
+			WorldsmithWorldSettings world = WorldsmithWorldParams.Active;
+			Tuning = world?.tuning ?? new ClimateTuning();
+			AxialTilt = Mathf.Clamp(world?.axialTilt ?? 23.4f, 0f, 90f);
 			TiltFactor = AxialTilt / 23.4f;
 
 			int tempIdx = Mathf.Clamp((int)Find.World.info.overallTemperature, 0, 6);
