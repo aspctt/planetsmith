@@ -68,6 +68,12 @@ namespace Worldsmith.UI
 				Find.WindowStack.Add(new Dialog_BiomeConfig());
 			}
 
+			listing.Gap(8f);
+			if (listing.ButtonText("Presets..."))
+			{
+				Find.WindowStack.Add(new Dialog_WorldsmithPresets());
+			}
+
 			listing.Gap(12f);
 			if (listing.ButtonText("Reset to mod defaults"))
 			{
