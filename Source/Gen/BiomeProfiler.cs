@@ -23,7 +23,11 @@ namespace Worldsmith.Gen
 		/// <summary>Sentinel for biomes that never score positive in the probe (e.g. water biomes on a land tile).</summary>
 		public const float NoColdTolerance = -999f;
 
+		/// <summary>Returned for biomes with no upper limit on rainfall.</summary>
+		public const float NoWetLimit = float.MaxValue;
+
 		private static readonly Dictionary<BiomeDef, float> coldToleranceCache = new Dictionary<BiomeDef, float>();
+		private static readonly Dictionary<BiomeDef, float> wetLimitCache = new Dictionary<BiomeDef, float>();
 
 		public static float ColdTolerance(BiomeDef biome)
 		{
@@ -34,6 +38,57 @@ namespace Worldsmith.Gen
 			float value = ProbeColdTolerance(biome);
 			coldToleranceCache[biome] = value;
 			return value;
+		}
+
+		/// <summary>
+		/// The wettest conditions a biome will still accept, in mm of rainfall. A low
+		/// value marks a biome that only belongs in dry country, which is what lets the
+		/// aridity gate tell a desert from a forest without naming either.
+		/// </summary>
+		public static float WetLimit(BiomeDef biome)
+		{
+			if (wetLimitCache.TryGetValue(biome, out float cached))
+			{
+				return cached;
+			}
+			float value = ProbeWetLimit(biome);
+			wetLimitCache[biome] = value;
+			return value;
+		}
+
+		private static float ProbeWetLimit(BiomeDef biome)
+		{
+			BiomeWorker worker = biome?.Worker;
+			if (worker == null)
+			{
+				return NoWetLimit;
+			}
+
+			var probe = new Tile { elevation = 100f };
+			float wettest = -1f;
+			for (float rainfall = 0f; rainfall <= 6000f; rainfall += 500f)
+			{
+				for (float temperature = -60f; temperature <= 50f; temperature += 5f)
+				{
+					probe.temperature = temperature;
+					probe.rainfall = rainfall;
+					float score;
+					try
+					{
+						score = worker.GetScore(biome, probe, PlanetTile.Invalid);
+					}
+					catch
+					{
+						return NoWetLimit;
+					}
+					if (score > 0f)
+					{
+						wettest = rainfall;
+						break;
+					}
+				}
+			}
+			return wettest < 0f ? NoWetLimit : wettest;
 		}
 
 		private static float ProbeColdTolerance(BiomeDef biome)

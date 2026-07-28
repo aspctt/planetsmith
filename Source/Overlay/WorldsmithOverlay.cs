@@ -16,6 +16,7 @@ namespace Worldsmith.Overlay
 		Continentality,
 		WinterTemperature,
 		OceanCurrents,
+		Aridity,
 	}
 
 	/// <summary>
@@ -81,6 +82,18 @@ namespace Worldsmith.Overlay
 			new Stop(1f, new Color(0.10f, 0.45f, 0.85f)),
 		};
 
+		// Effective moisture, on the standard aridity bands: hyper-arid, arid, semi-arid,
+		// dry sub-humid, then humid.
+		private static readonly Stop[] AridityStops =
+		{
+			new Stop(0f, new Color(0.75f, 0.35f, 0.20f)),
+			new Stop(0.2f, new Color(0.90f, 0.75f, 0.35f)),
+			new Stop(0.5f, new Color(0.80f, 0.85f, 0.35f)),
+			new Stop(0.65f, new Color(0.45f, 0.80f, 0.35f)),
+			new Stop(1.5f, new Color(0.15f, 0.55f, 0.35f)),
+			new Stop(3f, new Color(0.10f, 0.35f, 0.65f)),
+		};
+
 		// Maritime -> continental, continentality 0..1.
 		private static readonly Stop[] ContinentalityStops =
 		{
@@ -110,6 +123,7 @@ namespace Worldsmith.Overlay
 				OverlayMode.Swampiness => OverlayMode.Continentality,
 				OverlayMode.Continentality => OverlayMode.WinterTemperature,
 				OverlayMode.WinterTemperature => OverlayMode.OceanCurrents,
+				OverlayMode.OceanCurrents => OverlayMode.Aridity,
 				_ => OverlayMode.None,
 			};
 			SetMode(next);
@@ -131,6 +145,8 @@ namespace Worldsmith.Overlay
 					return CachedColor(TemperatureStops, WorldsmithClimateCache.WinterMinTemp, tileIndex);
 				case OverlayMode.OceanCurrents:
 					return CachedColor(CoastalAnomalyStops, WorldsmithClimateCache.CoastalAnomaly, tileIndex);
+				case OverlayMode.Aridity:
+					return CachedColor(AridityStops, WorldsmithClimateCache.AridityIndex, tileIndex);
 				default:
 					return new Color32(0, 0, 0, 0);
 			}

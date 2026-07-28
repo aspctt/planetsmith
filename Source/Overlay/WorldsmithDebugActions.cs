@@ -52,5 +52,11 @@ namespace Worldsmith.Overlay
 		{
 			WorldsmithOverlay.SetMode(OverlayMode.OceanCurrents);
 		}
+
+		[DebugAction("Worldsmith", "Climate overlay: aridity", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayAridity()
+		{
+			WorldsmithOverlay.SetMode(OverlayMode.Aridity);
+		}
 	}
 }

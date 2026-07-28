@@ -2,6 +2,7 @@
 // Copyright (C) 2026 aspctt
 using RimWorld.Planet;
 using UnityEngine;
+using Verse;
 
 namespace Worldsmith.Gen.Passes
 {
@@ -24,6 +25,21 @@ namespace Worldsmith.Gen.Passes
 		private const float BandSpread = 17f;
 		private const float SubtropicalDryLatitude = 25f;
 		private const float MidLatitudeWetLatitude = 50f;
+
+		/// <summary>
+		/// How much of the equator-to-pole warmth survives at a given fraction of the way
+		/// to the pole. Sunlight thins out faster than a plain cosine suggests once past
+		/// the tropics, and this follows the profile RimWorld itself uses, which is what
+		/// the biome workers were balanced against. A gentler falloff leaves the middle
+		/// latitudes several degrees too warm and pushes hot, dry biomes polewards.
+		/// </summary>
+		private static readonly SimpleCurve LatitudeWarmthCurve = new SimpleCurve
+		{
+			new CurvePoint(0f, 1f),
+			new CurvePoint(0.1f, 0.985f),
+			new CurvePoint(0.5f, 0.657f),
+			new CurvePoint(1f, 0f),
+		};
 
 		// Strength of the coherent noise that dapples the otherwise-smooth bands.
 		private const float TemperatureNoiseAmplitude = 4f; // deg C
@@ -49,9 +65,8 @@ namespace Worldsmith.Gen.Passes
 
 		private static float Temperature(GenContext ctx, float lat, float elevation)
 		{
-			float latRad = Mathf.Abs(lat) * Mathf.Deg2Rad;
-			// 1 at the equator, 0 at the poles, with a slightly widened tropical belt.
-			float warmth = Mathf.Pow(Mathf.Clamp01(Mathf.Cos(latRad)), 0.75f);
+			// 1 at the equator, 0 at the poles.
+			float warmth = LatitudeWarmthCurve.Evaluate(Mathf.Clamp01(Mathf.Abs(lat) / 90f));
 			float baseTemp = Mathf.Lerp(ctx.PoleMeanTemp, ctx.EquatorMeanTemp, warmth);
 
 			float lapse = 0f;

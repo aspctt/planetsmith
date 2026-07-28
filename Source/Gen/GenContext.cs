@@ -42,6 +42,12 @@ namespace Worldsmith.Gen
 		public readonly float[] OceanicMoisture;
 
 		/// <summary>
+		/// Per-tile effective moisture: rainfall divided by how much this climate could
+		/// evaporate. Below 0.2 is arid, 0.65 and above humid. Filled by AridityPass.
+		/// </summary>
+		public readonly float[] AridityIndex;
+
+		/// <summary>
 		/// Signed strength of the coastal ocean-current effect: positive where onshore
 		/// wind brings mild damp maritime air, negative over cold subtropical upwelling,
 		/// zero where no current anomaly applies. Filled by OceanCurrentPass.
@@ -74,6 +80,7 @@ namespace Worldsmith.Gen
 			CoastDistance = new int[TileCount];
 			CoastalAnomaly = new float[TileCount];
 			OceanicMoisture = new float[TileCount];
+			AridityIndex = new float[TileCount];
 			WinterMinTemp = new float[TileCount];
 			SummerMaxTemp = new float[TileCount];
 			// Default to "no seasonal swing" so a tile the seasonality pass never
@@ -94,7 +101,7 @@ namespace Worldsmith.Gen
 			// A steeper tilt swings the poles through long summers as well as long
 			// nights, so over a whole year they collect more sunlight and the
 			// equator-to-pole gradient flattens. No tilt leaves them permanently dark.
-			PoleMeanTemp = -45f + (tempIdx - 3) * 10f + (AxialTilt - 23.4f) * 0.6f;
+			PoleMeanTemp = -37f + (tempIdx - 3) * 10f + (AxialTilt - 23.4f) * 0.6f;
 
 			int rainIdx = Mathf.Clamp((int)Find.World.info.overallRainfall, 0, 6);
 			RainfallMultiplier = (rainIdx + 1) / 4f;
