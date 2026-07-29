@@ -2,11 +2,12 @@
 <ModMetaData>
 	<name>Planetsmith</name>
 	<author>aspctt</author>
-	<modVersion>1.0.0</modVersion>
+	<modVersion>1.0</modVersion>
 	<packageId>aspctt.planetsmith</packageId>
 	<supportedVersions>
 		<li>1.6</li>
 	</supportedVersions>
+	<modIconPath IgnoreIfNoMatchingField="True">UI/Planetsmith_ModIcon</modIconPath>
 	<description>Planetsmith is a world-generation overhaul: a physically-motivated climate simulation and a competitive biome-scoring system that replace vanilla's binary biome placement, plus per-world generation controls and presets.
 
 This is an original, clean-room implementation. It does not include code from, or depend on, any other mod.</description>
@@ -21,4 +22,12 @@ This is an original, clean-room implementation. It does not include code from, o
 	<loadAfter>
 		<li>brrainz.harmony</li>
 	</loadAfter>
+	<loadBefore>
+		<li>ferny.Worldbuilder</li>
+		<li>ReGrowth.BOTR.Core</li>
+	</loadBefore>
+	<incompatibleWith>
+		<li>sjaandi.realtiltmod</li>
+		<li>koth.RealisticPlanets1.6</li>
+	</incompatibleWith>
 </ModMetaData>
