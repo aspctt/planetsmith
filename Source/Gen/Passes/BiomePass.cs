@@ -43,22 +43,37 @@ namespace Planetsmith.Gen.Passes
 			PlanetLayer layer = ctx.Layer;
 			List<BiomeDef> biomes = DefDatabase<BiomeDef>.AllDefsListForReading;
 			PlanetsmithWorldSettings world = PlanetsmithWorldParams.Active;
+			bool restrictedToChosenBiomes = world != null && world.AnyBiomeDisabled;
 			var tiles = layer.Tiles;
 			for (int i = 0; i < tiles.Count; i++)
 			{
 				Tile tile = tiles[i];
-				BiomeDef best = SelectBiome(biomes, tile, layer, ctx.WinterMinTemp[i], ctx.AridityIndex[i], world);
-				if (best != null)
+				BiomeDef best = SelectBiome(biomes, tile, layer, ctx.WinterMinTemp[i], ctx.AridityIndex[i], world, out float bestScore);
+				if (best == null)
+				{
+					continue;
+				}
+
+				// A positive score means some biome genuinely suits this ground, so it
+				// takes it. Otherwise every candidate was merely tolerating the tile, and
+				// what happens next depends on whether the player narrowed the list: if
+				// they switched biomes off they want what remains spread even into
+				// grudging ground, but if they did not, vanilla's own choice from the
+				// full list is better than forcing a poor fit. Water is left alone
+				// either way, since drowning a land biome in the sea helps nobody.
+				bool wanted = bestScore > 0f;
+				bool forced = restrictedToChosenBiomes && !tile.WaterCovered;
+				if (wanted || forced)
 				{
 					tile.PrimaryBiome = best;
 				}
 			}
 		}
 
-		private static BiomeDef SelectBiome(List<BiomeDef> biomes, Tile tile, PlanetLayer layer, float winterMin, float aridityIndex, PlanetsmithWorldSettings world)
+		private static BiomeDef SelectBiome(List<BiomeDef> biomes, Tile tile, PlanetLayer layer, float winterMin, float aridityIndex, PlanetsmithWorldSettings world, out float bestScore)
 		{
 			BiomeDef best = null;
-			float bestScore = 0f;
+			bestScore = 0f;
 			for (int i = 0; i < biomes.Count; i++)
 			{
 				BiomeDef biome = biomes[i];

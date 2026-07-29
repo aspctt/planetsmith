@@ -28,6 +28,66 @@ namespace Planetsmith.Gen
 
 		private static readonly Dictionary<BiomeDef, float> coldToleranceCache = new Dictionary<BiomeDef, float>();
 		private static readonly Dictionary<BiomeDef, float> wetLimitCache = new Dictionary<BiomeDef, float>();
+		private static readonly Dictionary<BiomeDef, bool> waterBiomeCache = new Dictionary<BiomeDef, bool>();
+
+		/// <summary>
+		/// Whether a biome belongs to open water rather than dry land. Worked out by
+		/// offering the worker a submerged tile: sea and lake biomes will take it, while
+		/// land biomes reject it outright. Asking the worker keeps this true for biomes
+		/// added by other mods, which a list of names never could.
+		/// </summary>
+		public static bool IsWaterBiome(BiomeDef biome)
+		{
+			if (waterBiomeCache.TryGetValue(biome, out bool cached))
+			{
+				return cached;
+			}
+			bool value = ProbeIsWaterBiome(biome);
+			waterBiomeCache[biome] = value;
+			return value;
+		}
+
+		private static bool ProbeIsWaterBiome(BiomeDef biome)
+		{
+			BiomeWorker worker = biome?.Worker;
+			if (worker == null)
+			{
+				return false;
+			}
+
+			// Offer dry land in every climate and see whether anything is refused
+			// outright. A sea or lake biome turns all of it down flat, and crucially does
+			// so on its very first check, before consulting the wider world. That matters
+			// because this runs from the world creation page, where no world exists yet
+			// and any worker reaching for one would throw.
+			var probe = new SurfaceTile { elevation = 100f };
+			PlanetTile probeTile = ProbeTile;
+			for (float temperature = -60f; temperature <= 50f; temperature += 10f)
+			{
+				for (float rainfall = 0f; rainfall <= 4000f; rainfall += 1000f)
+				{
+					probe.temperature = temperature;
+					probe.rainfall = rainfall;
+					try
+					{
+						if (worker.GetScore(biome, probe, probeTile) > RejectedScore)
+						{
+							return false; // it will consider dry land, so it is a land biome
+						}
+					}
+					catch
+					{
+						// Reaching for a world we do not have marks it as caring about
+						// land. Treat it as land and leave it configurable.
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+
+		/// <summary>Workers reject ground they cannot use with a large negative score.</summary>
+		private const float RejectedScore = -50f;
 
 		/// <summary>
 		/// A real tile reference to probe with. Some workers, including those other mods

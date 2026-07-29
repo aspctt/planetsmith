@@ -5,6 +5,7 @@ using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Planetsmith.Gen;
 
 namespace Planetsmith.UI
 {
@@ -38,8 +39,12 @@ namespace Planetsmith.UI
 		public override void PreOpen()
 		{
 			base.PreOpen();
+			// Sea, lake and ice-sheet water are left out: those tiles have no dry-land
+			// alternative to fall back on, so switching one off could only produce a
+			// planet that fails to draw. Ice sheet itself stays, being dry land, and a
+			// world without polar caps is a perfectly sensible thing to ask for.
 			biomes = DefDatabase<BiomeDef>.AllDefsListForReading
-				.Where(b => b.implemented && b.generatesNaturally)
+				.Where(b => b.implemented && b.generatesNaturally && !BiomeProfiler.IsWaterBiome(b))
 				.OrderBy(b => b.label ?? b.defName)
 				.ToList();
 		}

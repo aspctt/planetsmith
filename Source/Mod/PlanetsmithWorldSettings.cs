@@ -62,6 +62,26 @@ namespace Planetsmith
 			}
 		}
 
+		/// <summary>
+		/// True once the player has switched a biome off. That turns a planet into a
+		/// deliberately narrowed one, where the remaining biomes are meant to take ground
+		/// they would not otherwise have earned.
+		/// </summary>
+		public bool AnyBiomeDisabled
+		{
+			get
+			{
+				foreach (BiomeSettings settings in biomes.Values)
+				{
+					if (!settings.enabled)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
 		public PlanetsmithWorldSettings()
 		{
 			CopyFrom(PlanetsmithMod.Settings);
