@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Planetsmith Guide</title>
+	<meta name="description" content="Guide to Planetsmith, a world generation overhaul for RimWorld that simulates climate and lets biomes settle where they belong.">
+	<style>
+		:root {
+			--bg: #0f1319;
+			--panel: #161b23;
+			--panel-2: #1b212b;
+			--border: #262f3d;
+			--text: #ccd3dc;
+			--head: #eef2f7;
+			--muted: #808c9c;
+			--sand: #e0a458;
+			--teal: #4a9eb8;
+			--green: #6fae6a;
+			--rust: #c2683f;
+			--sidebar: 250px;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			background: var(--bg);
+			color: var(--text);
+			font: 16px/1.65 "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+		}
+
+		a { color: var(--sand); text-decoration: none; }
+		a:hover { text-decoration: underline; }
+
+		/* Layout */
+		.wrap { display: flex; min-height: 100vh; }
+
+		nav {
+			width: var(--sidebar);
+			flex: 0 0 var(--sidebar);
+			background: var(--panel);
+			border-right: 1px solid var(--border);
+			padding: 28px 0 60px;
+			position: sticky;
+			top: 0;
+			height: 100vh;
+			overflow-y: auto;
+		}
+
+		nav .brand {
+			padding: 0 24px 18px;
+			border-bottom: 1px solid var(--border);
+			margin-bottom: 14px;
+		}
+		nav .brand b { color: var(--head); font-size: 19px; letter-spacing: .3px; }
+		nav .brand span { display: block; color: var(--muted); font-size: 12.5px; margin-top: 3px; }
+
+		nav a {
+			display: block;
+			padding: 7px 24px;
+			color: var(--text);
+			font-size: 14.5px;
+			border-left: 2px solid transparent;
+		}
+		nav a:hover { background: var(--panel-2); text-decoration: none; }
+		nav a.on { border-left-color: var(--sand); color: var(--head); background: var(--panel-2); }
+		nav .grp {
+			padding: 16px 24px 5px;
+			color: var(--muted);
+			font-size: 11.5px;
+			letter-spacing: 1.2px;
+			text-transform: uppercase;
+		}
+
+		main { flex: 1; min-width: 0; padding: 46px 52px 120px; max-width: 900px; }
+
+		/* Type */
+		h1 { color: var(--head); font-size: 34px; margin: 0 0 6px; letter-spacing: .2px; }
+		h2 {
+			color: var(--head);
+			font-size: 24px;
+			margin: 52px 0 14px;
+			padding-bottom: 9px;
+			border-bottom: 1px solid var(--border);
+			scroll-margin-top: 20px;
+		}
+		h3 { color: var(--head); font-size: 17.5px; margin: 30px 0 8px; }
+		p { margin: 0 0 14px; }
+		.lead { font-size: 17.5px; color: var(--head); }
+		.sub { color: var(--muted); margin-bottom: 30px; }
+		ul { margin: 0 0 14px; padding-left: 22px; }
+		li { margin-bottom: 7px; }
+		code {
+			background: var(--panel-2);
+			border: 1px solid var(--border);
+			border-radius: 3px;
+			padding: 1px 5px;
+			font-family: Consolas, Menlo, monospace;
+			font-size: 13.5px;
+			color: var(--sand);
+		}
+
+		/* Components */
+		.note {
+			background: var(--panel);
+			border-left: 3px solid var(--teal);
+			border-radius: 0 5px 5px 0;
+			padding: 13px 18px;
+			margin: 20px 0;
+		}
+		.note.warn { border-left-color: var(--sand); }
+		.note b { color: var(--head); }
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 18px 0 22px;
+			font-size: 14.5px;
+		}
+		th, td {
+			text-align: left;
+			padding: 9px 12px;
+			border-bottom: 1px solid var(--border);
+			vertical-align: top;
+		}
+		th { color: var(--muted); font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .7px; }
+		td:first-child { color: var(--head); white-space: nowrap; }
+
+		.swatch {
+			display: inline-block;
+			width: 11px; height: 11px;
+			border-radius: 2px;
+			margin-right: 6px;
+			vertical-align: baseline;
+		}
+
+		.steps { counter-reset: s; list-style: none; padding-left: 0; }
+		.steps li {
+			counter-increment: s;
+			position: relative;
+			padding-left: 38px;
+			margin-bottom: 13px;
+		}
+		.steps li::before {
+			content: counter(s);
+			position: absolute; left: 0; top: 1px;
+			width: 25px; height: 25px;
+			border-radius: 50%;
+			background: var(--panel-2);
+			border: 1px solid var(--border);
+			color: var(--sand);
+			font-size: 13px;
+			display: flex; align-items: center; justify-content: center;
+		}
+
+		footer {
+			margin-top: 70px;
+			padding-top: 22px;
+			border-top: 1px solid var(--border);
+			color: var(--muted);
+			font-size: 13.5px;
+		}
+
+		/* Mobile */
+		@media (max-width: 860px) {
+			.wrap { display: block; }
+			nav {
+				position: static; width: auto; height: auto;
+				border-right: none; border-bottom: 1px solid var(--border);
+				padding-bottom: 18px;
+			}
+			nav .links { display: flex; flex-wrap: wrap; padding: 0 14px; }
+			nav a { border-left: none; border-radius: 4px; padding: 5px 10px; }
+			nav a.on { border-left: none; }
+			nav .grp { width: 100%; padding: 12px 10px 3px; }
+			main { padding: 28px 20px 80px; }
+			h1 { font-size: 27px; }
+		}
+	</style>
+</head>
+<body>
+<div class="wrap">
+
+	<nav>
+		<div class="brand">
+			<b>Planetsmith</b>
+			<span>World generation guide</span>
+		</div>
+		<div class="links">
+			<div class="grp">Start</div>
+			<a href="#glance">At a glance</a>
+			<a href="#install">Installing</a>
+			<a href="#where">Where the controls are</a>
+
+			<div class="grp">The simulation</div>
+			<a href="#how">How a world is built</a>
+			<a href="#temperature">Temperature</a>
+			<a href="#rain">Rainfall and mountains</a>
+			<a href="#sea">The sea and its coasts</a>
+			<a href="#seasons">Seasons and monsoons</a>
+			<a href="#water">Water on the land</a>
+			<a href="#biomes-chosen">How biomes are chosen</a>
+
+			<div class="grp">Controls</div>
+			<a href="#planet">Planet settings</a>
+			<a href="#tuning">Climate tuning</a>
+			<a href="#biomes">Biomes</a>
+			<a href="#presets">Presets</a>
+			<a href="#mapmodes">Map modes</a>
+
+			<div class="grp">Reference</div>
+			<a href="#compat">Compatibility</a>
+			<a href="#faq">Questions</a>
+		</div>
+	</nav>
+
+	<main>
+		<h1>Planetsmith</h1>
+		<p class="sub">A guide to what the mod does to your planet, and everything you can change about it.</p>
+
+		<h2 id="glance">At a glance</h2>
+		<p class="lead">Planetsmith replaces the way RimWorld decides what goes where on a planet.</p>
+		<p>Vanilla picks a biome for each tile by checking its temperature and rainfall against a set of thresholds. Planetsmith instead simulates the climate first: where the wind blows, where the rain falls, where the water runs. Biomes are then chosen from the result, so they end up where the conditions actually put them.</p>
+		<p>In practice that means:</p>
+		<ul>
+			<li>Deserts form <b>behind mountain ranges</b>, in the dry air that has already lost its water crossing the peaks</li>
+			<li><b>Continental interiors dry out</b>, because sea air gives up its moisture on the way inland</li>
+			<li><b>Deserts can sit on a coastline</b>, where cold water rising offshore kills the rainfall</li>
+			<li><b>Monsoon coasts stay green</b> beside parched interiors at the very same latitude</li>
+			<li><b>Rivers gather into valleys</b>, and lakes fill the hollows they never escape</li>
+		</ul>
+		<p>Everything else about your world generates as normal. Rivers, roads, factions, landmarks, quests and settlements are untouched.</p>
+
+		<h2 id="install">Installing</h2>
+		<ol class="steps">
+			<li>Subscribe on the Steam Workshop, or drop the folder into <code>RimWorld/Mods</code></li>
+			<li>Enable <b>Harmony</b>, then <b>Planetsmith</b> below it in the mod list</li>
+			<li>Start a new world</li>
+		</ol>
+		<div class="note warn">
+			<b>Planetsmith only shapes worlds generated after you install it.</b> Adding it to a save you are already playing will not reshape that planet, because the world was built before the mod was there to change it.
+		</div>
+
+		<h2 id="where">Where the controls are</h2>
+		<p>Planetsmith has two places you can change things, and the difference matters.</p>
+		<table>
+			<tr><th>Place</th><th>What it holds</th></tr>
+			<tr><td>Mod options</td><td>The <b>defaults</b> every new planet starts from. Set it once and every world you make afterwards begins there.</td></tr>
+			<tr><td>The Planetsmith button<br>on the world creation page</td><td>The settings for <b>the planet you are making right now</b>. Everything here starts from your defaults and can be changed freely without affecting them.</td></tr>
+		</table>
+		<p>So if you always want a wetter planet, set it in mod options. If you want this one world to be strange, use the button.</p>
+
+		<h2 id="how">How a world is built</h2>
+		<p>Once RimWorld has laid down the land and sea, Planetsmith works across the planet in order. Each stage builds on the ones before it, which is why the results hang together rather than looking scattered.</p>
+		<ol class="steps">
+			<li><b>Sea level</b> is set, if you have asked for a particular amount of land</li>
+			<li><b>Temperature and rainfall</b> are laid down from latitude and altitude</li>
+			<li><b>Mountains</b> take their share of the rain, soaking one side and starving the other</li>
+			<li><b>Sea air</b> is carried inland by the wind and gives out as it goes</li>
+			<li><b>Coasts</b> are tempered by the water beside them</li>
+			<li><b>Seasons</b> are worked out, then the <b>monsoon</b> rains that follow from them</li>
+			<li><b>Effective moisture</b> is weighed, rainfall against evaporation</li>
+			<li><b>Water</b> is traced downhill into valleys, and lakes fill the hollows</li>
+			<li><b>Biomes</b> settle wherever the finished climate suits them</li>
+		</ol>
+
+		<h2 id="temperature">Temperature</h2>
+		<p>Temperature falls from the equator to the poles along a curve, and falls again with height, so mountains are colder than the plains around them. A gentle drift is layered over the top so the bands never look ruled with a straightedge.</p>
+		<p>The planet's <b>axial tilt</b> also has a say. A steeply tilted world gives its poles long summers as well as long nights, so over a year they collect more sunlight and the gap between equator and pole narrows. A world with no tilt leaves them in permanent cold.</p>
+
+		<h2 id="rain">Rainfall and mountains</h2>
+		<p>Rain arrives in the three great belts every planet has: a wet equator, dry subtropics either side of it, and a wetter band again in the middle latitudes. That is why deserts tend to sit at the same distance from the equator the world over.</p>
+		<h3>Rain shadows</h3>
+		<p>Where the prevailing wind climbs into high ground, the air is forced upward and drops its water on the windward slope. Whatever crosses the top arrives dry. This is why a mountain range can have forest on one flank and desert on the other, and it is one of the most visible things Planetsmith adds.</p>
+
+		<h2 id="sea">The sea and its coasts</h2>
+		<h3>Moisture carried inland</h3>
+		<p>The ocean is the source of nearly all rain. Wind carries that moisture inland, and it thins with every stretch of land it crosses. Coasts stay damp, and the deep interior of a large continent runs dry no matter its latitude.</p>
+		<h3>Ocean currents</h3>
+		<p>Which coast of a landmass you stand on matters enormously, and the deciding factor is whether the wind arrives off the water or off the land.</p>
+		<ul>
+			<li>Where it blows <b>onshore</b>, the sea hands the coast mild, damp air. Those shores are warmer and wetter than their latitude suggests.</li>
+			<li>Where it blows <b>offshore</b> in the subtropics, cold water rises from the deep along the shore. It chills the air and kills the rain, which is how a real planet ends up with deserts running right down to the sea.</li>
+		</ul>
+
+		<h2 id="seasons">Seasons and monsoons</h2>
+		<p>How far temperatures swing between summer and winter depends on two things: how far you are from the equator, and how far you are from the sea. The ocean is slow to warm and slow to cool, so it steadies the coasts beside it, while deep inland bakes in summer and freezes in winter. The planet's axial tilt sets how severe the whole business is.</p>
+		<h3>Monsoons</h3>
+		<p>Land gains and loses heat far faster than water. A large landmass in the tropics therefore grows much hotter than the sea beside it each summer, the air above it rises, and ocean air floods in to replace it, arriving heavy with water. Months of torrential rain follow, then a dry season when the flow reverses.</p>
+		<p>Three things have to line up for it: the tropics, a strong swing between the seasons, and a sea close enough that the incoming air is still wet. Where all three hold, a great deal of rain falls.</p>
+
+		<h2 id="water">Water on the land</h2>
+		<h3>Where the water goes</h3>
+		<p>Every patch of ground sheds its rain onto the lowest neighbour it touches, and that neighbour passes on everything it received along with its own. Working down from the peaks, the totals build: ridges carry almost nothing, valley floors gather whole watersheds.</p>
+		<h3>Lakes</h3>
+		<p>Some hollows collect a great deal of water and have no way out, being ringed entirely by higher ground. Those fill. It is how the Caspian and the Great Salt Lake came to be, and it is the one place a large body of water belongs nowhere near a coast.</p>
+		<h3>Wetlands</h3>
+		<p>Marsh forms where water arrives and struggles to leave: flat ground, dips that collect it, and the floodplains of anything large enough to be called a river.</p>
+
+		<h2 id="biomes-chosen">How biomes are chosen</h2>
+		<p>Every biome looks at every tile and says how well it suits the place. The best fit wins. On top of that, Planetsmith applies two rules of its own.</p>
+		<h3>The frost rule</h3>
+		<p>A tile can have a perfectly pleasant average temperature and still freeze solid every winter. Biomes that cannot survive frost are held back from those places, so a jungle no longer appears somewhere that spends three months below zero.</p>
+		<h3>The moisture rule</h3>
+		<p>Rainfall alone is misleading. Four hundred millimetres falling on baking desert and the same falling on cold tundra support utterly different life, because heat decides how much of it evaporates straight back out. Planetsmith weighs the two together, so dry-country biomes stay in country that is genuinely parched, and a cold place with little rain reads as damp, which it is.</p>
+
+		<h2 id="planet">Planet settings</h2>
+		<p>Reached from the <b>Planetsmith</b> button on the world creation page.</p>
+		<table>
+			<tr><th>Setting</th><th>What it does</th></tr>
+			<tr><td>Control sea level</td><td>Off by default. When on, Planetsmith raises or lowers the sea until the planet has the amount of land you ask for. Leave it off to let vanilla, or another mod, decide the coastline.</td></tr>
+			<tr><td>Land fraction</td><td>How much of the surface is dry land. Earth is around 30 percent.</td></tr>
+			<tr><td>Axial tilt</td><td>Why a planet has seasons. Earth sits at 23.4 degrees. An upright world barely changes through the year; a steeply tilted one swings between harsh summers and winters, and that in turn decides how far the frost-shy biomes can reach.</td></tr>
+		</table>
+
+		<h2 id="tuning">Climate tuning</h2>
+		<p>Eight dials over the simulation itself. Every one nudges what the model already does rather than setting a value outright, so leaving them alone produces the world Planetsmith would have built anyway. Nothing here needs to be understood before you can generate a planet.</p>
+		<table>
+			<tr><th>Dial</th><th>Turn it up for</th></tr>
+			<tr><td>Global temperature</td><td>A warmer planet throughout, before anything else is worked out</td></tr>
+			<tr><td>Cooling with altitude</td><td>Colder peaks, and snow on smaller mountains</td></tr>
+			<tr><td>Overall rainfall</td><td>A wetter world everywhere</td></tr>
+			<tr><td>Rain shadows</td><td>Harsher deserts behind mountain ranges</td></tr>
+			<tr><td>Moisture reach inland</td><td>Greener continental interiors, as sea air carries further</td></tr>
+			<tr><td>Monsoon strength</td><td>Heavier seasonal rains on tropical coasts</td></tr>
+			<tr><td>Season intensity</td><td>Fiercer summers and winters, which pushes frost-shy biomes toward the equator</td></tr>
+			<tr><td>Coastal influence</td><td>Stronger contrast between a landmass's two coasts</td></tr>
+		</table>
+
+		<h2 id="biomes">Biomes</h2>
+		<p>Every biome that generates naturally is listed, including those added by other mods. Each has three controls.</p>
+		<table>
+			<tr><th>Control</th><th>What it does</th></tr>
+			<tr><td>On or off</td><td>Switch a biome off and it will not appear on this planet</td></tr>
+			<tr><td>Frequency</td><td>How much ground it takes where the climate already suits it</td></tr>
+			<tr><td>Score offset</td><td>A flat nudge, pushing it into or out of places it narrowly loses or wins</td></tr>
+		</table>
+		<p>Turning biomes off is also how you make a single-biome planet. Planetsmith reads it as an instruction to spread whatever is left, so the remaining biomes will take ground they would not otherwise have earned.</p>
+		<div class="note">
+			<b>Sea, lake and sea ice are not listed.</b> Those tiles have no dry-land alternative to fall back on, so switching them off could only produce a planet that fails to draw. Ice sheet <i>is</i> listed, being dry land, and a world without polar caps is a perfectly reasonable thing to ask for.
+		</div>
+
+		<h2 id="presets">Presets</h2>
+		<p>Everything above can be saved under a name and reused on every planet afterwards, biome adjustments included. Presets are kept alongside your saves, so they outlive any one world and can be shared.</p>
+
+		<h2 id="mapmodes">Map modes</h2>
+		<p>The <b>Planetsmith map modes</b> button on the planet view shades the world by whatever you want to look at. Useful for choosing a landing site, and for seeing why a world turned out the way it did.</p>
+		<table>
+			<tr><th>Mode</th><th>Shows</th><th>Reading it</th></tr>
+			<tr><td>Temperature</td><td>Average through the year</td><td><span class="swatch" style="background:#1a1a8c"></span>cold to <span class="swatch" style="background:#e63319"></span>hot</td></tr>
+			<tr><td>Rainfall</td><td>How much falls in a year</td><td><span class="swatch" style="background:#d9bf73"></span>dry to <span class="swatch" style="background:#1a33cc"></span>drenched</td></tr>
+			<tr><td>Wetlands</td><td>Marsh and waterlogged ground</td><td><span class="swatch" style="background:#ccb880"></span>dry to <span class="swatch" style="background:#1a5966"></span>swamp</td></tr>
+			<tr><td>Water flow</td><td>Where the runoff gathers</td><td><span class="swatch" style="background:#d1c79e"></span>ridges to <span class="swatch" style="background:#0d268c"></span>river valleys</td></tr>
+			<tr><td>Effective moisture</td><td>Rainfall weighed against evaporation</td><td><span class="swatch" style="background:#bf5933"></span>parched to <span class="swatch" style="background:#1a59a6"></span>humid</td></tr>
+			<tr><td>Monsoon</td><td>Where the seasonal rains reach</td><td><span class="swatch" style="background:#47474d"></span>none to <span class="swatch" style="background:#5933bf"></span>drenching</td></tr>
+			<tr><td>Winter temperature</td><td>The coldest it gets</td><td>Same colours as temperature</td></tr>
+			<tr><td>Distance from sea</td><td>How maritime or continental a place is</td><td><span class="swatch" style="background:#3399bf"></span>coastal to <span class="swatch" style="background:#b35933"></span>deep interior</td></tr>
+			<tr><td>Coastal currents</td><td>Where the sea warms or chills a shore</td><td><span class="swatch" style="background:#bf4026"></span>cold and dry, <span class="swatch" style="background:#47474d"></span>untouched, <span class="swatch" style="background:#1a73d9"></span>mild and damp</td></tr>
+		</table>
+		<div class="note">
+			Five of these are worked out while a world is generated and are not kept in the save, so after loading an old game they will offer to be regenerated rather than showing you stale information. Temperature, rainfall and wetlands read the tile itself and always work.
+		</div>
+
+		<h2 id="compat">Compatibility</h2>
+		<h3>Biomes from other mods</h3>
+		<p>They work with no patching at all. Planetsmith judges every biome by the same rules its own author wrote, so anything you have installed simply takes part, and appears in the biome list ready to be adjusted.</p>
+		<h3>Mods that also shape worlds</h3>
+		<table>
+			<tr><th>Mod</th><th>How they get along</th></tr>
+			<tr><td>Geological Landforms</td><td>Works alongside it. Planetsmith runs first so the landform data is built from the finished biomes.</td></tr>
+			<tr><td>Alien Worlds</td><td>Planetsmith stands aside entirely when one of its planet types is active, leaving that planet to it.</td></tr>
+			<tr><td>Worldbuilder</td><td>Works alongside it, and stands aside for presets that carry their own saved terrain. Note that Worldbuilder has its own axial tilt and sea level settings covering similar ground, and the Planetsmith dialog will say so.</td></tr>
+			<tr><td>Earth-like planet</td><td>Works alongside it. Its coastline is left alone unless you switch Planetsmith's own sea level control on, in which case yours wins.</td></tr>
+			<tr><td>Realistic Planets, Tilt the Planet</td><td>Not compatible. They overhaul the same part of the game.</td></tr>
+		</table>
+
+		<h2 id="faq">Questions</h2>
+		<h3>Can I add it to a game I am already playing?</h3>
+		<p>Yes, but it will not reshape that planet. The world was built before the mod was there to change it. You will get the map modes that read the tile directly, and any new world you generate afterwards will be a Planetsmith one.</p>
+
+		<h3>My world came out too dry, or too wet</h3>
+		<p>Open climate tuning. <b>Overall rainfall</b> is the blunt instrument. <b>Moisture reach inland</b> is the interesting one, since it decides whether continental interiors are green or barren without touching the coasts.</p>
+
+		<h3>A biome I want is not appearing</h3>
+		<p>Raise its <b>frequency</b>, or give it a <b>score offset</b> to push it into places it currently loses by a narrow margin. If it still refuses, the climate may simply not suit it anywhere: check the map modes to see whether the conditions it needs exist on that planet at all.</p>
+
+		<h3>Why is there so little of one biome when I turned all the others off?</h3>
+		<p>There should not be. Switching biomes off tells Planetsmith to spread what remains even into ground it would normally decline. Oceans stay oceans regardless, since a land biome drowned in the sea helps nobody.</p>
+
+		<h3>Missing texture errors in the log</h3>
+		<p>These come from a biome being asked to appear somewhere its artwork was never drawn for, usually a temperate biome pushed onto frozen mountains. It is cosmetic, and it comes from the texture set rather than from world generation. It shows up mostly when forcing one biome across a whole planet.</p>
+
+		<h3>Does it slow world generation down?</h3>
+		<p>A little. Roughly three seconds on a full-size planet, against a process that already takes considerably longer.</p>
+
+		<h3>Is it safe to change the settings between worlds?</h3>
+		<p>Yes. Every planet keeps its own copy of the settings it was made with, so changing them later never disturbs a world you have already generated.</p>
+
+		<footer>
+			Planetsmith is an original, clean-room implementation. It is not derived from, affiliated with, or endorsed by any other mod, and shares no code with any other mod.
+		</footer>
+	</main>
+</div>
+
+<script>
+	// Light up the section you are reading in the sidebar.
+	var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+	var targets = links
+		.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+		.filter(Boolean);
+
+	function sync() {
+		var best = 0;
+		for (var i = 0; i < targets.length; i++) {
+			if (targets[i].getBoundingClientRect().top <= 90) { best = i; }
+		}
+		links.forEach(function (a, i) { a.classList.toggle('on', i === best); });
+	}
+
+	window.addEventListener('scroll', sync, { passive: true });
+	window.addEventListener('resize', sync);
+	sync();
+</script>
+</body>
+</html>
