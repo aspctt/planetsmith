@@ -19,6 +19,7 @@ namespace Planetsmith.Overlay
 		Aridity,
 		Monsoon,
 		Drainage,
+		RainShadow,
 	}
 
 	/// <summary>
@@ -117,6 +118,19 @@ namespace Planetsmith.Overlay
 			new Stop(1f, new Color(0.05f, 0.15f, 0.55f)),
 		};
 
+		// Air that arrived with all its water (grey) through to air wrung out crossing the
+		// peaks. Grey marks tiles no mountain upwind has taken anything from, so a range's
+		// reach downwind stands out on its own rather than blending into the dry country
+		// it happens to sit in.
+		private static readonly Stop[] RainShadowStops =
+		{
+			new Stop(0f, new Color(0.28f, 0.28f, 0.30f)),
+			new Stop(0.05f, new Color(0.55f, 0.70f, 0.50f)),
+			new Stop(0.35f, new Color(0.85f, 0.80f, 0.40f)),
+			new Stop(0.65f, new Color(0.85f, 0.55f, 0.25f)),
+			new Stop(1f, new Color(0.65f, 0.20f, 0.15f)),
+		};
+
 		// Maritime -> continental, continentality 0..1.
 		private static readonly Stop[] ContinentalityStops =
 		{
@@ -150,6 +164,7 @@ namespace Planetsmith.Overlay
 				case OverlayMode.Aridity: return "Effective moisture";
 				case OverlayMode.Monsoon: return "Monsoon";
 				case OverlayMode.Drainage: return "Water flow";
+				case OverlayMode.RainShadow: return "Rain shadow";
 				default: return "Off";
 			}
 		}
@@ -165,6 +180,7 @@ namespace Planetsmith.Overlay
 				case OverlayMode.Aridity:
 				case OverlayMode.Monsoon:
 				case OverlayMode.Drainage:
+				case OverlayMode.RainShadow:
 					return true;
 				default:
 					return false;
@@ -191,6 +207,13 @@ namespace Planetsmith.Overlay
 					return CachedColor(AridityStops, PlanetsmithClimateCache.AridityIndex, tileIndex);
 				case OverlayMode.Monsoon:
 					return CachedColor(MonsoonStops, PlanetsmithClimateCache.MonsoonStrength, tileIndex);
+				case OverlayMode.RainShadow:
+					// The sea is where air refills rather than anywhere a shadow falls, so
+					// leave it showing through: the shadows then read against a coastline,
+					// which is what tells you whether one has any room left to fade in.
+					return tile.WaterCovered
+						? new Color32(0, 0, 0, 0)
+						: CachedColor(RainShadowStops, PlanetsmithClimateCache.RainShadow, tileIndex);
 				case OverlayMode.Drainage:
 					// Water carries no runoff of its own, and shading it would make the
 					// sea look like the driest ground there is. Leave it showing through

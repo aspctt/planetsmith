@@ -20,6 +20,7 @@ namespace Planetsmith.Gen
 		public static float[] AridityIndex { get; private set; }
 		public static float[] MonsoonStrength { get; private set; }
 		public static float[] FlowAccumulation { get; private set; }
+		public static float[] RainShadow { get; private set; }
 
 		/// <summary>
 		/// Forgets the last world's fields. Called as each world is built, including one
@@ -38,6 +39,7 @@ namespace Planetsmith.Gen
 			AridityIndex = null;
 			MonsoonStrength = null;
 			FlowAccumulation = null;
+			RainShadow = null;
 		}
 
 		public static void Store(GenContext ctx)
@@ -50,6 +52,7 @@ namespace Planetsmith.Gen
 			AridityIndex = ctx.AridityIndex;
 			MonsoonStrength = ctx.MonsoonStrength;
 			FlowAccumulation = ctx.FlowAccumulation;
+			RainShadow = ctx.RainShadow;
 			Valid = true;
 		}
 	}

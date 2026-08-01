@@ -65,6 +65,12 @@ namespace Planetsmith.Overlay
 			PlanetsmithOverlay.SetMode(OverlayMode.Monsoon);
 		}
 
+		[DebugAction("Planetsmith", "Climate overlay: rain shadow", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
+		private static void OverlayRainShadow()
+		{
+			PlanetsmithOverlay.SetMode(OverlayMode.RainShadow);
+		}
+
 		[DebugAction("Planetsmith", "Climate overlay: water flow", allowedGameStates = AllowedGameStates.WorldRenderedNow)]
 		private static void OverlayDrainage()
 		{

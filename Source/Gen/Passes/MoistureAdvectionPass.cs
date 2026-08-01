@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 aspctt
-using System.Collections.Generic;
 using RimWorld.Planet;
 using UnityEngine;
 
@@ -13,12 +12,10 @@ namespace Planetsmith.Gen.Passes
 	/// resulting moisture field scales rainfall, adding continentality on top of the
 	/// latitude bands (ClimatePass) and orographic effects (OrographyPass).
 	///
-	/// Each land tile draws moisture from all of its upwind neighbours, weighted by how
-	/// directly upwind each one lies. Gathering from the whole upwind arc (rather than a
-	/// single neighbour) spreads moisture as a broad front instead of thin streamlines,
-	/// while still letting dry zones stretch downwind. Implemented as a wavefront
-	/// relaxation: oceans stay saturated, and one tile of fetch resolves per step.
-	/// Purely geometric and deterministic.
+	/// Each land tile draws moisture from the whole arc the wind arrives through (see
+	/// <see cref="UpwindGraph"/>). Implemented as a wavefront relaxation: oceans stay
+	/// saturated, and one tile of fetch resolves per step. Purely geometric and
+	/// deterministic.
 	/// </summary>
 	public sealed class MoistureAdvectionPass : IGenPass
 	{
@@ -37,13 +34,15 @@ namespace Planetsmith.Gen.Passes
 			var tiles = layer.Tiles;
 			int count = tiles.Count;
 
+			UpwindGraph graph = ctx.Upwind;
 			bool[] isLand = new bool[count];
-			int[][] upwindTiles = new int[count][];
-			float[][] upwindWeights = new float[count][];
 			float[] moisture = new float[count];
 			float[] next = new float[count];
-
-			BuildUpwindGraph(layer, tiles, count, isLand, upwindTiles, upwindWeights, moisture);
+			for (int i = 0; i < count; i++)
+			{
+				isLand[i] = tiles[i].elevation > 0f;
+				moisture[i] = 1f;
+			}
 
 			float retention = Mathf.Clamp(1f - (1f - LandRetention) / Mathf.Max(0.01f, ctx.Tuning.moistureReach), 0.5f, 0.995f);
 			for (int step = 0; step < PropagationSteps; step++)
@@ -55,13 +54,13 @@ namespace Planetsmith.Gen.Passes
 						next[i] = 1f; // ocean: saturated source
 						continue;
 					}
-					int[] sources = upwindTiles[i];
+					int[] sources = graph.Sources[i];
 					if (sources == null)
 					{
 						next[i] = moisture[i]; // no upwind arc: leave unchanged
 						continue;
 					}
-					float[] weights = upwindWeights[i];
+					float[] weights = graph.Weights[i];
 					float acc = 0f;
 					for (int k = 0; k < sources.Length; k++)
 					{
@@ -87,69 +86,6 @@ namespace Planetsmith.Gen.Passes
 				}
 				float factor = Mathf.Lerp(DriestRainfallFactor, 1f, Mathf.Clamp01(moisture[i]));
 				tiles[i].rainfall = Mathf.Max(0f, tiles[i].rainfall * factor);
-			}
-		}
-
-		private static void BuildUpwindGraph(PlanetLayer layer, List<Tile> tiles, int count, bool[] isLand, int[][] upwindTiles, float[][] upwindWeights, float[] moisture)
-		{
-			var neighbors = new List<PlanetTile>();
-			var ids = new List<int>(6);
-			var weights = new List<float>(6);
-
-			for (int i = 0; i < count; i++)
-			{
-				bool land = tiles[i].elevation > 0f;
-				isLand[i] = land;
-				moisture[i] = 1f;
-				if (!land)
-				{
-					continue;
-				}
-
-				float lat = layer.LongLatOf(i).y;
-				Vector3 center = layer.GetTileCenter(i);
-				Vector3 wind = WindModel.PrevailingWind(center, lat);
-				if (wind == Vector3.zero)
-				{
-					continue;
-				}
-
-				layer.GetTileNeighbors(i, neighbors);
-				ids.Clear();
-				weights.Clear();
-				float total = 0f;
-				for (int k = 0; k < neighbors.Count; k++)
-				{
-					int nid = neighbors[k].tileId;
-					if (nid < 0 || nid >= count)
-					{
-						continue;
-					}
-					Vector3 dir = (layer.GetTileCenter(nid) - center).normalized;
-					// Positive when the neighbour lies upwind of this tile.
-					float upwindness = -Vector3.Dot(dir, wind);
-					if (upwindness > 0f)
-					{
-						ids.Add(nid);
-						weights.Add(upwindness);
-						total += upwindness;
-					}
-				}
-
-				if (total <= 0f)
-				{
-					continue;
-				}
-
-				int[] arr = ids.ToArray();
-				float[] w = new float[weights.Count];
-				float inv = 1f / total;
-				for (int k = 0; k < weights.Count; k++)
-				{
-					w[k] = weights[k] * inv;
-				}
-				upwindTiles[i] = arr;
-				upwindWeights[i] = w;
 			}
 		}
 	}

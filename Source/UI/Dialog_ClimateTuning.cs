@@ -46,7 +46,7 @@ namespace Planetsmith.UI
 				"Scales the rain falling everywhere, before mountains, coasts and monsoons have their say.");
 
 			Factor(listing, "Rain shadows", ref tuning.rainShadow,
-				"How thoroughly mountains wring out the air crossing them, leaving the far side dry.");
+				"How thoroughly mountains wring out the air crossing them. Air stripped harder stays dry further inland, so this sets how far a shadow reaches as well as how dry it is.");
 
 			Factor(listing, "Moisture reach inland", ref tuning.moistureReach,
 				"How far sea air carries its water before running dry. Higher values green the interiors.");

@@ -49,6 +49,13 @@ namespace Planetsmith.Gen
 		public readonly float[] FlowAccumulation;
 
 		/// <summary>
+		/// Per-tile share of the moisture the arriving air has already left on high
+		/// ground upwind: 0 where nothing has been taken from it, 1 where it has been
+		/// wrung out entirely. Filled by OrographyPass.
+		/// </summary>
+		public readonly float[] RainShadow;
+
+		/// <summary>
 		/// Per-tile monsoon strength, 0 where the seasonal rains never reach and 1 where
 		/// they are at their fiercest. Filled by MonsoonPass.
 		/// </summary>
@@ -86,6 +93,15 @@ namespace Planetsmith.Gen
 		/// <summary>Axial tilt relative to Earth's 23.4 degrees. 1 = Earth-like, 0 = no seasons.</summary>
 		public readonly float TiltFactor;
 
+		private UpwindGraph upwind;
+
+		/// <summary>
+		/// Where the wind arrives from at every land tile. Worked out on first use and
+		/// shared from there on, since more than one pass carries something downwind and
+		/// walking the neighbours is the expensive part of doing so.
+		/// </summary>
+		public UpwindGraph Upwind => upwind ?? (upwind = UpwindGraph.Build(Layer));
+
 		public GenContext(PlanetLayer layer)
 		{
 			Layer = layer;
@@ -99,6 +115,7 @@ namespace Planetsmith.Gen
 			AridityIndex = new float[TileCount];
 			MonsoonStrength = new float[TileCount];
 			FlowAccumulation = new float[TileCount];
+			RainShadow = new float[TileCount];
 			WinterMinTemp = new float[TileCount];
 			SummerMaxTemp = new float[TileCount];
 			// Default to "no seasonal swing" so a tile the seasonality pass never
