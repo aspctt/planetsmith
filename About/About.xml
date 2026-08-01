@@ -4,6 +4,7 @@
 	<author>aspctt</author>
 	<modVersion>1.0</modVersion>
 	<packageId>aspctt.planetsmith</packageId>
+	<url>https://aspctt.github.io/planetsmith/</url>
 	<supportedVersions>
 		<li>1.6</li>
 	</supportedVersions>
