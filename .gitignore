@@ -43,6 +43,7 @@ desktop.ini
 # never committed. Remove an entry only if you deliberately intend to publish it.
 ###############################################################################
 context-files/
+bug-reports/
 other-mods/
 photoshop/
 NOTES.md
