@@ -26,6 +26,11 @@ namespace Planetsmith.Gen.Passes
 		private const float SubtropicalDryLatitude = 25f;
 		private const float MidLatitudeWetLatitude = 50f;
 
+		// Rain that reaches everywhere, before the belts add their share.
+		private const float BaseRainfall = 450f;
+		// How much of the rain the subtropical high holds back at its worst.
+		private const float SubtropicalSuppression = 0.72f;
+
 		/// <summary>
 		/// How much of the equator-to-pole warmth survives at a given fraction of the way
 		/// to the pole. Sunlight thins out faster than a plain cosine suggests once past
@@ -80,12 +85,18 @@ namespace Planetsmith.Gen.Passes
 		private static float Rainfall(GenContext ctx, float lat, float elevation)
 		{
 			float a = Mathf.Abs(lat);
-			// Three climatological bands: the equatorial convergence zone (wet), the
-			// subtropical high (dry), and the mid-latitude storm track (wet).
+			// The two wet belts every planet has: rain rising off the equator, and the
+			// storm track of the middle latitudes.
 			float equatorial = 2600f * Gaussian(a, 0f, BandSpread);
-			float subtropicalDry = 900f * Gaussian(a, SubtropicalDryLatitude, BandSpread);
 			float midLatitude = 1000f * Gaussian(a, MidLatitudeWetLatitude, BandSpread);
-			float rain = 400f + equatorial - subtropicalDry + midLatitude;
+			float rain = BaseRainfall + equatorial + midLatitude;
+
+			// Between them sits the subtropical high, where descending air suppresses
+			// rain. It has to hold rainfall down rather than subtract from it: taking a
+			// fixed amount away drove the whole belt to nothing at all, and nothing is a
+			// floor that mountains, coasts and every tuning dial multiply straight back
+			// into nothing. A desert should be dry, not empty.
+			rain *= 1f - SubtropicalSuppression * Gaussian(a, SubtropicalDryLatitude, BandSpread);
 
 			rain *= ctx.RainfallMultiplier * ctx.Tuning.rainfallScale;
 

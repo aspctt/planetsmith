@@ -98,8 +98,20 @@ namespace Planetsmith.Gen
 		{
 			get
 			{
-				PlanetLayer surface = Find.WorldGrid?.Surface;
-				return surface != null && surface.Tiles.Count > 0 ? new PlanetTile(0, surface) : PlanetTile.Invalid;
+				// Reaching for the grid throws outright when there is no world at all,
+				// rather than handing back nothing, and no world is exactly the situation
+				// the biome list is built in. Whether one happens to be lying around
+				// depends on which other mods are installed, so this cannot be assumed
+				// either way.
+				try
+				{
+					PlanetLayer surface = Find.WorldGrid?.Surface;
+					return surface != null && surface.Tiles.Count > 0 ? new PlanetTile(0, surface) : PlanetTile.Invalid;
+				}
+				catch
+				{
+					return PlanetTile.Invalid;
+				}
 			}
 		}
 

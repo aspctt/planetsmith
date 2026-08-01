@@ -54,16 +54,29 @@ namespace Planetsmith.Gen.Passes
 					continue;
 				}
 
-				// A positive score means some biome genuinely suits this ground, so it
-				// takes it. Otherwise every candidate was merely tolerating the tile, and
-				// what happens next depends on whether the player narrowed the list: if
-				// they switched biomes off they want what remains spread even into
-				// grudging ground, but if they did not, vanilla's own choice from the
-				// full list is better than forcing a poor fit. Water is left alone
-				// either way, since drowning a land biome in the sea helps nobody.
-				bool wanted = bestScore > 0f;
-				bool forced = restrictedToChosenBiomes && !tile.WaterCovered;
-				if (wanted || forced)
+				// Anything under water must end up with a water biome, and that has to be
+				// settled before the rule below. Open sea scores zero rather than
+				// positive, so leaving it to that rule would let a tile the rising sea
+				// has just drowned keep whatever it was when it was still dry land. A
+				// forest sitting on the sea floor is bad enough on its own, but it also
+				// hides the coastline from the game, which finds river mouths by looking
+				// for ocean, and so quietly costs the world its rivers.
+				if (tile.WaterCovered)
+				{
+					if (BiomeProfiler.IsWaterBiome(best))
+					{
+						tile.PrimaryBiome = best;
+					}
+					continue;
+				}
+
+				// On dry land, a positive score means some biome genuinely suits the
+				// ground and takes it. Otherwise every candidate was merely tolerating the
+				// tile, and what happens next depends on whether the player narrowed the
+				// list: if they switched biomes off they want what remains spread even
+				// into grudging ground, but if they did not, vanilla's own choice from the
+				// full list beats forcing a poor fit.
+				if (bestScore > 0f || restrictedToChosenBiomes)
 				{
 					tile.PrimaryBiome = best;
 				}

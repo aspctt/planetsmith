@@ -59,24 +59,36 @@ namespace Planetsmith.Gen.Passes
 				return; // already at the requested land fraction
 			}
 
+			// Moving the shoreline by sliding every height up or down the same amount
+			// would drag the sea floor thousands of metres below anything the game
+			// otherwise produces, and leave the peaks correspondingly wrong. Instead each
+			// side is stretched back over the range it originally occupied: the land that
+			// survives spans the old heights, the ground now drowned spans the old
+			// depths, and the waterline sits at nothing in between.
+			float deepest = Mathf.Min(sorted[0], -MinFloodDepth);
+			float tallest = Mathf.Max(sorted[count - 1], 1f);
+			float aboveShore = Mathf.Max(1f, tallest - newShoreline);
+			float belowShore = Mathf.Max(1f, newShoreline - deepest);
+
 			for (int i = 0; i < count; i++)
 			{
 				Tile tile = tiles[i];
-				float shifted = tile.elevation - newShoreline;
-				if (shifted <= 0f)
+				float elevation = tile.elevation;
+				if (elevation > newShoreline)
 				{
-					// Underwater: keep it clearly submerged and flat, since hilliness
-					// carried over from dry land would show through as seabed relief.
-					tile.elevation = Mathf.Min(shifted, -MinFloodDepth);
-					tile.hilliness = Hilliness.Flat;
+					tile.elevation = Mathf.Max(1f, (elevation - newShoreline) / aboveShore * tallest);
 				}
 				else
 				{
-					tile.elevation = shifted;
+					// Underwater, and flattened: hilliness carried over from dry land
+					// would otherwise show through as relief on the sea bed.
+					float depth = deepest * (1f - (elevation - deepest) / belowShore);
+					tile.elevation = Mathf.Min(depth, -MinFloodDepth);
+					tile.hilliness = Hilliness.Flat;
 				}
 			}
 
-			Log.Message($"[Planetsmith] Sea level adjusted to {targetLand:P0} land (shoreline shifted by {newShoreline:F0}m).");
+			Log.Message($"[Planetsmith] Sea level set for {targetLand:P0} land (waterline was at {newShoreline:F0}m).");
 		}
 	}
 }

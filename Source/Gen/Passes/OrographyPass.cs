@@ -18,7 +18,10 @@ namespace Planetsmith.Gen.Passes
 
 		// Metres of rise (or drop) to the upwind neighbour for the full effect.
 		private const float SlopeScale = 800f;
-		private const float WindwardBoost = 0.8f;
+		// Air forced up a slope sheds a great deal of its water there, so the windward
+		// flank gains more than the lee loses. Worth being generous with: a range whose
+		// two sides look alike is the clearest sign the mountains are doing nothing.
+		private const float WindwardBoost = 1.2f;
 		private const float LeewardShadow = 0.4f;
 
 		public void Run(GenContext ctx)
