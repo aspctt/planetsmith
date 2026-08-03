@@ -52,8 +52,11 @@ namespace Planetsmith
 				"Adds a button to the planet view for shading the world by temperature, rainfall and Planetsmith's other climate layers.");
 
 			listing.Gap(12f);
-			listing.Label($"Axial tilt: {Settings.axialTilt:F1}°  ({TiltDescription(Settings.axialTilt)})");
-			Settings.axialTilt = listing.Slider(Settings.axialTilt, 0f, 90f);
+			if (!Compat.ModCompat.AxialTiltOwnedExternally())
+			{
+				listing.Label($"Axial tilt: {Settings.axialTilt:F1}°  ({TiltDescription(Settings.axialTilt)})");
+				Settings.axialTilt = listing.Slider(Settings.axialTilt, 0f, 90f);
+			}
 			listing.Gap(6f);
 			listing.Label("These are the defaults new planets start from. To shape one planet, use the Planetsmith button on the world creation page.");
 			listing.End();

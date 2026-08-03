@@ -54,12 +54,23 @@ namespace Planetsmith.UI
 			}
 
 			listing.Gap(12f);
-			listing.Label($"Axial tilt: {world.axialTilt:F1}°  ({PlanetsmithMod.TiltDescription(world.axialTilt)})");
-			world.axialTilt = listing.Slider(world.axialTilt, 0f, 90f);
-			listing.Label("Tilt is why a planet has seasons. Upright worlds barely change through the year; steeply tilted ones swing between harsh summers and winters.");
-			if (ModCompat.WorldbuilderLoaded)
+			if (ModCompat.AxialTiltOwnedExternally())
 			{
-				Note(listing, "Worldbuilder has its own axial tilt, which sets how far temperatures swing through the year once you are playing. This one decides how the seasons shape the planet's biomes while it is generated. They are separate, so set both the same way if you want the world to match how it plays.");
+				// Two sliders for one planet's tilt could only ever disagree, and that mod
+				// models the whole business (daylight, the sun's path, the plants) far past
+				// where we stop. Its number, our climate.
+				listing.Label("Axial tilt: set by Realistic Axial Tilt");
+				Note(listing, "Realistic Axial Tilt is installed, so the tilt slider on the world creation page sets it for both mods. Planetsmith builds the biomes around the temperatures it works out, so what you generate matches what you play.");
+			}
+			else
+			{
+				listing.Label($"Axial tilt: {world.axialTilt:F1}°  ({PlanetsmithMod.TiltDescription(world.axialTilt)})");
+				world.axialTilt = listing.Slider(world.axialTilt, 0f, 90f);
+				listing.Label("Tilt is why a planet has seasons. Upright worlds barely change through the year; steeply tilted ones swing between harsh summers and winters.");
+				if (ModCompat.WorldbuilderLoaded)
+				{
+					Note(listing, "Worldbuilder has its own axial tilt, which sets how far temperatures swing through the year once you are playing. This one decides how the seasons shape the planet's biomes while it is generated. They are separate, so set both the same way if you want the world to match how it plays.");
+				}
 			}
 
 			listing.GapLine(16f);

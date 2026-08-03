@@ -39,6 +39,14 @@ namespace Planetsmith.Gen
 		public static void RunPostTerrain(PlanetLayer layer)
 		{
 			var ctx = new GenContext(layer);
+			if (ctx.TiltHandledExternally)
+			{
+				// Worth saying out loud: a handover that quietly failed to happen would
+				// look exactly like one that worked, right up until the biomes came out
+				// describing a different planet from the one being played.
+				Log.Message($"[Planetsmith] Axial tilt of {ctx.AxialTilt:F1}° taken from Realistic Axial Tilt, along with what it does to each latitude's temperature.");
+			}
+
 			var timer = new System.Diagnostics.Stopwatch();
 			var timings = new System.Text.StringBuilder();
 			long total = 0L;

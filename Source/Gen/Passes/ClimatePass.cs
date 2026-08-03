@@ -74,6 +74,16 @@ namespace Planetsmith.Gen.Passes
 			float warmth = LatitudeWarmthCurve.Evaluate(Mathf.Clamp01(Mathf.Abs(lat) / 90f));
 			float baseTemp = Mathf.Lerp(ctx.PoleMeanTemp, ctx.EquatorMeanTemp, warmth);
 
+			// Where another mod works out what the tilt does to the sunlight a latitude
+			// receives, take its answer here rather than ours. Folding it in this early
+			// matters: everything after this reads the temperature we write, so the
+			// seasons, the frost gates and the biomes all end up describing the same
+			// planet the player will actually be living on.
+			if (ctx.TiltHandledExternally)
+			{
+				baseTemp += Compat.ModCompat.AnnualTemperatureCorrection(lat);
+			}
+
 			float lapse = 0f;
 			if (elevation > LapseStartAltitude)
 			{

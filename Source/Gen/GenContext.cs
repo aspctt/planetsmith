@@ -93,6 +93,13 @@ namespace Planetsmith.Gen
 		/// <summary>Axial tilt relative to Earth's 23.4 degrees. 1 = Earth-like, 0 = no seasons.</summary>
 		public readonly float TiltFactor;
 
+		/// <summary>
+		/// True when another mod owns what tilt does to temperature, in which case our own
+		/// version of it stands down and its figures are used instead. The tilt still
+		/// shapes our seasons and biomes; it is simply somebody else's number now.
+		/// </summary>
+		public readonly bool TiltHandledExternally;
+
 		private UpwindGraph upwind;
 
 		/// <summary>
@@ -130,7 +137,13 @@ namespace Planetsmith.Gen
 			// an Earth-like planet at Normal and shift the whole globe per step.
 			PlanetsmithWorldSettings world = PlanetsmithWorldParams.Active;
 			Tuning = world?.tuning ?? new ClimateTuning();
-			AxialTilt = Mathf.Clamp(world?.axialTilt ?? 23.4f, 0f, 90f);
+			TiltHandledExternally = Compat.ModCompat.AxialTiltHandledExternally();
+			AxialTilt = Mathf.Clamp(
+				TiltHandledExternally
+					? Compat.ModCompat.ExternalAxialTiltDegrees(world?.axialTilt ?? 23.4f)
+					: world?.axialTilt ?? 23.4f,
+				0f,
+				90f);
 			TiltFactor = AxialTilt / 23.4f;
 
 			int tempIdx = Mathf.Clamp((int)Find.World.info.overallTemperature, 0, 6);
@@ -138,7 +151,11 @@ namespace Planetsmith.Gen
 			// A steeper tilt swings the poles through long summers as well as long
 			// nights, so over a whole year they collect more sunlight and the
 			// equator-to-pole gradient flattens. No tilt leaves them permanently dark.
-			PoleMeanTemp = -37f + (tempIdx - 3) * 10f + (AxialTilt - 23.4f) * 0.6f;
+			// This is a single term standing in for the whole business, so where a mod
+			// works the sunlight out properly we drop it and take theirs per latitude
+			// instead, rather than letting both bend the same gradient.
+			PoleMeanTemp = -37f + (tempIdx - 3) * 10f
+				+ (TiltHandledExternally ? 0f : (AxialTilt - 23.4f) * 0.6f);
 
 			int rainIdx = Mathf.Clamp((int)Find.World.info.overallRainfall, 0, 6);
 			RainfallMultiplier = (rainIdx + 1) / 4f;
