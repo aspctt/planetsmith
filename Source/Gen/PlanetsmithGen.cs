@@ -36,6 +36,19 @@ namespace Planetsmith.Gen
 			new BiomePass(),
 		};
 
+		/// <summary>
+		/// Whether an exception is the game telling us the player has walked away from the
+		/// world being built. Backing out of generation aborts the thread it runs on, which
+		/// arrives here as a failure like any other and used to be reported as one, in red,
+		/// twice over: an aborting thread re-raises itself at the end of every catch it
+		/// passes through, so each handler on the way out had its say. Nothing has gone
+		/// wrong, and a player who has just pressed Back does not need telling.
+		/// </summary>
+		private static bool Cancelled(Exception e)
+		{
+			return e is System.Threading.ThreadAbortException;
+		}
+
 		public static void RunPostTerrain(PlanetLayer layer)
 		{
 			var ctx = new GenContext(layer);
@@ -65,6 +78,10 @@ namespace Planetsmith.Gen
 				catch (Exception e)
 				{
 					timer.Stop();
+					if (Cancelled(e))
+					{
+						throw;
+					}
 					Log.Error($"[Planetsmith] Generation pass '{pass.Name}' failed: {e}");
 				}
 			}

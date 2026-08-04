@@ -50,6 +50,12 @@ namespace Planetsmith.Patches
 			{
 				PlanetsmithGen.RunPostTerrain(layer);
 			}
+			catch (System.Threading.ThreadAbortException)
+			{
+				// The player backed out of the world being built. Let the thread finish
+				// dying without calling it a failure.
+				throw;
+			}
 			catch (Exception e)
 			{
 				Log.Error($"[Planetsmith] World generation override failed; keeping vanilla result. {e}");
