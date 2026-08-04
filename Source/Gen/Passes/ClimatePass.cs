@@ -25,6 +25,13 @@ namespace Planetsmith.Gen.Passes
 		private const float BandSpread = 17f;
 		private const float SubtropicalDryLatitude = 25f;
 		private const float MidLatitudeWetLatitude = 50f;
+		// The dry belt is narrower than the wet belts either side of it. Air sinks back to
+		// the ground over a tighter run of latitudes than the two it rose over, so giving
+		// all three the same width spread the drought far past where it belongs: it was
+		// still taking half the rain at 35 degrees and a third at 40, latitudes that should
+		// be Mediterranean and temperate. That left the most habitable band of the planet
+		// as desert, with the deserts themselves no drier for it.
+		private const float SubtropicalSpread = 10f;
 
 		// Rain that reaches everywhere, before the belts add their share.
 		private const float BaseRainfall = 450f;
@@ -54,9 +61,21 @@ namespace Planetsmith.Gen.Passes
 		{
 			PlanetLayer layer = ctx.Layer;
 			var tiles = layer.Tiles;
+			double vanillaTotal = 0d;
+			int vanillaLand = 0;
 			for (int i = 0; i < tiles.Count; i++)
 			{
 				Tile tile = tiles[i];
+
+				// Read before we overwrite it. This is the only moment vanilla's own
+				// rainfall still exists, and it is the yardstick for whether the rivers the
+				// game builds afterwards have as much water to work with as they used to.
+				if (tile.elevation > 0f)
+				{
+					vanillaTotal += tile.rainfall;
+					vanillaLand++;
+				}
+
 				float lat = layer.LongLatOf(i).y;
 				Vector3 center = layer.GetTileCenter(i);
 
@@ -66,6 +85,8 @@ namespace Planetsmith.Gen.Passes
 				tile.temperature = Temperature(ctx, lat, tile.elevation) + tempOffset;
 				tile.rainfall = Mathf.Max(0f, Rainfall(ctx, lat, tile.elevation) * rainFactor);
 			}
+
+			ctx.VanillaRainfallMean = vanillaLand > 0 ? (float)(vanillaTotal / vanillaLand) : 0f;
 		}
 
 		private static float Temperature(GenContext ctx, float lat, float elevation)
@@ -106,7 +127,7 @@ namespace Planetsmith.Gen.Passes
 			// fixed amount away drove the whole belt to nothing at all, and nothing is a
 			// floor that mountains, coasts and every tuning dial multiply straight back
 			// into nothing. A desert should be dry, not empty.
-			rain *= 1f - SubtropicalSuppression * Gaussian(a, SubtropicalDryLatitude, BandSpread);
+			rain *= 1f - SubtropicalSuppression * Gaussian(a, SubtropicalDryLatitude, SubtropicalSpread);
 
 			rain *= ctx.RainfallMultiplier * ctx.Tuning.rainfallScale;
 

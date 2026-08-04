@@ -49,7 +49,7 @@ namespace Planetsmith.Gen
 
 		private static bool ProbeIsWaterBiome(BiomeDef biome)
 		{
-			BiomeWorker worker = biome?.Worker;
+			BiomeWorker worker = WorkerOrNull(biome);
 			if (worker == null)
 			{
 				return false;
@@ -88,6 +88,30 @@ namespace Planetsmith.Gen
 
 		/// <summary>Workers reject ground they cannot use with a large negative score.</summary>
 		private const float RejectedScore = -50f;
+
+		/// <summary>
+		/// A biome's worker, or null where it has none to give. Asking a def with no worker
+		/// class for its worker does not hand back nothing, it looks the missing class up
+		/// in a dictionary and throws on the null key. Biomes like that do exist: templates
+		/// and placeholders other mods never meant to generate. Selection never meets them
+		/// because it checks whether a biome generates at all first, so anything that
+		/// probes the whole database has to be the careful one.
+		/// </summary>
+		private static BiomeWorker WorkerOrNull(BiomeDef biome)
+		{
+			if (biome?.workerClass == null)
+			{
+				return null;
+			}
+			try
+			{
+				return biome.Worker;
+			}
+			catch
+			{
+				return null;
+			}
+		}
 
 		/// <summary>
 		/// A real tile reference to probe with. Some workers, including those other mods
@@ -144,7 +168,7 @@ namespace Planetsmith.Gen
 
 		private static float ProbeWetLimit(BiomeDef biome)
 		{
-			BiomeWorker worker = biome?.Worker;
+			BiomeWorker worker = WorkerOrNull(biome);
 			if (worker == null)
 			{
 				return NoWetLimit;
@@ -180,7 +204,7 @@ namespace Planetsmith.Gen
 
 		private static float ProbeColdTolerance(BiomeDef biome)
 		{
-			BiomeWorker worker = biome?.Worker;
+			BiomeWorker worker = WorkerOrNull(biome);
 			if (worker == null)
 			{
 				return NoColdTolerance;

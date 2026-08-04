@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2026 aspctt
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Verse;
 
@@ -37,6 +38,9 @@ namespace Planetsmith.Compat
 		private static PropertyInfo alienWorldsCurrent;
 		private static PropertyInfo worldbuilderCurrentPreset;
 		private static FieldInfo worldbuilderSaveTerrain;
+		private static FieldInfo worldbuilderGenerationData;
+		private static FieldInfo worldbuilderScoreOffsets;
+		private static FieldInfo worldbuilderCommonalities;
 		private static PropertyInfo axialTiltDegrees;
 		private static PropertyInfo axialGeometryReady;
 		private static Func<float, float> annualTemperatureCorrection;
@@ -70,6 +74,12 @@ namespace Planetsmith.Compat
 				worldbuilderCurrentPreset = presetManager.GetProperty("CurrentlyLoadedPreset", BindingFlags.Public | BindingFlags.Static);
 				worldbuilderSaveTerrain = GenTypes.GetTypeInAnyAssembly("Worldbuilder.WorldPreset")
 					?.GetField("saveTerrain", BindingFlags.Public | BindingFlags.Instance);
+
+				worldbuilderGenerationData = GenTypes.GetTypeInAnyAssembly("Worldbuilder.World_ExposeData_Patch")
+					?.GetField("worldGenerationData", BindingFlags.Public | BindingFlags.Static);
+				Type generationData = GenTypes.GetTypeInAnyAssembly("Worldbuilder.WorldGenerationData");
+				worldbuilderScoreOffsets = generationData?.GetField("biomeScoreOffsets", BindingFlags.Public | BindingFlags.Instance);
+				worldbuilderCommonalities = generationData?.GetField("biomeCommonalities", BindingFlags.Public | BindingFlags.Instance);
 			}
 
 			BindAxialTilt();
@@ -112,6 +122,56 @@ namespace Planetsmith.Compat
 		}
 
 		/// <summary>
+		/// Worldbuilder's own per-biome frequency and score offset, if it has any.
+		///
+		/// It applies these by rewriting vanilla's biome selection to adjust each score as
+		/// that method reads it, rather than by changing what the biome workers return.
+		/// Planetsmith asks the workers itself, so none of it reaches us and every slider
+		/// in that menu goes dead the moment this mod is installed. Reading the settings
+		/// here and applying them ourselves is what keeps them alive: the two mods offer
+		/// the same two controls, and a player has no reason to expect one menu to be the
+		/// working one.
+		/// </summary>
+		public static bool TryGetWorldbuilderBiomeTuning(out Dictionary<string, int> offsets, out Dictionary<string, int> commonalities)
+		{
+			EnsureInit();
+			offsets = null;
+			commonalities = null;
+			if (!WorldbuilderLoaded || worldbuilderGenerationData == null || worldbuilderScoreOffsets == null || worldbuilderCommonalities == null)
+			{
+				return false;
+			}
+			try
+			{
+				object data = worldbuilderGenerationData.GetValue(null);
+				if (data == null)
+				{
+					return false;
+				}
+
+				// Copied rather than held. That mod fills these in as a side effect of
+				// scoring, which happens on the generation thread, while its own settings
+				// screen writes to them from the interface thread. Reading cannot corrupt
+				// anything, but a read landing in the middle of that will throw, and a
+				// neighbour's race is no reason to lose the planet: taking a copy here puts
+				// the whole exposure inside this one guarded moment.
+				offsets = Copy(worldbuilderScoreOffsets.GetValue(data) as Dictionary<string, int>);
+				commonalities = Copy(worldbuilderCommonalities.GetValue(data) as Dictionary<string, int>);
+				return offsets != null || commonalities != null;
+			}
+			catch (Exception e)
+			{
+				Log.WarningOnce($"[Planetsmith] Worldbuilder biome settings could not be read: {e.Message}", 0x5701A4);
+				return false;
+			}
+		}
+
+		private static Dictionary<string, int> Copy(Dictionary<string, int> source)
+		{
+			return source == null ? null : new Dictionary<string, int>(source);
+		}
+
+		/// <summary>
 		/// True when Realistic Axial Tilt owns this planet's tilt, so our own slider stands
 		/// down in favour of its one. Kept apart from <see cref="AxialTiltHandledExternally"/>
 		/// because the settings screens are drawn long before any world exists to be ready.
@@ -119,17 +179,7 @@ namespace Planetsmith.Compat
 		public static bool AxialTiltOwnedExternally()
 		{
 			EnsureInit();
-			if (!RealisticAxialTiltLoaded || axialTiltDegrees == null || annualTemperatureCorrection == null)
-			{
-				return false;
-			}
-
-			// Worldbuilder replaces the world creation page outright rather than adding to
-			// it, which takes that mod's tilt slider down with everything else injected
-			// into the original page. Handing it the tilt in that state would leave the
-			// planet stuck at whatever the slider was never able to change, so we keep
-			// ours. Only the tilt is affected; the rest of both mods carries on.
-			return !WorldbuilderLoaded;
+			return RealisticAxialTiltLoaded && axialTiltDegrees != null && annualTemperatureCorrection != null;
 		}
 
 		/// <summary>

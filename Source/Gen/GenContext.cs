@@ -100,6 +100,13 @@ namespace Planetsmith.Gen
 		/// </summary>
 		public readonly bool TiltHandledExternally;
 
+		/// <summary>
+		/// Mean rainfall vanilla had given the land before Planetsmith replaced it. Kept
+		/// because the game's own river step sizes rivers by the rainfall running through
+		/// them, so what we hand it decides whether a planet gets rivers or trickles.
+		/// </summary>
+		public float VanillaRainfallMean;
+
 		private UpwindGraph upwind;
 
 		/// <summary>

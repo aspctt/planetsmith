@@ -73,6 +73,8 @@ namespace Planetsmith.Gen
 			// a glance whether Planetsmith is a meaningful part of the wait.
 			Log.Message($"[Planetsmith] Generated {ctx.TileCount} tiles in {total}ms ({timings.ToString().TrimEnd(' ', ',')}).");
 
+			ClimateReport.Log(ctx);
+
 			// Keep the derived climate fields around for the debug overlays.
 			PlanetsmithClimateCache.Store(ctx);
 		}

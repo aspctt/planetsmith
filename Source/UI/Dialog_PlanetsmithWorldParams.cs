@@ -84,6 +84,10 @@ namespace Planetsmith.UI
 			{
 				Find.WindowStack.Add(new Dialog_BiomeConfig());
 			}
+			if (ModCompat.WorldbuilderLoaded)
+			{
+				Note(listing, "Worldbuilder's own biome menu offers the same two controls, and both are applied, so you can use either. This one leaves out sea, lake and ice, which have no dry-land alternative and would leave a planet unable to draw if they were turned off.");
+			}
 
 			listing.Gap(8f);
 			if (listing.ButtonText("Presets..."))
