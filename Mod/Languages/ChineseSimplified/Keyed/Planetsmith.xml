@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	
+	<!-- Mod settings -->
+	<Planetsmith_EnableOverhaul>启用气候与生物群系大修</Planetsmith_EnableOverhaul>
+	<Planetsmith_EnableOverhaulTip>开启后，Planetsmith 会在世界生成期间根据其自身的气候模型重新计算每个地块的温度、降雨量和生物群系。关闭时，世界按原版方式生成。</Planetsmith_EnableOverhaulTip>
+	<Planetsmith_ControlSeaLevelDefaultTip>开启后，Planetsmith 会在世界生成期间升高或降低海平面，直到行星达到下方设置的陆地比例。保持关闭可让原版或其他模组决定海岸线。</Planetsmith_ControlSeaLevelDefaultTip>
+	<Planetsmith_ShowMapModeButton>在行星视图上显示地图模式按钮</Planetsmith_ShowMapModeButton>
+	<Planetsmith_ShowMapModeButtonTip>在行星视图中添加一个按钮，可按温度、降雨量以及 Planetsmith 的其他气候图层为世界着色。</Planetsmith_ShowMapModeButtonTip>
+	<Planetsmith_DefaultsNote>这些是新行星起始时使用的默认值。若要塑造某一颗行星，请使用世界创建页面上的 Planetsmith 按钮。</Planetsmith_DefaultsNote>
+	
+	<!-- Shared by the mod settings and the planet parameters -->
+	<Planetsmith_ControlSeaLevel>控制海平面</Planetsmith_ControlSeaLevel>
+	<Planetsmith_LandFraction>陆地：占行星表面的 {0}</Planetsmith_LandFraction>
+	<Planetsmith_AxialTilt>地轴倾角：{0}°（{1}）</Planetsmith_AxialTilt>
+	<Planetsmith_TiltNoSeasons>几乎没有季节</Planetsmith_TiltNoSeasons>
+	<Planetsmith_TiltMildSeasons>温和的季节</Planetsmith_TiltMildSeasons>
+	<Planetsmith_TiltEarthLike>类地</Planetsmith_TiltEarthLike>
+	<Planetsmith_TiltHarshSeasons>严酷的季节</Planetsmith_TiltHarshSeasons>
+	<Planetsmith_TiltExtremeSeasons>极端的季节</Planetsmith_TiltExtremeSeasons>
+	
+	<!-- World creation page and planet parameters -->
+	<Planetsmith_OpenWorldParameters>Planetsmith...</Planetsmith_OpenWorldParameters>
+	<Planetsmith_WorldParametersTitle>Planetsmith：行星参数</Planetsmith_WorldParametersTitle>
+	<Planetsmith_WorldParametersIntro>这些设置适用于你即将生成的世界。</Planetsmith_WorldParametersIntro>
+	<Planetsmith_ControlSeaLevelTip>开启后，Planetsmith 会升高或降低海平面，直到行星达到下方设置的陆地比例。保持关闭可让原版或其他模组决定海岸线。</Planetsmith_ControlSeaLevelTip>
+	<Planetsmith_SeaLevelRivalNote>{0} 也会设置海平面。Planetsmith 在其之后运行，因此此设置优先；关闭此项可将海岸线交由 {0} 决定。</Planetsmith_SeaLevelRivalNote>
+	<Planetsmith_AxialTiltExternal>地轴倾角：由 Realistic Axial Tilt 设置</Planetsmith_AxialTiltExternal>
+	<Planetsmith_AxialTiltExternalNote>已安装 Realistic Axial Tilt，因此世界创建页面上的倾角滑块会同时为两个模组设置该值。Planetsmith 会围绕其计算出的温度构建生物群系，因此你生成的世界与你游玩时的一致。</Planetsmith_AxialTiltExternalNote>
+	<Planetsmith_AxialTiltExplanation>倾角是行星拥有季节的原因。直立的世界全年几乎不变；倾角陡峭的世界则在严酷的夏季与冬季之间摆动。</Planetsmith_AxialTiltExplanation>
+	<Planetsmith_WorldbuilderTiltNote>Worldbuilder 有其自己的地轴倾角，它决定你开始游玩后温度在一年中的摆动幅度。此项决定季节在生成期间如何塑造行星的生物群系。两者相互独立，因此若想让世界与游玩时一致，请将两者设为相同。</Planetsmith_WorldbuilderTiltNote>
+	<Planetsmith_OpenClimateTuning>气候调校...</Planetsmith_OpenClimateTuning>
+	<Planetsmith_OpenClimateTuningAdjusted>气候调校（已调整）...</Planetsmith_OpenClimateTuningAdjusted>
+	<Planetsmith_OpenBiomes>生物群系...</Planetsmith_OpenBiomes>
+	<Planetsmith_OpenBiomesAdjusted>生物群系（已调整）...</Planetsmith_OpenBiomesAdjusted>
+	<Planetsmith_WorldbuilderBiomesNote>Worldbuilder 自带的生物群系菜单提供相同的两个控件，且两者都会生效，因此你可以使用任意一个。此菜单省略了海洋、湖泊和冰，因为它们没有旱地替代项，若被关闭会导致行星无法绘制。</Planetsmith_WorldbuilderBiomesNote>
+	<Planetsmith_OpenPresets>预设...</Planetsmith_OpenPresets>
+	<Planetsmith_ResetToModDefaults>重置为模组默认值</Planetsmith_ResetToModDefaults>
+	
+	<!-- Climate tuning -->
+	<Planetsmith_ClimateTuningTitle>Planetsmith：气候调校</Planetsmith_ClimateTuningTitle>
+	<Planetsmith_ClimateTuningIntro>这些设置会为你即将生成的世界调整模拟。保持默认值则不会改变任何内容。</Planetsmith_ClimateTuningIntro>
+	<Planetsmith_GlobalTemperature>全球温度</Planetsmith_GlobalTemperature>
+	<Planetsmith_GlobalTemperatureTip>在计算其他一切之前，先使整个行星变暖或变冷。</Planetsmith_GlobalTemperatureTip>
+	<Planetsmith_TemperatureUnit>C</Planetsmith_TemperatureUnit>
+	<Planetsmith_ElevationCooling>随海拔降温</Planetsmith_ElevationCooling>
+	<Planetsmith_ElevationCoolingTip>高地变得有多冷。较高的值会让较小的山脉也积雪。</Planetsmith_ElevationCoolingTip>
+	<Planetsmith_RainfallScale>总体降雨量</Planetsmith_RainfallScale>
+	<Planetsmith_RainfallScaleTip>在考虑山脉、海岸和季风之前，缩放各处降下的雨量。</Planetsmith_RainfallScaleTip>
+	<Planetsmith_RainShadow>雨影</Planetsmith_RainShadow>
+	<Planetsmith_RainShadowTip>山脉在气流越过时将其中的水分榨干的程度。被榨得更彻底的气流在内陆更远处仍保持干燥，因此这既决定雨影的干燥程度，也决定其延伸距离。</Planetsmith_RainShadowTip>
+	<Planetsmith_MoistureReach>内陆水汽可达距离</Planetsmith_MoistureReach>
+	<Planetsmith_MoistureReachTip>海洋气流在变干之前能携带水汽走多远。较高的值会让内陆更加葱郁。</Planetsmith_MoistureReachTip>
+	<Planetsmith_MonsoonStrength>季风强度</Planetsmith_MonsoonStrength>
+	<Planetsmith_MonsoonStrengthTip>热带海岸季节性降雨的强度。</Planetsmith_MonsoonStrengthTip>
+	<Planetsmith_SeasonIntensity>季节强度</Planetsmith_SeasonIntensity>
+	<Planetsmith_SeasonIntensityTip>夏季与冬季之间温度的摆动幅度，这决定了怕霜冻的生物群系能在哪里生存。</Planetsmith_SeasonIntensityTip>
+	<Planetsmith_CoastalInfluence>海岸影响</Planetsmith_CoastalInfluence>
+	<Planetsmith_CoastalInfluenceTip>海洋对其毗邻海岸的调节强度：风从海上来时温和，风不从海上来时寒冷干燥。</Planetsmith_CoastalInfluenceTip>
+	<Planetsmith_TuningAtDefaults>默认值</Planetsmith_TuningAtDefaults>
+	<Planetsmith_ResetTuning>重置为默认值</Planetsmith_ResetTuning>
+	
+	<!-- Biomes -->
+	<Planetsmith_BiomesTitle>Planetsmith：生物群系</Planetsmith_BiomesTitle>
+	<Planetsmith_BiomesIntro>关闭某个生物群系即可使其不出现在此行星上。频率缩放该群系在气候本已适宜之处占据的地面多少；分数偏移则将其推入或推出它勉强落败或胜出的地方。</Planetsmith_BiomesIntro>
+	<Planetsmith_BiomeFrequency>频率</Planetsmith_BiomeFrequency>
+	<Planetsmith_BiomeScoreOffset>分数偏移</Planetsmith_BiomeScoreOffset>
+	<Planetsmith_ResetAllBiomes>重置所有生物群系</Planetsmith_ResetAllBiomes>
+	<Planetsmith_LimitOffsets>仅在生物群系能够生长的地方提高偏移</Planetsmith_LimitOffsets>
+	<Planetsmith_LimitOffsetsTip>开：提高生物群系的偏移有助于它在已接受的地面上赢得更多地盘。\n关：提高的偏移也可能将其放置在本不会接受的地面上，例如沙漠覆盖雨林。\n\n无论哪种方式，降低偏移在所有地方都有效。</Planetsmith_LimitOffsetsTip>
+	
+	<!-- Presets -->
+	<Planetsmith_PresetsTitle>Planetsmith：预设</Planetsmith_PresetsTitle>
+	<Planetsmith_SavePreset>保存</Planetsmith_SavePreset>
+	<Planetsmith_OverwritePreset>覆盖</Planetsmith_OverwritePreset>
+	<Planetsmith_LoadPreset>加载</Planetsmith_LoadPreset>
+	<Planetsmith_DeletePreset>删除</Planetsmith_DeletePreset>
+	<Planetsmith_NoPresets>尚未保存任何预设。</Planetsmith_NoPresets>
+	<Planetsmith_PresetSaved>已保存预设“{0}”。</Planetsmith_PresetSaved>
+	<Planetsmith_PresetLoaded>已加载预设“{0}”。</Planetsmith_PresetLoaded>
+	<Planetsmith_PresetLoadFailed>无法加载预设“{0}”。</Planetsmith_PresetLoadFailed>
+	<Planetsmith_ConfirmDeletePreset>删除预设“{0}”？</Planetsmith_ConfirmDeletePreset>
+	
+	<!-- Map modes -->
+	<Planetsmith_MapModesButton>Planetsmith\n地图模式</Planetsmith_MapModesButton>
+	<Planetsmith_MapModeButton>地图模式：\n{0}</Planetsmith_MapModeButton>
+	<Planetsmith_MapModesTip>按 Planetsmith 为该行星生成的气候为行星着色。</Planetsmith_MapModesTip>
+	<Planetsmith_MapModeNeedsRegeneration>{0}（重新生成以查看）</Planetsmith_MapModeNeedsRegeneration>
+	<Planetsmith_MapModeOff>关闭</Planetsmith_MapModeOff>
+	<Planetsmith_MapModeTemperature>温度</Planetsmith_MapModeTemperature>
+	<Planetsmith_MapModeRainfall>降雨量</Planetsmith_MapModeRainfall>
+	<Planetsmith_MapModeSwampiness>湿地</Planetsmith_MapModeSwampiness>
+	<Planetsmith_MapModeContinentality>距海距离</Planetsmith_MapModeContinentality>
+	<Planetsmith_MapModeWinterTemperature>冬季温度</Planetsmith_MapModeWinterTemperature>
+	<Planetsmith_MapModeOceanCurrents>海岸洋流</Planetsmith_MapModeOceanCurrents>
+	<Planetsmith_MapModeAridity>有效湿度</Planetsmith_MapModeAridity>
+	<Planetsmith_MapModeMonsoon>季风</Planetsmith_MapModeMonsoon>
+	<Planetsmith_MapModeDrainage>水流</Planetsmith_MapModeDrainage>
+	<Planetsmith_MapModeRainShadow>雨影</Planetsmith_MapModeRainShadow>
+	
+</LanguageData>
