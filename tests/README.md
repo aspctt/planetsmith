@@ -13,12 +13,23 @@
 
 Steam has to be running, since Harmony and the helper mods load from the Workshop. The script installs the fresh build of `Mod/` as its own mod, `Mods/planetsmith-test-build` with the package id `aspctt.planetsmith.testbuild`, and runs it wherever a profile names Planetsmith. Under Planetsmith's own id it would clash with the copy installed for playing, which is never touched. The runner installs itself to `Mods/planetsmith-test-runner` and does nothing unless the game is started with `-planetsmithtest`. Both show up in the game's mod list, switched off. The player's own config, mod list and saves are never touched either.
 
+## Unit tests
+
+`tests/Unit` holds plain unit tests for the code that runs without the game, the climate math and the prevailing wind directions. They take a second and need no game running.
+
+```powershell
+dotnet test tests/Unit/Planetsmith.UnitTests.csproj
+```
+
+Everything that needs a world, which is most of Planetsmith, is covered by the jobs above instead.
+
 ## Layout
 
 - `jobs/` holds the jobs. Each names a mod profile and lists the worlds to generate, with the settings the world creation page offers. A world with `saveAndLoad` set is also saved and loaded back, and one with `preset` set uses that Planetsmith preset instead of the defaults.
 - `presets/` holds Planetsmith presets in the mod's own preset format. The script installs them into the test save data folder before every run, so a preset saved from the game can be dropped in as it is.
 - `profiles/` holds the mod lists, one package id per line in load order.
 - `baselines/` holds the last accepted result of each job. The first run of a job saves one.
+- `Unit/` is the unit test project.
 - `Runner/` is the source of the runner mod, and `RunnerMod/` the mod folder it builds into.
 - `output/` holds the test save data, the game's log and every run's results. It is not tracked.
 
