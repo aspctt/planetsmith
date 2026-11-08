@@ -24,7 +24,7 @@
 			"rainfall": "Normal",
 			"temperature": "Normal",
 			"repeat": 1,
-			"seconds": 31.1280136,
+			"seconds": 27.1004715,
 			"tileFingerprint": "2a719fc67c0fec6b",
 			"climateFingerprint": "65d96187125a2ea6",
 			"tiles": 590492,
@@ -491,6 +491,21 @@
 					]
 				}
 			],
+			"roundTrip": {
+				"isChecked": false,
+				"seconds": 0,
+				"tilesChecked": 0,
+				"tilesChanged": 0,
+				"elevation": 0,
+				"hilliness": 0,
+				"temperature": 0,
+				"rainfall": 0,
+				"swampiness": 0,
+				"biome": 0,
+				"rivers": 0,
+				"climateBefore": "",
+				"climateAfter": ""
+			},
 			"errorCount": 0,
 			"errors": [
 			]
@@ -502,7 +517,7 @@
 			"rainfall": "Normal",
 			"temperature": "Normal",
 			"repeat": 1,
-			"seconds": 5.60886526,
+			"seconds": 4.382401,
 			"tileFingerprint": "4743282a68651849",
 			"climateFingerprint": "aa6abf1ad6d53b40",
 			"tiles": 119904,
@@ -925,6 +940,21 @@
 					]
 				}
 			],
+			"roundTrip": {
+				"isChecked": true,
+				"seconds": 1.02309871,
+				"tilesChecked": 119904,
+				"tilesChanged": 0,
+				"elevation": 0,
+				"hilliness": 0,
+				"temperature": 0,
+				"rainfall": 0,
+				"swampiness": 0,
+				"biome": 0,
+				"rivers": 0,
+				"climateBefore": "aa6abf1ad6d53b40",
+				"climateAfter": ""
+			},
 			"errorCount": 0,
 			"errors": [
 			]
@@ -936,7 +966,7 @@
 			"rainfall": "Normal",
 			"temperature": "Normal",
 			"repeat": 1,
-			"seconds": 13.7896576,
+			"seconds": 11.9125528,
 			"tileFingerprint": "c1931c1ff77734fa",
 			"climateFingerprint": "6b765e6eaa8f2a96",
 			"tiles": 295732,
@@ -1371,6 +1401,21 @@
 					]
 				}
 			],
+			"roundTrip": {
+				"isChecked": false,
+				"seconds": 0,
+				"tilesChecked": 0,
+				"tilesChanged": 0,
+				"elevation": 0,
+				"hilliness": 0,
+				"temperature": 0,
+				"rainfall": 0,
+				"swampiness": 0,
+				"biome": 0,
+				"rivers": 0,
+				"climateBefore": "",
+				"climateAfter": ""
+			},
 			"errorCount": 0,
 			"errors": [
 			]

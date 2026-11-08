@@ -97,7 +97,7 @@ public static class WorldMeasurement
 		return Mathf.Clamp((int)(Mathf.Abs(layer.LongLatOf(tileId).y) / BAND_DEGREES), 0, BAND_COUNT - 1);
 	}
 	
-	private static bool HasRiver(Tile tile)
+	internal static bool HasRiver(Tile tile)
 	{
 		return tile is SurfaceTile surfaceTile && surfaceTile.Rivers != null && surfaceTile.Rivers.Count > 0;
 	}
@@ -150,7 +150,7 @@ public static class WorldMeasurement
 	/// the tiles. These feed the map modes, so once they are stored in saves, the hash of
 	/// a loaded world has to match the hash of the one that was generated.
 	/// </summary>
-	private static string FingerprintClimate()
+	internal static string FingerprintClimate()
 	{
 		// Sanity check
 		if (!PlanetsmithClimateCache.IsValid)

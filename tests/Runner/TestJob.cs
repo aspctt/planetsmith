@@ -42,4 +42,8 @@ public class TestWorld
 	// Generating the same world more than once checks that a seed always gives the same
 	// planet. Every comparison against a baseline depends on that being true.
 	public int repeats = 1;
+	
+	// Saves the world and loads it back, then checks the loaded tiles and Planetsmith's
+	// climate fields against the ones generated.
+	public bool saveAndLoad;
 }

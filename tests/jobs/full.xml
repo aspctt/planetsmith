@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The test seed with the full mod list the hugslib reference logs come from, every mod at its default settings. -->
+<TestJob>
+	<profile>full</profile>
+	<worlds>
+		<li>
+			<name>gray-100</name>
+			<seed>gray</seed>
+			<coverage>1.0</coverage>
+			<rainfall>Normal</rainfall>
+			<temperature>Normal</temperature>
+			<population>Normal</population>
+			<landmarkDensity>Normal</landmarkDensity>
+			<repeats>1</repeats>
+			<saveAndLoad>false</saveAndLoad>
+		</li>
+		<li>
+			<name>gray-30</name>
+			<seed>gray</seed>
+			<coverage>0.3</coverage>
+			<rainfall>Normal</rainfall>
+			<temperature>Normal</temperature>
+			<population>Normal</population>
+			<landmarkDensity>Normal</landmarkDensity>
+			<repeats>1</repeats>
+			<saveAndLoad>true</saveAndLoad>
+		</li>
+	</worlds>
+</TestJob>

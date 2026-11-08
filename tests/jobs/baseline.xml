@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- The reference worlds every change is compared against: the test seed at full and default coverage, plus a second seed. -->
+<!-- The reference worlds every change is compared against: the test seed at full and default coverage, plus a second seed. The 30% world is also saved and loaded back. -->
 <TestJob>
 	<profile>core</profile>
 	<worlds>
@@ -12,6 +12,7 @@
 			<population>Normal</population>
 			<landmarkDensity>Normal</landmarkDensity>
 			<repeats>1</repeats>
+			<saveAndLoad>false</saveAndLoad>
 		</li>
 		<li>
 			<name>gray-30</name>
@@ -22,6 +23,7 @@
 			<population>Normal</population>
 			<landmarkDensity>Normal</landmarkDensity>
 			<repeats>1</repeats>
+			<saveAndLoad>true</saveAndLoad>
 		</li>
 		<li>
 			<name>ember-50</name>
@@ -32,6 +34,7 @@
 			<population>Normal</population>
 			<landmarkDensity>Normal</landmarkDensity>
 			<repeats>1</repeats>
+			<saveAndLoad>false</saveAndLoad>
 		</li>
 	</worlds>
 </TestJob>

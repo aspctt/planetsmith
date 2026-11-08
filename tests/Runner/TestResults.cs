@@ -74,7 +74,9 @@ public class WorldReport
 	public List<BiomeShare> biomes = new();
 	public List<BandReport> bands = new();
 	
-	// Errors logged while this world was generated, by any mod.
+	public RoundTripReport roundTrip = new();
+	
+	// Errors logged while this world was generated, saved or loaded, by any mod.
 	public int errorCount;
 	public List<string> errors = new();
 	
@@ -102,8 +104,56 @@ public class WorldReport
 			band.Write(writer);
 		}
 		writer.EndArray();
+		roundTrip.Write(writer);
 		writer.Property("errorCount", errorCount);
 		writer.Property("errors", errors);
+		writer.EndObject();
+	}
+}
+
+/// <summary>
+/// What survived saving a world and loading it back. Always written, with isChecked
+/// false for worlds the job did not ask to check, so the test script can read it
+/// without testing whether it exists.
+/// </summary>
+public class RoundTripReport
+{
+	public bool isChecked;
+	public float seconds;
+	public int tilesChecked;
+	
+	// Tiles where any value came back further off than the save's own rounding allows,
+	// then how many tiles each value was off on.
+	public int tilesChanged;
+	public int elevation;
+	public int hilliness;
+	public int temperature;
+	public int rainfall;
+	public int swampiness;
+	public int biome;
+	public int rivers;
+	
+	// Planetsmith's climate fields as generated and as loaded. Empty after loading
+	// while they are not stored in saves.
+	public string climateBefore = "";
+	public string climateAfter = "";
+	
+	public void Write(JsonWriter writer)
+	{
+		writer.BeginObject("roundTrip");
+		writer.Property("isChecked", isChecked);
+		writer.Property("seconds", seconds);
+		writer.Property("tilesChecked", tilesChecked);
+		writer.Property("tilesChanged", tilesChanged);
+		writer.Property("elevation", elevation);
+		writer.Property("hilliness", hilliness);
+		writer.Property("temperature", temperature);
+		writer.Property("rainfall", rainfall);
+		writer.Property("swampiness", swampiness);
+		writer.Property("biome", biome);
+		writer.Property("rivers", rivers);
+		writer.Property("climateBefore", climateBefore);
+		writer.Property("climateAfter", climateAfter);
 		writer.EndObject();
 	}
 }

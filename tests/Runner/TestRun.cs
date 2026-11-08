@@ -32,7 +32,7 @@ public static class TestRun
 	private const string FOLDER_NAME = "PlanetsmithTest";
 	private const string JOB_FILE = "job.xml";
 	private const string RESULTS_FILE = "results.json";
-
+	
 	// Written once the results are final. Quitting has taken over three minutes after a
 	// finished run, inside Unity with nothing in the log, so the test script closes the
 	// game itself once it sees this.
@@ -57,7 +57,7 @@ public static class TestRun
 	/// generation reads the scenario and the storyteller, so they have to exist, and a new
 	/// game for every world keeps one from leaking into the next.
 	/// </summary>
-	private static void StartBlankGame()
+	internal static void StartBlankGame()
 	{
 		Current.ProgramState = ProgramState.Entry;
 		Game.ClearCaches();
@@ -95,6 +95,10 @@ public static class TestRun
 			seconds = (float)timer.Elapsed.TotalSeconds,
 		};
 		WorldMeasurement.Measure(world, report);
+		if (testWorld.saveAndLoad)
+		{
+			report.roundTrip = WorldRoundTrip.Check(world, FolderPath);
+		}
 		ErrorWatcher.TakeInto(report);
 		results.worlds.Add(report);
 		Log.Message($"[Planetsmith Test] Generated '{testWorld.name}' ({repeat}/{testWorld.repeats}) in {report.seconds:F1}s, tiles {report.tileFingerprint}.");

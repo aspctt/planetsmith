@@ -1,0 +1,38 @@
+# The mod list the hugslib reference logs come from, copied from the main game's
+# ModsConfig.xml on 2026-11-08, plus the test runner. Every mod runs at its default
+# settings here, since the test save data folder starts without the player's.
+# Worldbuilder's 2026-10-25 update changes the 100% gray world even at its defaults
+# (about 9% more land, river rainfall 750mm against log-7's 736mm), so this no longer
+# reproduces hugslib-log-7. Without Worldbuilder it matches log-7 and the core profile.
+brrainz.harmony
+ilyvion.loadingprogress
+aleksey.betterstacktraces
+taranchuk.fastergameloading
+ludeon.rimworld
+ludeon.rimworld.royalty
+ludeon.rimworld.ideology
+ludeon.rimworld.biotech
+ludeon.rimworld.anomaly
+ludeon.rimworld.odyssey
+oskarpotocki.vanillafactionsexpanded.core
+7f.alienworlds
+com.bymarcin.architecticons
+dorbo.dmasss
+ferny.fucklearninghelper
+m00nl1ght.geologicallandforms
+dev.soeur.imageopt
+m00nl1ght.unofficialupdates.hugslogpublisher
+ogre.ogrestack
+aspctt.planetsmith
+mlie.railsandroadsoftherim
+7h0m4s.rimworldreadablenumbers
+dsweber.realisticaxialtilt
+mlie.showmeyourhands
+7f.alienworlds.arcticworld
+joof.celestiallighting
+andromeda.nicehands
+regrowth.botr.core
+ferny.worldbuilder
+ferny.betterarchitect
+vr.missilegirl
+aspctt.planetsmith.testrunner

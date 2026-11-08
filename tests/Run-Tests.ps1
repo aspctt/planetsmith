@@ -297,6 +297,32 @@ foreach ($group in $results.worlds | Group-Object name | Where-Object Count -gt 
 	}
 }
 
+# Check what survived saving and loading
+foreach ($world in $results.worlds | Where-Object { $_.roundTrip.isChecked }) {
+	$trip = $world.roundTrip
+	$label = "$($world.name) #$($world.repeat) save and load"
+	if ($trip.tilesChanged -eq 0) {
+		Write-Host ("{0}: all {1} tiles came back as generated ({2:F1}s)." -f $label, $trip.tilesChecked, $trip.seconds) -ForegroundColor Green
+	}
+	else {
+		$fields = "elevation", "hilliness", "temperature", "rainfall", "swampiness", "biome", "rivers" | Where-Object { $trip.$_ -gt 0 } | ForEach-Object { "$_ $($trip.$_)" }
+		Write-Host "${label}: $($trip.tilesChanged) of $($trip.tilesChecked) tiles changed ($($fields -join ', '))." -ForegroundColor Red
+		$isFailed = $true
+	}
+
+	# The climate fields only come back once Planetsmith stores them in saves
+	if ($trip.climateAfter -eq $trip.climateBefore) {
+		Write-Host "${label}: Planetsmith's climate fields came back as generated." -ForegroundColor Green
+	}
+	elseif ($trip.climateAfter -eq "") {
+		Write-Host "${label}: Planetsmith's climate fields are not stored in saves yet, so the map modes that need them stay greyed out." -ForegroundColor Yellow
+	}
+	else {
+		Write-Host "${label}: Planetsmith's climate fields came back different." -ForegroundColor Red
+		$isFailed = $true
+	}
+}
+
 # Compare with the baseline
 $baselinePath = Join-Path $TESTS_ROOT "baselines\$Job.json"
 if (Test-Path $baselinePath) {
