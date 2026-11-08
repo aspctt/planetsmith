@@ -53,3 +53,9 @@ desktop.ini
 # for reference and never committed.
 ###############################################################################
 external-files/
+
+## Test harness
+# The runner's assembly is rebuilt by every test run, and the output folder holds the
+# test save data, logs and results of each run. Baselines in tests/baselines are kept.
+tests/RunnerMod/1.6/Assemblies/
+tests/output/

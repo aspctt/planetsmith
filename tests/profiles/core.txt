@@ -1,0 +1,15 @@
+# Planetsmith with every expansion and nothing else that touches world generation.
+# One package id per line, in load order. Lines starting with # are ignored.
+# Expansions that are not installed are skipped by the test script.
+brrainz.harmony
+aleksey.betterstacktraces
+taranchuk.fastergameloading
+ludeon.rimworld
+ludeon.rimworld.royalty
+ludeon.rimworld.ideology
+ludeon.rimworld.biotech
+ludeon.rimworld.anomaly
+ludeon.rimworld.odyssey
+dev.soeur.imageopt
+aspctt.planetsmith
+aspctt.planetsmith.testrunner

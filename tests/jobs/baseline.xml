@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The reference worlds every change is compared against: the test seed at full and default coverage, plus a second seed. -->
+<TestJob>
+	<profile>core</profile>
+	<worlds>
+		<li>
+			<name>gray-100</name>
+			<seed>gray</seed>
+			<coverage>1.0</coverage>
+			<rainfall>Normal</rainfall>
+			<temperature>Normal</temperature>
+			<population>Normal</population>
+			<landmarkDensity>Normal</landmarkDensity>
+			<repeats>1</repeats>
+		</li>
+		<li>
+			<name>gray-30</name>
+			<seed>gray</seed>
+			<coverage>0.3</coverage>
+			<rainfall>Normal</rainfall>
+			<temperature>Normal</temperature>
+			<population>Normal</population>
+			<landmarkDensity>Normal</landmarkDensity>
+			<repeats>1</repeats>
+		</li>
+		<li>
+			<name>ember-50</name>
+			<seed>ember</seed>
+			<coverage>0.5</coverage>
+			<rainfall>Normal</rainfall>
+			<temperature>Normal</temperature>
+			<population>Normal</population>
+			<landmarkDensity>Normal</landmarkDensity>
+			<repeats>1</repeats>
+		</li>
+	</worlds>
+</TestJob>

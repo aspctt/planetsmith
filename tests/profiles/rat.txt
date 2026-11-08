@@ -1,0 +1,14 @@
+# The core profile plus Realistic Axial Tilt, which takes over the tilt.
+brrainz.harmony
+aleksey.betterstacktraces
+taranchuk.fastergameloading
+ludeon.rimworld
+ludeon.rimworld.royalty
+ludeon.rimworld.ideology
+ludeon.rimworld.biotech
+ludeon.rimworld.anomaly
+ludeon.rimworld.odyssey
+dev.soeur.imageopt
+aspctt.planetsmith
+dsweber.realisticaxialtilt
+aspctt.planetsmith.testrunner
