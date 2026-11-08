@@ -1,9 +1,7 @@
 # The mod list the hugslib reference logs come from, copied from the main game's
 # ModsConfig.xml on 2026-11-08, plus the test runner. Every mod runs at its default
 # settings here, since the test save data folder starts without the player's.
-# Worldbuilder's 2026-10-25 update changes the 100% gray world even at its defaults
-# (about 9% more land, river rainfall 750mm against log-7's 736mm), so this no longer
-# reproduces hugslib-log-7. Without Worldbuilder it matches log-7 and the core profile.
+# Gray at 100% reproduces hugslib-log-7: 736mm against vanilla's 875mm.
 brrainz.harmony
 ilyvion.loadingprogress
 aleksey.betterstacktraces

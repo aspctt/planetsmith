@@ -26,6 +26,45 @@ namespace Planetsmith.TestRunner;
 [StaticConstructorOnStartup]
 public static class TestRun
 {
+	//// Types
+	
+	/// <summary>
+	/// One world of the job, generated in two long events: opening the creation page on
+	/// the main thread, then generating on a worker thread as the page itself does.
+	/// </summary>
+	private sealed class WorldStep
+	{
+		private readonly TestWorld testWorld;
+		private readonly int repeat;
+		
+		public WorldStep(TestWorld testWorld, int repeat)
+		{
+			this.testWorld = testWorld;
+			this.repeat = repeat;
+		}
+		
+		/// <summary>
+		/// Starts a blank game and runs the world creation page's PreOpen, the way the game
+		/// does before a player sets up a world. Mods hook that page to get ready for
+		/// generation: Planetsmith resets its pending parameters there, and Worldbuilder
+		/// creates its generation data there. Skipping it left Worldbuilder to create that
+		/// data in the middle of the terrain step, where picking its random seed name drew
+		/// from the game's random numbers and moved every continent of the first world
+		/// generated in a run. Window.PreOpen sizes the window from the screen, which
+		/// Unity only allows on the main thread, hence a step of its own.
+		/// </summary>
+		public void OpenCreationPage()
+		{
+			StartBlankGame();
+			new Page_CreateWorldParams().PreOpen();
+		}
+		
+		public void Generate()
+		{
+			GenerateWorld(testWorld, repeat);
+		}
+	}
+	
 	//// Constants
 	
 	private const string COMMAND_LINE_FLAG = "planetsmithtest";
@@ -71,12 +110,6 @@ public static class TestRun
 	
 	private static void GenerateWorld(TestWorld testWorld, int repeat)
 	{
-		// Start from Planetsmith's defaults
-		// The test folder starts with no mod settings, so these are the defaults a new
-		// player gets. Resetting each time keeps one world's parameters out of the next.
-		PlanetsmithWorldParameters.ResetToDefaults();
-		StartBlankGame();
-		
 		// Generate the world, timing it
 		Stopwatch timer = Stopwatch.StartNew();
 		World world = WorldGenerator.GenerateWorld(testWorld.coverage, testWorld.seed, testWorld.rainfall, testWorld.temperature, testWorld.population, testWorld.landmarkDensity);
@@ -107,8 +140,8 @@ public static class TestRun
 		WriteResults();
 	}
 	
-	/// <summary>Runs on a worker thread, as the world creation page does.</summary>
-	private static void RunJob()
+	/// <summary>Reads the job and queues a step for every world in it, on the main thread.</summary>
+	private static void Start()
 	{
 		// Record what the results came from
 		results.gameVersion = VersionControl.CurrentVersionStringWithRev;
@@ -119,29 +152,33 @@ public static class TestRun
 		
 		// Read the job
 		string jobPath = Path.Combine(FolderPath, JOB_FILE);
-		// Cross-references are left alone: the job names no defs, and resolving them
-		// would touch the game's shared list of pending references from this thread.
 		TestJob job = DirectXmlLoader.ItemFromXmlFile<TestJob>(jobPath, false);
 		if (job.worlds.Count == 0)
 		{
 			throw new InvalidDataException($"{jobPath} lists no worlds.");
 		}
 		
-		// Generate every world, each as many times as asked
+		// Queue every world, each as many times as asked
+		// Long events run in the order they were queued, after this one finishes.
 		ErrorWatcher.Start();
 		foreach (TestWorld testWorld in job.worlds)
 		{
 			int repeats = Math.Max(1, testWorld.repeats);
 			for (int repeat = 1; repeat <= repeats; repeat++)
 			{
-				GenerateWorld(testWorld, repeat);
+				WorldStep step = new(testWorld, repeat);
+				LongEventHandler.QueueLongEvent(step.OpenCreationPage, "GeneratingWorld", false, OnRunFailed);
+				LongEventHandler.QueueLongEvent(step.Generate, "GeneratingWorld", true, OnRunFailed);
 			}
 		}
-		ErrorWatcher.Stop();
-		
-		// Finish up
+		LongEventHandler.QueueLongEvent(Finish, "GeneratingWorld", false, OnRunFailed);
+	}
+	
+	private static void Finish()
+	{
 		// The game is left in place: setting it to null made a sound queued during
 		// generation throw when it later looked for the tick manager.
+		ErrorWatcher.Stop();
 		results.isComplete = true;
 		WriteResults();
 		File.WriteAllText(Path.Combine(FolderPath, DONE_FILE), "");
@@ -157,6 +194,9 @@ public static class TestRun
 		ErrorWatcher.Stop();
 		Log.Error($"[Planetsmith Test] Run failed: {exception}");
 		results.failure = exception.ToString();
+		
+		// Drop the worlds still queued, so the game closes rather than carrying on
+		LongEventHandler.ClearQueuedEvents();
 		try
 		{
 			WriteResults();
@@ -181,8 +221,10 @@ public static class TestRun
 		// Queue the run behind whatever loading is still waiting
 		// Static constructors run near the end of loading, while mods such as Faster Game
 		// Loading may still have work queued. Long events run in order, so this one starts
-		// only once everything before it has finished.
+		// only once everything before it has finished. It reads the job there rather than
+		// here, so a broken job file is reported as a failed run instead of breaking this
+		// class for good.
 		Log.Message($"[Planetsmith Test] Test run requested, reading {Path.Combine(FolderPath, JOB_FILE)}.");
-		LongEventHandler.QueueLongEvent(RunJob, "GeneratingWorld", true, OnRunFailed);
+		LongEventHandler.QueueLongEvent(Start, "GeneratingWorld", false, OnRunFailed);
 	}
 }
