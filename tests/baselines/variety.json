@@ -11,7 +11,7 @@
 		"Ludeon.RimWorld.Anomaly",
 		"Ludeon.RimWorld.Odyssey",
 		"dev.soeur.imageopt",
-		"aspctt.planetsmith",
+		"aspctt.planetsmith.testbuild",
 		"aspctt.planetsmith.testrunner"
 	],
 	"isComplete": true,
@@ -25,7 +25,62 @@
 			"temperature": "Normal",
 			"preset": "",
 			"repeat": 1,
-			"seconds": 6.68003225,
+			"seconds": 5.50604725,
+			"planetsmithMilliseconds": 653,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 0
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 130
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 157
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 62
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 15
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 7
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 24
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 10
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 22
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 5
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 217
+				}
+			],
 			"tileFingerprint": "a3483d4dc5574fb5",
 			"climateFingerprint": "5c5e8800d5e5b4e2",
 			"tiles": 119904,
@@ -360,8 +415,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [
@@ -375,7 +432,62 @@
 			"temperature": "Normal",
 			"preset": "",
 			"repeat": 1,
-			"seconds": 5.665855,
+			"seconds": 5.12962151,
+			"planetsmithMilliseconds": 618,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 0
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 108
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 148
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 60
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 14
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 8
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 20
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 9
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 20
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 11
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 216
+				}
+			],
 			"tileFingerprint": "5b226ffadafb6cbf",
 			"climateFingerprint": "740122044c7d86ff",
 			"tiles": 119904,
@@ -790,8 +902,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [
@@ -805,7 +919,62 @@
 			"temperature": "VeryCold",
 			"preset": "",
 			"repeat": 1,
-			"seconds": 5.46615744,
+			"seconds": 5.308214,
+			"planetsmithMilliseconds": 638,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 0
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 115
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 155
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 61
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 15
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 9
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 20
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 9
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 21
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 7
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 11
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 213
+				}
+			],
 			"tileFingerprint": "40f5eb644aff28d8",
 			"climateFingerprint": "bf58cdcd16a56aed",
 			"tiles": 119904,
@@ -1116,8 +1285,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [
@@ -1131,7 +1302,62 @@
 			"temperature": "VeryHot",
 			"preset": "",
 			"repeat": 1,
-			"seconds": 7.7674017,
+			"seconds": 5.344691,
+			"planetsmithMilliseconds": 629,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 0
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 108
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 153
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 63
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 16
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 7
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 22
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 9
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 26
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 8
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 213
+				}
+			],
 			"tileFingerprint": "d8ce3ddd5f565d5a",
 			"climateFingerprint": "63429c17196b271f",
 			"tiles": 119904,
@@ -1534,8 +1760,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [
@@ -1549,7 +1777,62 @@
 			"temperature": "Normal",
 			"preset": "tilt0",
 			"repeat": 1,
-			"seconds": 8.920773,
+			"seconds": 5.058074,
+			"planetsmithMilliseconds": 693,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 0
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 114
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 186
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 72
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 17
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 9
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 23
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 12
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 5
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 27
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 11
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 215
+				}
+			],
 			"tileFingerprint": "ade0bbf27238050f",
 			"climateFingerprint": "8534c54457e65813",
 			"tiles": 119904,
@@ -1944,8 +2227,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [
@@ -1959,7 +2244,62 @@
 			"temperature": "Normal",
 			"preset": "tilt90",
 			"repeat": 1,
-			"seconds": 8.713762,
+			"seconds": 5.73068953,
+			"planetsmithMilliseconds": 706,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 0
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 187
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 158
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 61
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 14
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 6
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 20
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 8
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 2
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 21
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 1
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 9
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 219
+				}
+			],
 			"tileFingerprint": "6709b466083d17a8",
 			"climateFingerprint": "aee6c6546cb026e3",
 			"tiles": 119904,
@@ -2398,8 +2738,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [
@@ -2413,7 +2755,62 @@
 			"temperature": "Normal",
 			"preset": "land80",
 			"repeat": 1,
-			"seconds": 40.7797279,
+			"seconds": 33.42764,
+			"planetsmithMilliseconds": 5025,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 156
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 554
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 1606
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 654
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 108
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 45
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 107
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 94
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 21
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 393
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 23
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 128
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 1136
+				}
+			],
 			"tileFingerprint": "66d8ead8b132bbba",
 			"climateFingerprint": "c4156d775096b5b1",
 			"tiles": 590492,
@@ -2918,7 +3315,7 @@
 			],
 			"roundTrip": {
 				"isChecked": true,
-				"seconds": 13.3743382,
+				"seconds": 10.1046772,
 				"tilesChecked": 590492,
 				"tilesChanged": 0,
 				"elevation": 0,
@@ -2928,8 +3325,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "c4156d775096b5b1",
-				"climateAfter": ""
+				"climateRestored": true,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": true,
+				"oldSaveHasNoClimate": true
 			},
 			"errorCount": 0,
 			"errors": [
@@ -2943,7 +3342,62 @@
 			"temperature": "Normal",
 			"preset": "land80-extremedesert",
 			"repeat": 1,
-			"seconds": 38.10657,
+			"seconds": 34.89263,
+			"planetsmithMilliseconds": 5199,
+			"passes": [
+				{
+					"pass": "SeaLevel",
+					"milliseconds": 143
+				},
+				{
+					"pass": "Climate",
+					"milliseconds": 564
+				},
+				{
+					"pass": "Orography",
+					"milliseconds": 1611
+				},
+				{
+					"pass": "MoistureAdvection",
+					"milliseconds": 684
+				},
+				{
+					"pass": "Continentality",
+					"milliseconds": 121
+				},
+				{
+					"pass": "OceanCurrents",
+					"milliseconds": 47
+				},
+				{
+					"pass": "Seasonality",
+					"milliseconds": 119
+				},
+				{
+					"pass": "Monsoon",
+					"milliseconds": 110
+				},
+				{
+					"pass": "Aridity",
+					"milliseconds": 22
+				},
+				{
+					"pass": "Drainage",
+					"milliseconds": 367
+				},
+				{
+					"pass": "BasinLakes",
+					"milliseconds": 20
+				},
+				{
+					"pass": "Swampiness",
+					"milliseconds": 120
+				},
+				{
+					"pass": "Biome",
+					"milliseconds": 1271
+				}
+			],
 			"tileFingerprint": "99716f16d0dbca8d",
 			"climateFingerprint": "6c79345d7a25a44b",
 			"tiles": 590492,
@@ -3174,8 +3628,10 @@
 				"swampiness": 0,
 				"biome": 0,
 				"rivers": 0,
-				"climateBefore": "",
-				"climateAfter": ""
+				"climateRestored": false,
+				"climateValuesChanged": 0,
+				"oldSaveChecked": false,
+				"oldSaveHasNoClimate": false
 			},
 			"errorCount": 0,
 			"errors": [

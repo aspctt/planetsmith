@@ -6,15 +6,11 @@
 	<supportedVersions>
 		<li>1.6</li>
 	</supportedVersions>
-	<description>Development tool for Planetsmith. When the game is started with -planetsmithtest, it generates the worlds listed in the test job, writes their statistics to a file and closes the game. Without that argument it does nothing.</description>
-	<modDependencies>
-		<li>
-			<packageId>aspctt.planetsmith</packageId>
-			<displayName>Planetsmith</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/3773634615</steamWorkshopUrl>
-		</li>
-	</modDependencies>
+	<description>Development tool for Planetsmith. When the game is started with -planetsmithtest, it generates the worlds listed in the test job, writes their statistics to a file and closes the game. Without that argument it does nothing.
+
+It runs against the test build the test script installs as aspctt.planetsmith.testbuild, so it declares no dependency on Planetsmith's own id.</description>
 	<loadAfter>
 		<li>aspctt.planetsmith</li>
+		<li>aspctt.planetsmith.testbuild</li>
 	</loadAfter>
 </ModMetaData>

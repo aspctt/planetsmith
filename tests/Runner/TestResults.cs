@@ -61,6 +61,11 @@ public class WorldReport
 	public int repeat;
 	public float seconds;
 	
+	// How long Planetsmith's own passes took, in total and one by one. They are a small
+	// part of the whole generation, so they show a slower pass far more clearly.
+	public int planetsmithMilliseconds;
+	public List<PassTiming> passes = new();
+	
 	// Hashes of every tile's final data and of Planetsmith's generation-only climate
 	// fields. Equal hashes mean the worlds are identical, so they settle determinism and
 	// show at a glance whether a change touched a world at all.
@@ -92,6 +97,16 @@ public class WorldReport
 		writer.Property("preset", preset);
 		writer.Property("repeat", repeat);
 		writer.Property("seconds", seconds);
+		writer.Property("planetsmithMilliseconds", planetsmithMilliseconds);
+		writer.BeginArray("passes");
+		foreach (PassTiming pass in passes)
+		{
+			writer.BeginObject();
+			writer.Property("pass", pass.pass);
+			writer.Property("milliseconds", pass.milliseconds);
+			writer.EndObject();
+		}
+		writer.EndArray();
 		writer.Property("tileFingerprint", tileFingerprint);
 		writer.Property("climateFingerprint", climateFingerprint);
 		writer.Property("tiles", tiles);
@@ -135,10 +150,15 @@ public class RoundTripReport
 	public int biome;
 	public int rivers;
 	
-	// Planetsmith's climate fields as generated and as loaded. Empty after loading
-	// while they are not stored in saves.
-	public string climateBefore = "";
-	public string climateAfter = "";
+	// Whether Planetsmith's climate fields came back with the world, and how many values
+	// came back further off than their 16-bit storage allows.
+	public bool climateRestored;
+	public int climateValuesChanged;
+	
+	// The same save with the climate fields taken out, as one made before they were
+	// stored: it has to load cleanly and leave the fields empty.
+	public bool oldSaveChecked;
+	public bool oldSaveHasNoClimate;
 	
 	public void Write(JsonWriter writer)
 	{
@@ -154,8 +174,10 @@ public class RoundTripReport
 		writer.Property("swampiness", swampiness);
 		writer.Property("biome", biome);
 		writer.Property("rivers", rivers);
-		writer.Property("climateBefore", climateBefore);
-		writer.Property("climateAfter", climateAfter);
+		writer.Property("climateRestored", climateRestored);
+		writer.Property("climateValuesChanged", climateValuesChanged);
+		writer.Property("oldSaveChecked", oldSaveChecked);
+		writer.Property("oldSaveHasNoClimate", oldSaveHasNoClimate);
 		writer.EndObject();
 	}
 }
@@ -185,6 +207,13 @@ public class BandReport
 		BiomeShare.WriteAll(writer, "biomes", biomes);
 		writer.EndObject();
 	}
+}
+
+/// <summary>How long one of Planetsmith's passes took.</summary>
+public class PassTiming
+{
+	public string pass = "";
+	public int milliseconds;
 }
 
 /// <summary>How much of an area's land a biome took.</summary>

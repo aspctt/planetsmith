@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Xml;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
+using Planetsmith.Generation;
 
 namespace Planetsmith.TestRunner;
 
@@ -66,6 +68,17 @@ public static class WorldRoundTrip
 	//// Constants
 	
 	private const string SAVE_FILE = "roundtrip.xml";
+	private const string OLD_SAVE_FILE = "roundtrip-old.xml";
+	
+	// The node Planetsmith saves its climate fields under, taken out to make an old save.
+	private const string CLIMATE_NODE = "climateFields";
+	
+	// How far a climate field's value may come back from where it was generated.
+	// Planetsmith stores them as 16-bit floats, which keep 11 significant bits, so a value
+	// moves by at most one part in 2048 of itself. The floor covers values so close to 0
+	// that the format stores them with fewer bits.
+	private const float CLIMATE_RELATIVE_TOLERANCE = 0.001f;
+	private const float CLIMATE_ABSOLUTE_TOLERANCE = 0.000001f;
 	
 	// How far a value may come back from where it was generated. The game rounds tile
 	// data as it saves it (SurfaceLayer.TilesToRawData): elevation to whole metres with
@@ -187,6 +200,74 @@ public static class WorldRoundTrip
 		}
 	}
 	
+	/// <summary>Planetsmith's climate fields as they stand, in a fixed order.</summary>
+	private static float[]?[] ClimateFields()
+	{
+		return new[]
+		{
+			PlanetsmithClimateCache.Continentality,
+			PlanetsmithClimateCache.WinterMinimumTemperature,
+			PlanetsmithClimateCache.SummerMaximumTemperature,
+			PlanetsmithClimateCache.CoastalAnomaly,
+			PlanetsmithClimateCache.AridityIndex,
+			PlanetsmithClimateCache.MonsoonStrength,
+			PlanetsmithClimateCache.FlowAccumulation,
+			PlanetsmithClimateCache.RainShadow,
+		};
+	}
+	
+	/// <summary>Counts the climate values that came back further off than their storage allows.</summary>
+	private static void CompareClimate(float[]?[] before, RoundTripReport report)
+	{
+		// Sanity check
+		report.climateRestored = PlanetsmithClimateCache.IsValid;
+		if (!report.climateRestored)
+		{
+			return;
+		}
+		
+		float[]?[] after = ClimateFields();
+		for (int field = 0; field < before.Length; field++)
+		{
+			float[]? generated = before[field];
+			float[]? loaded = after[field];
+			if (generated == null || loaded == null || generated.Length != loaded.Length)
+			{
+				report.climateRestored = false;
+				return;
+			}
+			
+			for (int tileId = 0; tileId < generated.Length; tileId++)
+			{
+				float tolerance = Mathf.Abs(generated[tileId]) * CLIMATE_RELATIVE_TOLERANCE + CLIMATE_ABSOLUTE_TOLERANCE;
+				if (Mathf.Abs(loaded[tileId] - generated[tileId]) > tolerance)
+				{
+					report.climateValuesChanged++;
+				}
+			}
+		}
+	}
+	
+	/// <summary>Writes a copy of a save with the climate fields taken out, as a save from before they were stored.</summary>
+	private static void WriteOldSave(string path, string oldPath)
+	{
+		XmlDocument document = new();
+		document.Load(path);
+		XmlNodeList nodes = document.GetElementsByTagName(CLIMATE_NODE);
+		
+		// Removing a node changes the live list, so they are collected first
+		List<XmlNode> found = new();
+		foreach (XmlNode node in nodes)
+		{
+			found.Add(node);
+		}
+		foreach (XmlNode node in found)
+		{
+			node.ParentNode?.RemoveChild(node);
+		}
+		document.Save(oldPath);
+	}
+	
 	//// Public API
 	
 	/// <summary>
@@ -196,8 +277,11 @@ public static class WorldRoundTrip
 	public static RoundTripReport Check(World generated, string folderPath)
 	{
 		// Remember the world as generated
-		RoundTripReport report = new() { isChecked = true, climateBefore = WorldMeasurement.FingerprintClimate() };
+		// The climate fields are held by reference: loading puts new arrays in the cache
+		// rather than writing into these.
+		RoundTripReport report = new() { isChecked = true };
 		TileSnapshot before = new(generated.grid.Surface.Tiles);
+		float[]?[] climateBefore = ClimateFields();
 		
 		// Save and load it, timing both
 		Stopwatch timer = Stopwatch.StartNew();
@@ -208,10 +292,17 @@ public static class WorldRoundTrip
 		report.seconds = (float)timer.Elapsed.TotalSeconds;
 		
 		// Compare what came back
-		// The climate cache is read after loading because loading is what has to refill
-		// it. Until the map mode fields are saved, it comes back empty.
 		CompareTiles(before, loaded.grid.Surface.Tiles, report);
-		report.climateAfter = WorldMeasurement.FingerprintClimate();
+		CompareClimate(climateBefore, report);
+		
+		// Load it again as a save from before the climate fields were stored
+		// Players keep loading those, so they have to load without errors and leave the
+		// map modes that need the fields unavailable rather than showing stale data.
+		string oldPath = Path.Combine(folderPath, OLD_SAVE_FILE);
+		WriteOldSave(path, oldPath);
+		Load(oldPath);
+		report.oldSaveChecked = true;
+		report.oldSaveHasNoClimate = !PlanetsmithClimateCache.IsValid;
 		return report;
 	}
 }

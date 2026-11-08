@@ -147,10 +147,10 @@ public static class WorldMeasurement
 	
 	/// <summary>
 	/// Hashes the fields Planetsmith works out during generation but does not keep on
-	/// the tiles. These feed the map modes, so once they are stored in saves, the hash of
-	/// a loaded world has to match the hash of the one that was generated.
+	/// the tiles, which feed the map modes. They are saved at lower precision, so a loaded
+	/// world is checked value by value in WorldRoundTrip rather than by this hash.
 	/// </summary>
-	internal static string FingerprintClimate()
+	private static string FingerprintClimate()
 	{
 		// Sanity check
 		if (!PlanetsmithClimateCache.IsValid)

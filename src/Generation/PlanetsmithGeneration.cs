@@ -43,6 +43,17 @@ public static class PlanetsmithGeneration
 		new BiomePass(),
 	};
 	
+	//// References and State
+	
+	private static List<KeyValuePair<string, long>> lastPassTimings = new();
+	
+	/// <summary>
+	/// How many milliseconds each pass took on the last world generated, in the order they
+	/// ran. Kept for the test harness, which compares them between builds; a failed pass is
+	/// left out.
+	/// </summary>
+	public static IReadOnlyList<KeyValuePair<string, long>> LastPassTimings => lastPassTimings;
+	
 	//// Private Functions
 	
 	/// <summary>
@@ -82,6 +93,7 @@ public static class PlanetsmithGeneration
 		// Run the passes, timing each
 		Stopwatch timer = new();
 		List<string> timings = new(PASSES.Length);
+		List<KeyValuePair<string, long>> passTimings = new(PASSES.Length);
 		long total = 0L;
 		foreach (IGenerationPass pass in PASSES)
 		{
@@ -92,6 +104,7 @@ public static class PlanetsmithGeneration
 				timer.Stop();
 				total += timer.ElapsedMilliseconds;
 				timings.Add($"{pass.Name} {timer.ElapsedMilliseconds}ms");
+				passTimings.Add(new KeyValuePair<string, long>(pass.Name, timer.ElapsedMilliseconds));
 			}
 			catch (Exception exception)
 			{
@@ -108,6 +121,7 @@ public static class PlanetsmithGeneration
 		// World generation already takes a while, so it is worth being able to see at a
 		// glance whether Planetsmith is a meaningful part of the wait.
 		Log.Message($"[Planetsmith] Generated {context.TileCount} tiles in {total}ms ({string.Join(", ", timings)}).");
+		lastPassTimings = passTimings;
 		
 		// Report the climate and keep it for the overlays
 		ClimateReport.LogSummary(context);

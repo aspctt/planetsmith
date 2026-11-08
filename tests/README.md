@@ -8,11 +8,10 @@
 ./tests/Run-Tests.ps1 -Job variety        # extreme world settings and Planetsmith presets
 ./tests/Run-Tests.ps1 -Job rat            # with Realistic Axial Tilt
 ./tests/Run-Tests.ps1 -Job full           # with the full mod list the hugslib reference logs come from
-./tests/Run-Tests.ps1 -DeployPlanetsmith  # copy the fresh build over the installed copy first
 ./tests/Run-Tests.ps1 -UpdateBaseline     # keep this run as the new baseline
 ```
 
-Steam has to be running, since Harmony and the helper mods load from the Workshop. The game loads the Planetsmith installed in its Mods folder, so the script stops when that copy differs from the build in `Mod/`, unless `-DeployPlanetsmith` is given. The runner installs itself to `Mods/planetsmith-test-runner` and does nothing unless the game is started with `-planetsmithtest`. The player's own config, mod list and saves are never touched.
+Steam has to be running, since Harmony and the helper mods load from the Workshop. The script installs the fresh build of `Mod/` as its own mod, `Mods/planetsmith-test-build` with the package id `aspctt.planetsmith.testbuild`, and runs it wherever a profile names Planetsmith. Under Planetsmith's own id it would clash with the copy installed for playing, which is never touched. The runner installs itself to `Mods/planetsmith-test-runner` and does nothing unless the game is started with `-planetsmithtest`. Both show up in the game's mod list, switched off. The player's own config, mod list and saves are never touched either.
 
 ## Layout
 
@@ -27,6 +26,8 @@ Steam has to be running, since Harmony and the helper mods load from the Worksho
 
 Each world gets two fingerprints. The tile fingerprint hashes every tile's final elevation, hilliness, temperature, rainfall, swampiness, biome and rivers. The climate fingerprint hashes the fields Planetsmith works out during generation for the map modes. Matching fingerprints mean the worlds are identical.
 
-A world that is saved and loaded back is checked tile by tile against the world as generated. The game rounds tile data as it saves it, to whole metres, tenths of a degree, whole millimetres and 255 steps of swampiness, so only a difference beyond that rounding counts. Planetsmith's climate fields are checked too. Until they are stored in saves they come back empty, which the script reports as a notice rather than a failure.
+A world that is saved and loaded back is checked tile by tile against the world as generated. The game rounds tile data as it saves it, to whole metres, tenths of a degree, whole millimetres and 255 steps of swampiness, so only a difference beyond that rounding counts. Planetsmith's climate fields are checked too, value by value, allowing for the 16-bit floats they are saved as. The same save is then loaded again with the climate fields taken out, as a game saved with Planetsmith 1.2.2 or older, and has to load without errors and leave those map modes unavailable.
 
 When a world changed, the script lists what moved by more than its tolerance: biome shares over the planet and in each 10 degree band, mean rainfall and temperature, the arid, soaked and waterlogged shares and the land with rivers. Errors logged by any mod during generation fail the run.
+
+Planetsmith's own passes are timed as well. When they take more than a quarter longer than in the baseline, and also a larger share of the whole generation, the script warns and names the passes that slowed. A busy computer slows every step alike, so the share keeps it from warning about that, but timings are only worth comparing between runs on an otherwise idle computer. Record a baseline with `-UpdateBaseline` while nothing else is running.

@@ -2,6 +2,8 @@
 # ModsConfig.xml on 2026-11-08, plus the test runner. Every mod runs at its default
 # settings here, since the test save data folder starts without the player's.
 # Gray at 100% reproduces hugslib-log-7: 736mm against vanilla's 875mm.
+# Celestial Lighting finds Planetsmith by its package id, so it does not see the test
+# build and lights worlds without Planetsmith's tilt. That changes no generated tile.
 brrainz.harmony
 ilyvion.loadingprogress
 aleksey.betterstacktraces

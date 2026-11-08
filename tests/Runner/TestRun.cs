@@ -4,11 +4,13 @@
 //// Dependencies
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
+using Planetsmith.Generation;
 
 namespace Planetsmith.TestRunner;
 
@@ -130,6 +132,18 @@ public static class TestRun
 		PlanetsmithWorldParameters.Pending = loaded;
 	}
 	
+	/// <summary>Copies how long Planetsmith's passes took on the world just generated.</summary>
+	private static void RecordPassTimings(WorldReport report)
+	{
+		foreach (KeyValuePair<string, long> timing in PlanetsmithGeneration.LastPassTimings)
+		{
+			// A pass taking over 24 days would not fit, which is no concern
+			int milliseconds = (int)timing.Value;
+			report.passes.Add(new PassTiming { pass = timing.Key, milliseconds = milliseconds });
+			report.planetsmithMilliseconds += milliseconds;
+		}
+	}
+	
 	private static void GenerateWorld(TestWorld testWorld, int repeat)
 	{
 		// Generate the world, timing it
@@ -150,6 +164,7 @@ public static class TestRun
 			repeat = repeat,
 			seconds = (float)timer.Elapsed.TotalSeconds,
 		};
+		RecordPassTimings(report);
 		WorldMeasurement.Measure(world, report);
 		if (testWorld.saveAndLoad)
 		{

@@ -7,28 +7,25 @@
 	Generates the worlds in a test job inside RimWorld and compares them with a baseline.
 
 .DESCRIPTION
-	Builds Planetsmith and the test runner, installs the runner, writes a separate save
-	data folder with the job's mod list, then starts RimWorld with -planetsmithtest. The
+	Builds Planetsmith and the test runner, installs both, writes a separate save data
+	folder with the job's mod list, then starts RimWorld with -planetsmithtest. The
 	runner generates each world, writes its statistics and closes the game. This script
 	then reports what changed against tests/baselines/<job>.json.
 	
 	Steam has to be running, since Harmony and the other helper mods come from the
-	Workshop. The player's own config, mod list and saves are never touched.
+	Workshop. The player's own config, mod list, saves and installed copy of Planetsmith
+	are never touched: the build under test is installed as a mod of its own.
 
 .EXAMPLE
 	./Run-Tests.ps1
 	./Run-Tests.ps1 -Job determinism
-	./Run-Tests.ps1 -DeployPlanetsmith -UpdateBaseline
+	./Run-Tests.ps1 -UpdateBaseline
 #>
 
 param(
 	# A file in tests/jobs, without the extension.
 	[string]$Job = "baseline",
 	[string]$GameDir = "S:\SteamLibrary\steamapps\common\RimWorld",
-	# Where the tested copy of Planetsmith is installed. The game loads this one, not the build in Mod/.
-	[string]$PlanetsmithInstall = "S:\SteamLibrary\steamapps\common\RimWorld\Mods\workshop-planetsmith",
-	# Copy the fresh build of Mod/ over the installed copy before testing.
-	[switch]$DeployPlanetsmith,
 	# Save this run as the job's new baseline.
 	[switch]$UpdateBaseline,
 	[int]$TimeoutMinutes = 20
@@ -45,6 +42,14 @@ $OUTPUT_ROOT = Join-Path $TESTS_ROOT "output"
 $SAVE_DATA = Join-Path $OUTPUT_ROOT "savedata"
 $TEST_FOLDER = Join-Path $SAVE_DATA "PlanetsmithTest"
 $RUNNER_INSTALL = Join-Path $GameDir "Mods\planetsmith-test-runner"
+
+# The build under test is installed as its own mod under its own package id. Under
+# Planetsmith's id it would clash with the player's installed copy, and the game turns
+# away the second of two local mods sharing an id, which could be the player's own.
+# Profiles name Planetsmith by its real id, and runs use this one in its place.
+$PLANETSMITH_ID = "aspctt.planetsmith"
+$TEST_BUILD_ID = "aspctt.planetsmith.testbuild"
+$TEST_BUILD_INSTALL = Join-Path $GameDir "Mods\planetsmith-test-build"
 $GAME_EXE = Join-Path $GameDir "RimWorldWin64.exe"
 
 # Differences smaller than these are reported as unchanged. Shares are fractions of
@@ -53,17 +58,25 @@ $SHARE_TOLERANCE = 0.005
 $RAINFALL_TOLERANCE = 0.03
 $TEMPERATURE_TOLERANCE = 0.2
 
+# How much slower Planetsmith's passes may get before a run says so, as a fraction, and
+# the least time that counts. Timings vary a lot with whatever else the computer is
+# doing, so this only warns, and only when Planetsmith's share of the whole generation
+# grew as well: a busy computer slows every step alike and leaves the share unchanged.
+$SPEED_TOLERANCE = 0.25
+$SPEED_MINIMUM_MS = 50
+
 #### Private Functions
 
 function Write-Step([string]$Text) {
 	Write-Host "== $Text" -ForegroundColor Cyan
 }
 
-function Get-FileHashText([string]$Path) {
-	if (-not (Test-Path $Path)) {
-		return ""
+# Mirrors a folder into the game's Mods, so nothing stale is left behind.
+function Install-Mod([string]$Source, [string]$Destination) {
+	robocopy $Source $Destination /MIR /NFL /NDL /NJH /NJS /NP | Out-Null
+	if ($LASTEXITCODE -ge 8) {
+		throw "Installing $Destination failed (robocopy exit code $LASTEXITCODE)."
 	}
-	return (Get-FileHash $Path -Algorithm SHA256).Hash
 }
 
 # Reads a profile's package ids, leaving out comments and expansions that are not installed.
@@ -89,7 +102,11 @@ function Read-Profile([string]$Name) {
 		if ($expansions.ContainsKey($id) -and $installed -notcontains $expansions[$id]) {
 			continue
 		}
-		$id.ToLowerInvariant()
+		$id = $id.ToLowerInvariant()
+		if ($id -eq $PLANETSMITH_ID) {
+			$id = $TEST_BUILD_ID
+		}
+		$id
 	}
 	return $ids
 }
@@ -172,6 +189,35 @@ function Compare-World($Old, $New) {
 	return $changes
 }
 
+# Warns when Planetsmith's passes got slower than in the baseline, naming the passes that did.
+function Compare-Speed($Old, $New) {
+	# Baselines from before pass timings were recorded have none to compare
+	if (-not $Old.PSObject.Properties["planetsmithMilliseconds"] -or $Old.planetsmithMilliseconds -le 0 -or $Old.seconds -le 0 -or $New.seconds -le 0) {
+		return
+	}
+	
+	# Compare the total and Planetsmith's share of the whole generation
+	$added = $New.planetsmithMilliseconds - $Old.planetsmithMilliseconds
+	$growth = $New.planetsmithMilliseconds / $Old.planetsmithMilliseconds - 1
+	$shareGrowth = ($New.planetsmithMilliseconds / $New.seconds) / ($Old.planetsmithMilliseconds / $Old.seconds) - 1
+	if ($added -lt $SPEED_MINIMUM_MS -or $growth -lt $SPEED_TOLERANCE -or $shareGrowth -lt $SPEED_TOLERANCE) {
+		return
+	}
+	Write-Host ("{0}: Planetsmith's passes took {1}ms against the baseline's {2}ms (+{3:P0}), a larger share of the whole generation." -f $New.name, $New.planetsmithMilliseconds, $Old.planetsmithMilliseconds, $growth) -ForegroundColor Yellow
+	
+	# Name the passes that slowed
+	foreach ($pass in $New.passes) {
+		$oldPass = $Old.passes | Where-Object pass -eq $pass.pass | Select-Object -First 1
+		if (-not $oldPass -or $oldPass.milliseconds -le 0) {
+			continue
+		}
+		$passAdded = $pass.milliseconds - $oldPass.milliseconds
+		if ($passAdded -ge $SPEED_MINIMUM_MS / 2 -and $pass.milliseconds / $oldPass.milliseconds - 1 -ge $SPEED_TOLERANCE) {
+			Write-Host ("  {0}: {1}ms against {2}ms" -f $pass.pass, $pass.milliseconds, $oldPass.milliseconds) -ForegroundColor Yellow
+		}
+	}
+}
+
 #### Run
 
 # Check the job and the machine
@@ -196,27 +242,21 @@ if ($LASTEXITCODE -ne 0) {
 	throw "Build failed."
 }
 
-# Make sure the game will load this build of Planetsmith
-$builtDll = Join-Path $REPO_ROOT "Mod\1.6\Assemblies\Planetsmith.dll"
-$installedDll = Join-Path $PlanetsmithInstall "1.6\Assemblies\Planetsmith.dll"
-if ((Get-FileHashText $builtDll) -ne (Get-FileHashText $installedDll)) {
-	if (-not $DeployPlanetsmith) {
-		throw "The installed Planetsmith at $PlanetsmithInstall differs from the build in Mod/. Copy it over, or run again with -DeployPlanetsmith."
-	}
-	Write-Step "Copying Mod/ to $PlanetsmithInstall"
-	robocopy (Join-Path $REPO_ROOT "Mod") $PlanetsmithInstall /E /NFL /NDL /NJH /NJS /NP | Out-Null
-	if ($LASTEXITCODE -ge 8) {
-		throw "Copying Planetsmith failed (robocopy exit code $LASTEXITCODE)."
-	}
+# Install the build under test under its own id
+# The Workshop id file is left out, so the game never takes the copy for the
+# published item.
+Install-Mod (Join-Path $REPO_ROOT "Mod") $TEST_BUILD_INSTALL
+Remove-Item (Join-Path $TEST_BUILD_INSTALL "About\PublishedFileId.txt") -ErrorAction SilentlyContinue
+$aboutPath = Join-Path $TEST_BUILD_INSTALL "About\About.xml"
+$about = (Get-Content $aboutPath -Raw).Replace("<packageId>$PLANETSMITH_ID</packageId>", "<packageId>$TEST_BUILD_ID</packageId>").Replace("<name>Planetsmith</name>", "<name>Planetsmith (test build)</name>")
+if (-not $about.Contains("<packageId>$TEST_BUILD_ID</packageId>")) {
+	throw "Could not give the test build its own package id in $aboutPath."
 }
+Set-Content -Path $aboutPath -Value $about -NoNewline -Encoding utf8NoBOM
 
 # Install the runner
-# Its own folder in the game's Mods, mirrored so nothing stale is left behind. It only
-# does anything when the game is started with -planetsmithtest.
-robocopy (Join-Path $TESTS_ROOT "RunnerMod") $RUNNER_INSTALL /MIR /NFL /NDL /NJH /NJS /NP | Out-Null
-if ($LASTEXITCODE -ge 8) {
-	throw "Installing the runner failed (robocopy exit code $LASTEXITCODE)."
-}
+# It only does anything when the game is started with -planetsmithtest.
+Install-Mod (Join-Path $TESTS_ROOT "RunnerMod") $RUNNER_INSTALL
 
 # Prepare the save data folder
 Write-Step "Preparing job '$Job' with profile '$jobProfile'"
@@ -278,6 +318,7 @@ Write-Step "Worlds"
 $results.worlds | Format-Table -AutoSize @(
 	@{ Label = "World"; Expression = { "$($_.name) #$($_.repeat)" } },
 	@{ Label = "Seconds"; Expression = { "{0:F1}" -f $_.seconds } },
+	@{ Label = "Passes"; Expression = { "$($_.planetsmithMilliseconds)ms" } },
 	@{ Label = "Land"; Expression = { $_.landTiles } },
 	@{ Label = "Rain"; Expression = { "{0:F0}mm" -f $_.meanRainfall } },
 	@{ Label = "Temp"; Expression = { "{0:F1}C" -f $_.meanTemperature } },
@@ -315,16 +356,26 @@ foreach ($world in $results.worlds | Where-Object { $_.roundTrip.isChecked }) {
 		Write-Host "${label}: $($trip.tilesChanged) of $($trip.tilesChecked) tiles changed ($($fields -join ', '))." -ForegroundColor Red
 		$isFailed = $true
 	}
-
-	# The climate fields only come back once Planetsmith stores them in saves
-	if ($trip.climateAfter -eq $trip.climateBefore) {
-		Write-Host "${label}: Planetsmith's climate fields came back as generated." -ForegroundColor Green
+	
+	# Planetsmith's climate fields have to come back within their 16-bit storage
+	if (-not $trip.climateRestored) {
+		Write-Host "${label}: Planetsmith's climate fields did not come back, so the map modes that need them stay unavailable." -ForegroundColor Red
+		$isFailed = $true
 	}
-	elseif ($trip.climateAfter -eq "") {
-		Write-Host "${label}: Planetsmith's climate fields are not stored in saves yet, so the map modes that need them stay greyed out." -ForegroundColor Yellow
+	elseif ($trip.climateValuesChanged -gt 0) {
+		Write-Host "${label}: $($trip.climateValuesChanged) climate field values came back further off than their storage allows." -ForegroundColor Red
+		$isFailed = $true
 	}
 	else {
-		Write-Host "${label}: Planetsmith's climate fields came back different." -ForegroundColor Red
+		Write-Host "${label}: Planetsmith's climate fields came back as generated." -ForegroundColor Green
+	}
+	
+	# A save from before the fields were stored has to load and leave them empty
+	if ($trip.oldSaveChecked -and $trip.oldSaveHasNoClimate) {
+		Write-Host "${label}: a save without the climate fields still loads, with those map modes unavailable." -ForegroundColor Green
+	}
+	elseif ($trip.oldSaveChecked) {
+		Write-Host "${label}: a save without the climate fields loaded with climate fields anyway." -ForegroundColor Red
 		$isFailed = $true
 	}
 }
@@ -346,6 +397,7 @@ if (Test-Path $baselinePath) {
 			Write-Host "$($world.name): not in the baseline." -ForegroundColor Yellow
 			continue
 		}
+		Compare-Speed $old $world
 		if ($old.tileFingerprint -eq $world.tileFingerprint -and $old.climateFingerprint -eq $world.climateFingerprint) {
 			Write-Host "$($world.name): identical." -ForegroundColor Green
 			continue
