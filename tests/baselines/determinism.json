@@ -25,8 +25,8 @@
 			"temperature": "Normal",
 			"preset": "",
 			"repeat": 1,
-			"seconds": 5.39100266,
-			"planetsmithMilliseconds": 630,
+			"seconds": 5.56722927,
+			"planetsmithMilliseconds": 627,
 			"passes": [
 				{
 					"pass": "SeaLevel",
@@ -38,7 +38,7 @@
 				},
 				{
 					"pass": "Orography",
-					"milliseconds": 156
+					"milliseconds": 151
 				},
 				{
 					"pass": "MoistureAdvection",
@@ -46,7 +46,7 @@
 				},
 				{
 					"pass": "Continentality",
-					"milliseconds": 17
+					"milliseconds": 15
 				},
 				{
 					"pass": "OceanCurrents",
@@ -54,7 +54,7 @@
 				},
 				{
 					"pass": "Seasonality",
-					"milliseconds": 21
+					"milliseconds": 20
 				},
 				{
 					"pass": "Monsoon",
@@ -78,76 +78,76 @@
 				},
 				{
 					"pass": "Biome",
-					"milliseconds": 208
+					"milliseconds": 213
 				}
 			],
-			"tileFingerprint": "4743282a68651849",
-			"climateFingerprint": "aa6abf1ad6d53b40",
+			"tileFingerprint": "b28dd76eb76b5aac",
+			"climateFingerprint": "6289a58e2ccf1096",
 			"tiles": 119904,
 			"landTiles": 46346,
-			"meanTemperature": 6.074821,
-			"meanRainfall": 926.1758,
-			"riverShare": 0.0322573669,
+			"meanTemperature": 6.0579567,
+			"meanRainfall": 922.6463,
+			"riverShare": 0.0334656723,
 			"biomes": [
 				{
-					"biome": "BorealForest",
-					"share": 0.226794109
+					"biome": "TemperateForest",
+					"share": 0.230764255
 				},
 				{
-					"biome": "TemperateForest",
-					"share": 0.223039746
+					"biome": "BorealForest",
+					"share": 0.223298669
 				},
 				{
 					"biome": "Tundra",
-					"share": 0.183791488
+					"share": 0.187330082
 				},
 				{
 					"biome": "Desert",
-					"share": 0.1199672
+					"share": 0.116471753
 				},
 				{
 					"biome": "Grasslands",
-					"share": 0.07843179
+					"share": 0.07743926
 				},
 				{
 					"biome": "TropicalRainforest",
-					"share": 0.0638027042
+					"share": 0.06337117
 				},
 				{
 					"biome": "IceSheet",
-					"share": 0.0324947126
+					"share": 0.032602597
 				},
 				{
 					"biome": "ColdBog",
-					"share": 0.01752039
-				},
-				{
-					"biome": "AridShrubland",
-					"share": 0.01247141
+					"share": 0.0171967372
 				},
 				{
 					"biome": "Scarlands",
-					"share": 0.0113062616
+					"share": 0.01070211
 				},
 				{
 					"biome": "LavaField",
-					"share": 0.01104734
+					"share": 0.0103568807
 				},
 				{
 					"biome": "GlacialPlain",
-					"share": 0.009105424
+					"share": 0.0102705732
+				},
+				{
+					"biome": "AridShrubland",
+					"share": 0.008350235
 				},
 				{
 					"biome": "TemperateSwamp",
-					"share": 0.00569628458
+					"share": 0.006257282
 				},
 				{
 					"biome": "TropicalSwamp",
-					"share": 0.00217926037
+					"share": 0.00289129582
 				},
 				{
 					"biome": "Glowforest",
-					"share": 0.00215768348
+					"share": 0.002502913
 				},
 				{
 					"biome": "ExtremeDesert",
@@ -158,35 +158,31 @@
 				{
 					"band": "0-10",
 					"landTiles": 5370,
-					"meanRainfall": 2096.84546,
-					"meanTemperature": 30.2228584,
+					"meanRainfall": 2089.704,
+					"meanTemperature": 30.1919765,
 					"aridShare": 0,
-					"soakedShare": 0.472439468,
-					"waterloggedShare": 0.03556797,
+					"soakedShare": 0.476908743,
+					"waterloggedShare": 0.0335195549,
 					"biomes": [
 						{
 							"biome": "Grasslands",
-							"share": 0.470391065
+							"share": 0.476722538
 						},
 						{
 							"biome": "TropicalRainforest",
-							"share": 0.449162
+							"share": 0.446741164
 						},
 						{
 							"biome": "LavaField",
-							"share": 0.0268156417
-						},
-						{
-							"biome": "AridShrubland",
-							"share": 0.0245810058
+							"share": 0.0255121049
 						},
 						{
 							"biome": "TropicalSwamp",
-							"share": 0.0160148982
+							"share": 0.0210428312
 						},
 						{
-							"biome": "TemperateForest",
-							"share": 0.005772812
+							"biome": "AridShrubland",
+							"share": 0.0178770944
 						},
 						{
 							"biome": "Scarlands",
@@ -194,140 +190,148 @@
 						},
 						{
 							"biome": "Glowforest",
-							"share": 0.00260707643
+							"share": 0.00446927361
+						},
+						{
+							"biome": "TemperateForest",
+							"share": 0.00297951582
 						}
 					]
 				},
 				{
 					"band": "10-20",
 					"landTiles": 2766,
-					"meanRainfall": 1538.23975,
-					"meanTemperature": 25.4055176,
+					"meanRainfall": 1534.8291,
+					"meanTemperature": 25.37099,
 					"aridShare": 0,
-					"soakedShare": 0.205350682,
-					"waterloggedShare": 0.015184382,
+					"soakedShare": 0.207881421,
+					"waterloggedShare": 0.0177151114,
 					"biomes": [
 						{
 							"biome": "TemperateForest",
-							"share": 0.359002173
+							"share": 0.437816352
 						},
 						{
 							"biome": "Grasslands",
-							"share": 0.23535791
+							"share": 0.219088942
 						},
 						{
 							"biome": "TropicalRainforest",
-							"share": 0.197035432
+							"share": 0.1945047
 						},
 						{
 							"biome": "AridShrubland",
-							"share": 0.157628343
-						},
-						{
-							"biome": "Desert",
-							"share": 0.02494577
+							"share": 0.104121476
 						},
 						{
 							"biome": "LavaField",
-							"share": 0.009038323
+							"share": 0.0115690529
+						},
+						{
+							"biome": "Desert",
+							"share": 0.0104844542
 						},
 						{
 							"biome": "TropicalSwamp",
-							"share": 0.00542299356
-						},
-						{
-							"biome": "Glowforest",
-							"share": 0.00506146066
+							"share": 0.007592191
 						},
 						{
 							"biome": "Scarlands",
-							"share": 0.00325379614
+							"share": 0.00578452647
+						},
+						{
+							"biome": "Glowforest",
+							"share": 0.00542299356
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.00325379614
+							"share": 0.003615329
 						}
 					]
 				},
 				{
 					"band": "20-30",
 					"landTiles": 4832,
-					"meanRainfall": 910.7159,
-					"meanTemperature": 18.4028912,
-					"aridShare": 0.0943708643,
+					"meanRainfall": 909.376,
+					"meanTemperature": 18.3439789,
+					"aridShare": 0.09623344,
 					"soakedShare": 0,
-					"waterloggedShare": 0.0146937082,
+					"waterloggedShare": 0.0140728476,
 					"biomes": [
 						{
 							"biome": "TemperateForest",
-							"share": 0.6529387
+							"share": 0.672806263
 						},
 						{
 							"biome": "Desert",
-							"share": 0.2129553
+							"share": 0.20881623
 						},
 						{
 							"biome": "Grasslands",
-							"share": 0.09478477
-						},
-						{
-							"biome": "LavaField",
-							"share": 0.01531457
+							"share": 0.0875413939
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.0101407282
+							"share": 0.0103476821
+						},
+						{
+							"biome": "LavaField",
+							"share": 0.009519868
 						},
 						{
 							"biome": "Scarlands",
 							"share": 0.007036424
 						},
 						{
+							"biome": "ExtremeDesert",
+							"share": 0.00186258275
+						},
+						{
 							"biome": "Glowforest",
-							"share": 0.002897351
+							"share": 0.00144867552
 						},
 						{
 							"biome": "AridShrubland",
-							"share": 0.00206953636
-						},
-						{
-							"biome": "ExtremeDesert",
-							"share": 0.00186258275
+							"share": 0.000620860956
 						}
 					]
 				},
 				{
 					"band": "30-40",
 					"landTiles": 6460,
-					"meanRainfall": 609.9568,
-					"meanTemperature": 12.0775576,
-					"aridShare": 0.0492260046,
+					"meanRainfall": 601.990845,
+					"meanTemperature": 12.04741,
+					"aridShare": 0.03591331,
 					"soakedShare": 0,
-					"waterloggedShare": 0.00170278642,
+					"waterloggedShare": 0.004024768,
 					"biomes": [
 						{
 							"biome": "Desert",
-							"share": 0.573839
+							"share": 0.5917957
 						},
 						{
 							"biome": "TemperateForest",
-							"share": 0.381424159
+							"share": 0.358359128
 						},
 						{
 							"biome": "LavaField",
-							"share": 0.0239938088
-						},
-						{
-							"biome": "Scarlands",
-							"share": 0.009287925
+							"share": 0.0284829717
 						},
 						{
 							"biome": "Glowforest",
-							"share": 0.008204334
+							"share": 0.009442724
+						},
+						{
+							"biome": "Scarlands",
+							"share": 0.004489164
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.002631579
+							"share": 0.00433436548
+						},
+						{
+							"biome": "GlacialPlain",
+							"share": 0.00247678021
 						},
 						{
 							"biome": "BorealForest",
@@ -342,74 +346,74 @@
 				{
 					"band": "40-50",
 					"landTiles": 9571,
-					"meanRainfall": 826.094666,
-					"meanTemperature": 5.074215,
-					"aridShare": 0.00240309257,
-					"soakedShare": 0.00491066743,
-					"waterloggedShare": 0.0468080677,
+					"meanRainfall": 828.84314,
+					"meanTemperature": 5.0642457,
+					"aridShare": 0.003552398,
+					"soakedShare": 0.00741824275,
+					"waterloggedShare": 0.0480618551,
 					"biomes": [
 						{
 							"biome": "BorealForest",
-							"share": 0.420541227
+							"share": 0.408525765
 						},
 						{
 							"biome": "TemperateForest",
-							"share": 0.372061431
+							"share": 0.399749249
 						},
 						{
 							"biome": "Desert",
-							"share": 0.07888413
+							"share": 0.05610699
 						},
 						{
 							"biome": "Tundra",
-							"share": 0.0307177939
-						},
-						{
-							"biome": "ColdBog",
-							"share": 0.0294640064
+							"share": 0.0362553559
 						},
 						{
 							"biome": "GlacialPlain",
-							"share": 0.0262250546
+							"share": 0.0292550419
+						},
+						{
+							"biome": "ColdBog",
+							"share": 0.0283147
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.0183888823
-						},
-						{
-							"biome": "LavaField",
-							"share": 0.0115975346
+							"share": 0.0198516343
 						},
 						{
 							"biome": "Scarlands",
-							"share": 0.0115975346
+							"share": 0.0128513221
+						},
+						{
+							"biome": "LavaField",
+							"share": 0.008149618
 						},
 						{
 							"biome": "Glowforest",
-							"share": 0.0005224114
+							"share": 0.000940340629
 						}
 					]
 				},
 				{
 					"band": "50-60",
 					"landTiles": 9016,
-					"meanRainfall": 767.2992,
-					"meanTemperature": -4.183532,
-					"aridShare": 0.000221827868,
-					"soakedShare": 0,
-					"waterloggedShare": 0.05956078,
+					"meanRainfall": 772.738,
+					"meanTemperature": -4.173966,
+					"aridShare": 0,
+					"soakedShare": 0.004214729,
+					"waterloggedShare": 0.0594498664,
 					"biomes": [
 						{
 							"biome": "BorealForest",
-							"share": 0.6813443
+							"share": 0.6783496
 						},
 						{
 							"biome": "Tundra",
-							"share": 0.208518192
+							"share": 0.2166149
 						},
 						{
 							"biome": "ColdBog",
-							"share": 0.0523513742
+							"share": 0.051685892
 						},
 						{
 							"biome": "Scarlands",
@@ -417,15 +421,15 @@
 						},
 						{
 							"biome": "GlacialPlain",
-							"share": 0.0154170366
+							"share": 0.0174134877
 						},
 						{
 							"biome": "TemperateForest",
-							"share": 0.0147515526
+							"share": 0.008429458
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.00144188106
+							"share": 0.00133096718
 						},
 						{
 							"biome": "LavaField",
@@ -436,31 +440,31 @@
 				{
 					"band": "60-70",
 					"landTiles": 5883,
-					"meanRainfall": 534.438965,
-					"meanTemperature": -13.3508139,
-					"aridShare": 0.20805712,
+					"meanRainfall": 513.580566,
+					"meanTemperature": -13.3629951,
+					"aridShare": 0.0295767467,
 					"soakedShare": 0,
-					"waterloggedShare": 0.03501615,
+					"waterloggedShare": 0.04980452,
 					"biomes": [
 						{
 							"biome": "Tundra",
-							"share": 0.9173891
+							"share": 0.9246983
 						},
 						{
 							"biome": "BorealForest",
-							"share": 0.0577936433
+							"share": 0.0543940179
 						},
 						{
 							"biome": "ColdBog",
-							"share": 0.009688934
+							"share": 0.0100288969
 						},
 						{
 							"biome": "Scarlands",
-							"share": 0.008839028
+							"share": 0.00611932669
 						},
 						{
 							"biome": "GlacialPlain",
-							"share": 0.0054394016
+							"share": 0.00390957
 						},
 						{
 							"biome": "IceSheet",
@@ -471,19 +475,19 @@
 				{
 					"band": "70-80",
 					"landTiles": 2447,
-					"meanRainfall": 449.3148,
-					"meanTemperature": -20.53357,
-					"aridShare": 0.5369841,
+					"meanRainfall": 445.027649,
+					"meanTemperature": -20.5172234,
+					"aridShare": 0.5206375,
 					"soakedShare": 0,
-					"waterloggedShare": 0.01675521,
+					"waterloggedShare": 0.0220678374,
 					"biomes": [
 						{
 							"biome": "IceSheet",
-							"share": 0.6129955
+							"share": 0.6150388
 						},
 						{
 							"biome": "Tundra",
-							"share": 0.3870045
+							"share": 0.3849612
 						}
 					]
 				},
@@ -532,8 +536,8 @@
 			"temperature": "Normal",
 			"preset": "",
 			"repeat": 2,
-			"seconds": 4.890081,
-			"planetsmithMilliseconds": 624,
+			"seconds": 4.8770833,
+			"planetsmithMilliseconds": 645,
 			"passes": [
 				{
 					"pass": "SeaLevel",
@@ -541,15 +545,15 @@
 				},
 				{
 					"pass": "Climate",
-					"milliseconds": 108
+					"milliseconds": 111
 				},
 				{
 					"pass": "Orography",
-					"milliseconds": 151
+					"milliseconds": 158
 				},
 				{
 					"pass": "MoistureAdvection",
-					"milliseconds": 63
+					"milliseconds": 64
 				},
 				{
 					"pass": "Continentality",
@@ -557,15 +561,15 @@
 				},
 				{
 					"pass": "OceanCurrents",
-					"milliseconds": 9
+					"milliseconds": 8
 				},
 				{
 					"pass": "Seasonality",
-					"milliseconds": 27
+					"milliseconds": 21
 				},
 				{
 					"pass": "Monsoon",
-					"milliseconds": 10
+					"milliseconds": 9
 				},
 				{
 					"pass": "Aridity",
@@ -573,7 +577,7 @@
 				},
 				{
 					"pass": "Drainage",
-					"milliseconds": 23
+					"milliseconds": 24
 				},
 				{
 					"pass": "BasinLakes",
@@ -581,80 +585,80 @@
 				},
 				{
 					"pass": "Swampiness",
-					"milliseconds": 11
+					"milliseconds": 12
 				},
 				{
 					"pass": "Biome",
-					"milliseconds": 203
+					"milliseconds": 219
 				}
 			],
-			"tileFingerprint": "4743282a68651849",
-			"climateFingerprint": "aa6abf1ad6d53b40",
+			"tileFingerprint": "b28dd76eb76b5aac",
+			"climateFingerprint": "6289a58e2ccf1096",
 			"tiles": 119904,
 			"landTiles": 46346,
-			"meanTemperature": 6.074821,
-			"meanRainfall": 926.1758,
-			"riverShare": 0.0322573669,
+			"meanTemperature": 6.0579567,
+			"meanRainfall": 922.6463,
+			"riverShare": 0.0334656723,
 			"biomes": [
 				{
-					"biome": "BorealForest",
-					"share": 0.226794109
+					"biome": "TemperateForest",
+					"share": 0.230764255
 				},
 				{
-					"biome": "TemperateForest",
-					"share": 0.223039746
+					"biome": "BorealForest",
+					"share": 0.223298669
 				},
 				{
 					"biome": "Tundra",
-					"share": 0.183791488
+					"share": 0.187330082
 				},
 				{
 					"biome": "Desert",
-					"share": 0.1199672
+					"share": 0.116471753
 				},
 				{
 					"biome": "Grasslands",
-					"share": 0.07843179
+					"share": 0.07743926
 				},
 				{
 					"biome": "TropicalRainforest",
-					"share": 0.0638027042
+					"share": 0.06337117
 				},
 				{
 					"biome": "IceSheet",
-					"share": 0.0324947126
+					"share": 0.032602597
 				},
 				{
 					"biome": "ColdBog",
-					"share": 0.01752039
-				},
-				{
-					"biome": "AridShrubland",
-					"share": 0.01247141
+					"share": 0.0171967372
 				},
 				{
 					"biome": "Scarlands",
-					"share": 0.0113062616
+					"share": 0.01070211
 				},
 				{
 					"biome": "LavaField",
-					"share": 0.01104734
+					"share": 0.0103568807
 				},
 				{
 					"biome": "GlacialPlain",
-					"share": 0.009105424
+					"share": 0.0102705732
+				},
+				{
+					"biome": "AridShrubland",
+					"share": 0.008350235
 				},
 				{
 					"biome": "TemperateSwamp",
-					"share": 0.00569628458
+					"share": 0.006257282
 				},
 				{
 					"biome": "TropicalSwamp",
-					"share": 0.00217926037
+					"share": 0.00289129582
 				},
 				{
 					"biome": "Glowforest",
-					"share": 0.00215768348
+					"share": 0.002502913
 				},
 				{
 					"biome": "ExtremeDesert",
@@ -665,35 +669,31 @@
 				{
 					"band": "0-10",
 					"landTiles": 5370,
-					"meanRainfall": 2096.84546,
-					"meanTemperature": 30.2228584,
+					"meanRainfall": 2089.704,
+					"meanTemperature": 30.1919765,
 					"aridShare": 0,
-					"soakedShare": 0.472439468,
-					"waterloggedShare": 0.03556797,
+					"soakedShare": 0.476908743,
+					"waterloggedShare": 0.0335195549,
 					"biomes": [
 						{
 							"biome": "Grasslands",
-							"share": 0.470391065
+							"share": 0.476722538
 						},
 						{
 							"biome": "TropicalRainforest",
-							"share": 0.449162
+							"share": 0.446741164
 						},
 						{
 							"biome": "LavaField",
-							"share": 0.0268156417
-						},
-						{
-							"biome": "AridShrubland",
-							"share": 0.0245810058
+							"share": 0.0255121049
 						},
 						{
 							"biome": "TropicalSwamp",
-							"share": 0.0160148982
+							"share": 0.0210428312
 						},
 						{
-							"biome": "TemperateForest",
-							"share": 0.005772812
+							"biome": "AridShrubland",
+							"share": 0.0178770944
 						},
 						{
 							"biome": "Scarlands",
@@ -701,140 +701,148 @@
 						},
 						{
 							"biome": "Glowforest",
-							"share": 0.00260707643
+							"share": 0.00446927361
+						},
+						{
+							"biome": "TemperateForest",
+							"share": 0.00297951582
 						}
 					]
 				},
 				{
 					"band": "10-20",
 					"landTiles": 2766,
-					"meanRainfall": 1538.23975,
-					"meanTemperature": 25.4055176,
+					"meanRainfall": 1534.8291,
+					"meanTemperature": 25.37099,
 					"aridShare": 0,
-					"soakedShare": 0.205350682,
-					"waterloggedShare": 0.015184382,
+					"soakedShare": 0.207881421,
+					"waterloggedShare": 0.0177151114,
 					"biomes": [
 						{
 							"biome": "TemperateForest",
-							"share": 0.359002173
+							"share": 0.437816352
 						},
 						{
 							"biome": "Grasslands",
-							"share": 0.23535791
+							"share": 0.219088942
 						},
 						{
 							"biome": "TropicalRainforest",
-							"share": 0.197035432
+							"share": 0.1945047
 						},
 						{
 							"biome": "AridShrubland",
-							"share": 0.157628343
-						},
-						{
-							"biome": "Desert",
-							"share": 0.02494577
+							"share": 0.104121476
 						},
 						{
 							"biome": "LavaField",
-							"share": 0.009038323
+							"share": 0.0115690529
+						},
+						{
+							"biome": "Desert",
+							"share": 0.0104844542
 						},
 						{
 							"biome": "TropicalSwamp",
-							"share": 0.00542299356
-						},
-						{
-							"biome": "Glowforest",
-							"share": 0.00506146066
+							"share": 0.007592191
 						},
 						{
 							"biome": "Scarlands",
-							"share": 0.00325379614
+							"share": 0.00578452647
+						},
+						{
+							"biome": "Glowforest",
+							"share": 0.00542299356
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.00325379614
+							"share": 0.003615329
 						}
 					]
 				},
 				{
 					"band": "20-30",
 					"landTiles": 4832,
-					"meanRainfall": 910.7159,
-					"meanTemperature": 18.4028912,
-					"aridShare": 0.0943708643,
+					"meanRainfall": 909.376,
+					"meanTemperature": 18.3439789,
+					"aridShare": 0.09623344,
 					"soakedShare": 0,
-					"waterloggedShare": 0.0146937082,
+					"waterloggedShare": 0.0140728476,
 					"biomes": [
 						{
 							"biome": "TemperateForest",
-							"share": 0.6529387
+							"share": 0.672806263
 						},
 						{
 							"biome": "Desert",
-							"share": 0.2129553
+							"share": 0.20881623
 						},
 						{
 							"biome": "Grasslands",
-							"share": 0.09478477
-						},
-						{
-							"biome": "LavaField",
-							"share": 0.01531457
+							"share": 0.0875413939
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.0101407282
+							"share": 0.0103476821
+						},
+						{
+							"biome": "LavaField",
+							"share": 0.009519868
 						},
 						{
 							"biome": "Scarlands",
 							"share": 0.007036424
 						},
 						{
+							"biome": "ExtremeDesert",
+							"share": 0.00186258275
+						},
+						{
 							"biome": "Glowforest",
-							"share": 0.002897351
+							"share": 0.00144867552
 						},
 						{
 							"biome": "AridShrubland",
-							"share": 0.00206953636
-						},
-						{
-							"biome": "ExtremeDesert",
-							"share": 0.00186258275
+							"share": 0.000620860956
 						}
 					]
 				},
 				{
 					"band": "30-40",
 					"landTiles": 6460,
-					"meanRainfall": 609.9568,
-					"meanTemperature": 12.0775576,
-					"aridShare": 0.0492260046,
+					"meanRainfall": 601.990845,
+					"meanTemperature": 12.04741,
+					"aridShare": 0.03591331,
 					"soakedShare": 0,
-					"waterloggedShare": 0.00170278642,
+					"waterloggedShare": 0.004024768,
 					"biomes": [
 						{
 							"biome": "Desert",
-							"share": 0.573839
+							"share": 0.5917957
 						},
 						{
 							"biome": "TemperateForest",
-							"share": 0.381424159
+							"share": 0.358359128
 						},
 						{
 							"biome": "LavaField",
-							"share": 0.0239938088
-						},
-						{
-							"biome": "Scarlands",
-							"share": 0.009287925
+							"share": 0.0284829717
 						},
 						{
 							"biome": "Glowforest",
-							"share": 0.008204334
+							"share": 0.009442724
+						},
+						{
+							"biome": "Scarlands",
+							"share": 0.004489164
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.002631579
+							"share": 0.00433436548
+						},
+						{
+							"biome": "GlacialPlain",
+							"share": 0.00247678021
 						},
 						{
 							"biome": "BorealForest",
@@ -849,74 +857,74 @@
 				{
 					"band": "40-50",
 					"landTiles": 9571,
-					"meanRainfall": 826.094666,
-					"meanTemperature": 5.074215,
-					"aridShare": 0.00240309257,
-					"soakedShare": 0.00491066743,
-					"waterloggedShare": 0.0468080677,
+					"meanRainfall": 828.84314,
+					"meanTemperature": 5.0642457,
+					"aridShare": 0.003552398,
+					"soakedShare": 0.00741824275,
+					"waterloggedShare": 0.0480618551,
 					"biomes": [
 						{
 							"biome": "BorealForest",
-							"share": 0.420541227
+							"share": 0.408525765
 						},
 						{
 							"biome": "TemperateForest",
-							"share": 0.372061431
+							"share": 0.399749249
 						},
 						{
 							"biome": "Desert",
-							"share": 0.07888413
+							"share": 0.05610699
 						},
 						{
 							"biome": "Tundra",
-							"share": 0.0307177939
-						},
-						{
-							"biome": "ColdBog",
-							"share": 0.0294640064
+							"share": 0.0362553559
 						},
 						{
 							"biome": "GlacialPlain",
-							"share": 0.0262250546
+							"share": 0.0292550419
+						},
+						{
+							"biome": "ColdBog",
+							"share": 0.0283147
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.0183888823
-						},
-						{
-							"biome": "LavaField",
-							"share": 0.0115975346
+							"share": 0.0198516343
 						},
 						{
 							"biome": "Scarlands",
-							"share": 0.0115975346
+							"share": 0.0128513221
+						},
+						{
+							"biome": "LavaField",
+							"share": 0.008149618
 						},
 						{
 							"biome": "Glowforest",
-							"share": 0.0005224114
+							"share": 0.000940340629
 						}
 					]
 				},
 				{
 					"band": "50-60",
 					"landTiles": 9016,
-					"meanRainfall": 767.2992,
-					"meanTemperature": -4.183532,
-					"aridShare": 0.000221827868,
-					"soakedShare": 0,
-					"waterloggedShare": 0.05956078,
+					"meanRainfall": 772.738,
+					"meanTemperature": -4.173966,
+					"aridShare": 0,
+					"soakedShare": 0.004214729,
+					"waterloggedShare": 0.0594498664,
 					"biomes": [
 						{
 							"biome": "BorealForest",
-							"share": 0.6813443
+							"share": 0.6783496
 						},
 						{
 							"biome": "Tundra",
-							"share": 0.208518192
+							"share": 0.2166149
 						},
 						{
 							"biome": "ColdBog",
-							"share": 0.0523513742
+							"share": 0.051685892
 						},
 						{
 							"biome": "Scarlands",
@@ -924,15 +932,15 @@
 						},
 						{
 							"biome": "GlacialPlain",
-							"share": 0.0154170366
+							"share": 0.0174134877
 						},
 						{
 							"biome": "TemperateForest",
-							"share": 0.0147515526
+							"share": 0.008429458
 						},
 						{
 							"biome": "TemperateSwamp",
-							"share": 0.00144188106
+							"share": 0.00133096718
 						},
 						{
 							"biome": "LavaField",
@@ -943,31 +951,31 @@
 				{
 					"band": "60-70",
 					"landTiles": 5883,
-					"meanRainfall": 534.438965,
-					"meanTemperature": -13.3508139,
-					"aridShare": 0.20805712,
+					"meanRainfall": 513.580566,
+					"meanTemperature": -13.3629951,
+					"aridShare": 0.0295767467,
 					"soakedShare": 0,
-					"waterloggedShare": 0.03501615,
+					"waterloggedShare": 0.04980452,
 					"biomes": [
 						{
 							"biome": "Tundra",
-							"share": 0.9173891
+							"share": 0.9246983
 						},
 						{
 							"biome": "BorealForest",
-							"share": 0.0577936433
+							"share": 0.0543940179
 						},
 						{
 							"biome": "ColdBog",
-							"share": 0.009688934
+							"share": 0.0100288969
 						},
 						{
 							"biome": "Scarlands",
-							"share": 0.008839028
+							"share": 0.00611932669
 						},
 						{
 							"biome": "GlacialPlain",
-							"share": 0.0054394016
+							"share": 0.00390957
 						},
 						{
 							"biome": "IceSheet",
@@ -978,19 +986,19 @@
 				{
 					"band": "70-80",
 					"landTiles": 2447,
-					"meanRainfall": 449.3148,
-					"meanTemperature": -20.53357,
-					"aridShare": 0.5369841,
+					"meanRainfall": 445.027649,
+					"meanTemperature": -20.5172234,
+					"aridShare": 0.5206375,
 					"soakedShare": 0,
-					"waterloggedShare": 0.01675521,
+					"waterloggedShare": 0.0220678374,
 					"biomes": [
 						{
 							"biome": "IceSheet",
-							"share": 0.6129955
+							"share": 0.6150388
 						},
 						{
 							"biome": "Tundra",
-							"share": 0.3870045
+							"share": 0.3849612
 						}
 					]
 				},

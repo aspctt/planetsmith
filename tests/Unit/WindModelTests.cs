@@ -94,7 +94,6 @@ public class WindModelTests
 	}
 	
 	[Test]
-	[Ignore("EastTangent points toward decreasing longitude, which RimWorld shows as west, so every prevailing wind is reversed. Waiting on the decision to flip it, which changes every world.")]
 	public void EastTangentPointsTowardIncreasingLongitude()
 	{
 		foreach (Vector3 point in SURFACE_POINTS)

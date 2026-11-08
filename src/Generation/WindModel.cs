@@ -45,7 +45,10 @@ public static class WindModel
 	/// <summary>Unit tangent pointing east (increasing longitude) at a point on the globe.</summary>
 	public static Vector3 EastTangent(Vector3 tileCenter)
 	{
-		Vector3 east = Vector3.Cross(Vector3.up, tileCenter.normalized);
+		// The centre crossed with the axis, in that order, is what points toward increasing
+		// longitude, which RimWorld labels east and gives a later local time. The other order
+		// pointed west and turned every prevailing wind around.
+		Vector3 east = Vector3.Cross(tileCenter.normalized, Vector3.up);
 		return east.sqrMagnitude < MINIMUM_EAST_SQUARED ? Vector3.zero : east.normalized;
 	}
 	

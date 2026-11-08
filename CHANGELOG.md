@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Map modes worked out during generation are now kept in the save and come back after loading; games saved with 1.2.2 or older still show them greyed out
+- Prevailing winds blew the wrong way round, so rain shadows and wet coasts sat on the opposite side of land from where RimWorld's east and west put them
 
 ## [1.2.2] - 2026-10-17
 
