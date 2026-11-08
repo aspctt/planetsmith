@@ -55,6 +55,7 @@ public class WorldReport
 	public float coverage;
 	public string rainfall = "";
 	public string temperature = "";
+	public string preset = "";
 	
 	// Which of the job's repeats this is, counted from 1.
 	public int repeat;
@@ -88,6 +89,7 @@ public class WorldReport
 		writer.Property("coverage", coverage);
 		writer.Property("rainfall", rainfall);
 		writer.Property("temperature", temperature);
+		writer.Property("preset", preset);
 		writer.Property("repeat", repeat);
 		writer.Property("seconds", seconds);
 		writer.Property("tileFingerprint", tileFingerprint);

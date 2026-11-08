@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- No axial tilt, so no seasons. -->
+<planetsmithPreset>
+	<settings>
+		<axialTilt>0</axialTilt>
+	</settings>
+</planetsmithPreset>

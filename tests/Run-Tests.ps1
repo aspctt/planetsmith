@@ -223,6 +223,12 @@ Write-Step "Preparing job '$Job' with profile '$jobProfile'"
 Write-ModsConfig (Read-Profile $jobProfile)
 New-Item -ItemType Directory -Force $TEST_FOLDER | Out-Null
 Copy-Item $jobPath (Join-Path $TEST_FOLDER "job.xml") -Force
+
+# Install the test presets where Planetsmith keeps presets, replacing any from an earlier run
+$presetFolder = Join-Path $SAVE_DATA "Planetsmith\Presets"
+New-Item -ItemType Directory -Force $presetFolder | Out-Null
+Remove-Item (Join-Path $presetFolder "*.xml") -ErrorAction SilentlyContinue
+Copy-Item (Join-Path $TESTS_ROOT "presets\*.xml") $presetFolder
 $resultsPath = Join-Path $TEST_FOLDER "results.json"
 $donePath = Join-Path $TEST_FOLDER "done"
 Remove-Item $resultsPath, $donePath -ErrorAction SilentlyContinue

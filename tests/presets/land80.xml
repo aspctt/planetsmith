@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sea level control at 80% land, the usual second test world. -->
+<planetsmithPreset>
+	<settings>
+		<enableSeaLevelControl>True</enableSeaLevelControl>
+		<targetLandFraction>0.8</targetLandFraction>
+	</settings>
+</planetsmithPreset>

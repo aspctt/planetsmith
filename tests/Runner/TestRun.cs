@@ -57,6 +57,7 @@ public static class TestRun
 		{
 			StartBlankGame();
 			new Page_CreateWorldParams().PreOpen();
+			ApplyPreset(testWorld.preset);
 		}
 		
 		public void Generate()
@@ -108,6 +109,27 @@ public static class TestRun
 		Find.GameInitData.ResetWorldRelatedMapInitData();
 	}
 	
+	/// <summary>
+	/// Makes a Planetsmith preset the planet being set up, as loading it in the preset
+	/// dialog does. The test script copies tests/presets into the folder Planetsmith
+	/// keeps presets in, so this reads them through Planetsmith's own preset code.
+	/// </summary>
+	private static void ApplyPreset(string name)
+	{
+		// Sanity check
+		if (name.NullOrEmpty())
+		{
+			return;
+		}
+		
+		PlanetsmithWorldSettings? loaded = PlanetsmithPresets.Load(name);
+		if (loaded == null)
+		{
+			throw new InvalidDataException($"No Planetsmith preset named '{name}' could be read from {PlanetsmithPresets.FolderPath}.");
+		}
+		PlanetsmithWorldParameters.Pending = loaded;
+	}
+	
 	private static void GenerateWorld(TestWorld testWorld, int repeat)
 	{
 		// Generate the world, timing it
@@ -124,6 +146,7 @@ public static class TestRun
 			coverage = testWorld.coverage,
 			rainfall = testWorld.rainfall.ToString(),
 			temperature = testWorld.temperature.ToString(),
+			preset = testWorld.preset,
 			repeat = repeat,
 			seconds = (float)timer.Elapsed.TotalSeconds,
 		};

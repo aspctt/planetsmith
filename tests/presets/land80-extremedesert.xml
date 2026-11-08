@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The player's own testing preset from 2026-10: 80% land with ExtremeDesert at commonality 5 and score offset 50. -->
+<planetsmithPreset>
+	<settings>
+		<enableSeaLevelControl>True</enableSeaLevelControl>
+		<targetLandFraction>0.80456084</targetLandFraction>
+		<biomes>
+			<keys>
+				<li>ExtremeDesert</li>
+			</keys>
+			<values>
+				<li>
+					<commonality>5</commonality>
+					<scoreOffset>50</scoreOffset>
+				</li>
+			</values>
+		</biomes>
+	</settings>
+</planetsmithPreset>

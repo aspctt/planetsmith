@@ -43,6 +43,10 @@ public class TestWorld
 	// planet. Every comparison against a baseline depends on that being true.
 	public int repeats = 1;
 	
+	// A Planetsmith preset from tests/presets, by file name without the extension, made
+	// the planet being set up as the preset dialog does. Empty keeps the defaults.
+	public string preset = "";
+	
 	// Saves the world and loads it back, then checks the loaded tiles and Planetsmith's
 	// climate fields against the ones generated.
 	public bool saveAndLoad;

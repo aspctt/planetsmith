@@ -5,6 +5,7 @@
 ```powershell
 ./tests/Run-Tests.ps1                     # the baseline job
 ./tests/Run-Tests.ps1 -Job determinism    # the same world twice, which must match
+./tests/Run-Tests.ps1 -Job variety        # extreme world settings and Planetsmith presets
 ./tests/Run-Tests.ps1 -Job rat            # with Realistic Axial Tilt
 ./tests/Run-Tests.ps1 -Job full           # with the full mod list the hugslib reference logs come from
 ./tests/Run-Tests.ps1 -DeployPlanetsmith  # copy the fresh build over the installed copy first
@@ -15,7 +16,8 @@ Steam has to be running, since Harmony and the helper mods load from the Worksho
 
 ## Layout
 
-- `jobs/` holds the jobs. Each names a mod profile and lists the worlds to generate, with the settings the world creation page offers. A world with `saveAndLoad` set is also saved and loaded back.
+- `jobs/` holds the jobs. Each names a mod profile and lists the worlds to generate, with the settings the world creation page offers. A world with `saveAndLoad` set is also saved and loaded back, and one with `preset` set uses that Planetsmith preset instead of the defaults.
+- `presets/` holds Planetsmith presets in the mod's own preset format. The script installs them into the test save data folder before every run, so a preset saved from the game can be dropped in as it is.
 - `profiles/` holds the mod lists, one package id per line in load order.
 - `baselines/` holds the last accepted result of each job. The first run of a job saves one.
 - `Runner/` is the source of the runner mod, and `RunnerMod/` the mod folder it builds into.

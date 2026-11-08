@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The largest tilt the slider allows, with the poles facing the sun in turn. -->
+<planetsmithPreset>
+	<settings>
+		<axialTilt>90</axialTilt>
+	</settings>
+</planetsmithPreset>
