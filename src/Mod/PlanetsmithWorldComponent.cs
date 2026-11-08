@@ -35,7 +35,8 @@ public class PlanetsmithWorldComponent : WorldComponent
 		// A new world is being built or loaded, so anything the overlays were holding
 		// belongs to the previous one. RimWorld builds components before the generation
 		// steps run, so a world we are about to generate refills this immediately, while
-		// one loaded from a save correctly leaves it empty.
+		// one loaded from a save refills it from the save once loading finishes, or leaves
+		// it empty when the save is older than the stored fields.
 		PlanetsmithClimateCache.Invalidate();
 	}
 	
@@ -59,5 +60,8 @@ public class PlanetsmithWorldComponent : WorldComponent
 		{
 			settings = new PlanetsmithWorldSettings();
 		}
+
+		// Save or load the climate fields the map modes show
+		PlanetsmithClimateCache.ExposeData();
 	}
 }
